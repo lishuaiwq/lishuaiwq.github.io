@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="sizeof," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="description" content="首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。 定义： sizeof是C/C++中的一个操作符（operator），简单的说其作用就是返回一个对象或者类型所占的内存字节数。 MSDN上的解释为：The sizeof keyword gives the amount of storage, in bytes, associated with a varia">
+<meta name="keywords" content="sizeof">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2018/02/23/hello-world/index.html">
+<meta property="og:title" content="sizeof详解">
+<meta property="og:url" content="http://yoursite.com/2018/02/24/sizeof详解/index.html">
 <meta property="og:site_name" content="Lishuai&#39;s博客">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。 定义： sizeof是C/C++中的一个操作符（operator），简单的说其作用就是返回一个对象或者类型所占的内存字节数。 MSDN上的解释为：The sizeof keyword gives the amount of storage, in bytes, associated with a varia">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-23T06:58:49.892Z">
+<meta property="og:updated_time" content="2018-02-24T11:13:42.101Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="sizeof详解">
+<meta name="twitter:description" content="首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。 定义： sizeof是C/C++中的一个操作符（operator），简单的说其作用就是返回一个对象或者类型所占的内存字节数。 MSDN上的解释为：The sizeof keyword gives the amount of storage, in bytes, associated with a varia">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/23/hello-world/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/02/24/sizeof详解/"/>
 
 
 
 
 
-  <title>Hello World | Lishuai's博客</title>
+  <title>sizeof详解 | Lishuai's博客</title>
   
 
 
@@ -252,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/23/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/24/sizeof详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李帅">
@@ -269,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello World</h1>
+          <h1 class="post-title" itemprop="name headline">sizeof详解</h1>
         
 
         <div class="post-meta">
@@ -281,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-23T14:58:49+08:00">
-                2018-02-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-24T15:42:50+08:00">
+                2018-02-24
               </time>
             
 
@@ -291,6 +292,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/c-c/" itemprop="url" rel="index">
+                    <span itemprop="name">c/c++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -313,7 +336,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  78
+                  1,138
                 </span>
               
 
@@ -329,7 +352,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  4
                 </span>
               
             </div>
@@ -350,15 +373,70 @@
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <p>首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。</p>
+<h1 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h1><hr>
+<p>sizeof是C/C++中的一个操作符（operator），简单的说其作用就是返回一个对象或者类型所占的内存字节数。</p>
+<p>MSDN上的解释为：<br>The sizeof keyword gives the amount of storage, in bytes, associated with a variable or a type(including aggregate types). This keyword returns a value of type size_t.</p>
+<p>其返回值类型为size_t，在头文件stddef.h中定义。这是一个依赖于编译系统的值，一般定义为</p>
+<pre><code>typedef unsigned int size_t;
+</code></pre><p>好了现在你应该对于sizoef有了一个大概的认识了，现在我们来看看sizoef的基本用法：</p>
+<ol>
+<li>sizeof(对象）；</li>
+<li>sizeof(类型）；</li>
+<li>sizeof 对象；//这个主意和1区分</li>
+</ol>
+<p>对于上面的三种用法，其实你只需要掌握sizoef()的这种用法就够了，另外一个自己知道就可以了，因为根本没人去那么用。好了划重点了：<strong>记住sizeof计算对象的大小也是转换成对应的类型来计算的，</strong>这句话的言外之意就是不同的对象如果类型一样的话，sizoef计算的值是一样的。</p>
+<hr>
+<h1 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h1><hr>
+<p>接下来我就所说sizeof的一些应用场景和用法</p>
+<h2 id="1-sizeof对一个表达式求值"><a href="#1-sizeof对一个表达式求值" class="headerlink" title="1 sizeof对一个表达式求值"></a>1 sizeof对一个表达式求值</h2><p>注意：对于表达式求值，编译器会根据表达式结果的类型来计算，一般不会对表达式进行计算</p>
+<p>举例如下：</p>
+<pre><code>      int fun(int a)
+{
+cout &lt;&lt; &quot;fun::sizoef&quot; &lt;&lt; endl;
+return a;
+}
+void test()
+{
+cout &lt;&lt; sizeof(fun(4));
+}
+</code></pre><p>此例子的输出就是 4，不会输出fun::sizeof,证明函数没有执行。        </p>
+<h2 id="2-sizoef的常量性"><a href="#2-sizoef的常量性" class="headerlink" title="2.sizoef的常量性"></a>2.sizoef的常量性</h2><p>sizeof的计算是放生在编译期间的，所以其可以被当做常量表达式使用</p>
+<p>举例如下：</p>
+<pre><code>int n=10;
+int arr[sizeof(n)];
+</code></pre><h2 id="3-sizeof和指针变量"><a href="#3-sizeof和指针变量" class="headerlink" title="3.sizeof和指针变量"></a>3.sizeof和指针变量</h2><p>注意：当sizoef的对象是指针变量的时候，它的结果和指针所指的内容没有任何的关系，所以在32位计算机中指针变量是4,64位计算机中是8</p>
+<h2 id="4-sizeof和数组"><a href="#4-sizeof和数组" class="headerlink" title="4.sizeof和数组"></a>4.sizeof和数组</h2><p>sizoef的数组的值等于数组所占的内存字节数，这里我在CSDN的博客写的很清楚了，感兴趣的可以自己去看<br><a href="http://blog.csdn.net/it_iverson/article/details/74733426" title="http://blog.csdn.net/it_iverson/article/details/74733426" target="_blank" rel="noopener">http://blog.csdn.net/it_iverson/article/details/74733426</a></p>
+<p>这里还要强调的一个重点就是数组传参的时候。</p>
+<pre><code>void fun(int arr[])
+{
+cout &lt;&lt; sizeof(arr);
+}
+void test()
+{
+int arr[10] = { 0 };
+fun(arr);
+}
+</code></pre><p>这里的sizoef的输出是4而不是40，因为在函数的形参那里arr已经不是数组类型了，而是蜕变成了指针。相当于int *arr,因为数组是传址传参的，只是把数组首地址传过去了，所以接受地址的自然就是指针变量了，那么正如上文所说，指针变量的大小和其指向的内容没有关系，所以大小为4</p>
+<h2 id="5-sizeof和结构体"><a href="#5-sizeof和结构体" class="headerlink" title="5.sizeof和结构体"></a>5.sizeof和结构体</h2><p>这里主要强调的是结构体内存对其的一些知识在CSDN的博客中也有详细说明</p>
+<p><a href="http://blog.csdn.net/it_iverson/article/details/74790127" title="http://blog.csdn.net/it_iverson/article/details/74790127" target="_blank" rel="noopener">http://blog.csdn.net/it_iverson/article/details/74790127</a></p>
+<h2 id="6-含有位字段的结构体"><a href="#6-含有位字段的结构体" class="headerlink" title="6.含有位字段的结构体"></a>6.含有位字段的结构体</h2><p>   注意：单独的位字段成员不能被sizeof求值</p>
+<p>那么什么是为字段呢？</p>
+<p>位字段是C语言中一种存储结构，不同于一般结构体的是它在定义成员的时候需要指定成员所占的位数。主要应用于嵌入开发</p>
+<p>如下：</p>
+<pre><code>struct stu
+{
+char a : 4;//占4位
+char b : 3;//占3位
+char  c : 8;//占8位
+};//大小为两个字节
+</code></pre><p>在这里要注意的是：</p>
+<p>1.如果相邻的位字段的类型相同，且其位数之和小于自身类型数，则后面的字段和紧挨着前面的字段存储，直到这个不能容纳为止</p>
+<p>2.如果相邻的位字段类型相同，且其位数之和大于自身的类型数，则后面的字段从新的存储单元开始。</p>
+<p>3.如果相邻位字段类型不同，则根据编译器的不同，是否采取压缩存储就不一定了。</p>
+<p>4.如果位字段之间穿插着非为字段，则不进行压缩存储</p>
+<h2 id="7-sizeof和联合体"><a href="#7-sizeof和联合体" class="headerlink" title="7.sizeof和联合体"></a>7.sizeof和联合体</h2><p>因为联合体是重叠式存储，各成员共享一段内存，所以整个联合体的大小就是最大成员所占的空间的大小，假如联合体中有一个结构体成员，那么这个联合体的大小就是这个结构体的大小。</p>
+<hr>
 
       
     </div>
@@ -403,6 +481,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/sizeof/" rel="tag"><i class="fa fa-tag"></i> sizeof</a>
+          
+        </div>
+      
 
       
       
@@ -412,15 +496,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/02/23/my-first-blog/" rel="next" title="my first blog">
+                <i class="fa fa-chevron-left"></i> my first blog
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/02/23/my-first-blog/" rel="prev" title="my first blog">
-                my first blog <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -618,7 +702,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#定义："><span class="nav-number">1.</span> <span class="nav-text">定义：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用法："><span class="nav-number">2.</span> <span class="nav-text">用法：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-sizeof对一个表达式求值"><span class="nav-number">2.1.</span> <span class="nav-text">1 sizeof对一个表达式求值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-sizoef的常量性"><span class="nav-number">2.2.</span> <span class="nav-text">2.sizoef的常量性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-sizeof和指针变量"><span class="nav-number">2.3.</span> <span class="nav-text">3.sizeof和指针变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-sizeof和数组"><span class="nav-number">2.4.</span> <span class="nav-text">4.sizeof和数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-sizeof和结构体"><span class="nav-number">2.5.</span> <span class="nav-text">5.sizeof和结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-含有位字段的结构体"><span class="nav-number">2.6.</span> <span class="nav-text">6.含有位字段的结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-sizeof和联合体"><span class="nav-number">2.7.</span> <span class="nav-text">7.sizeof和联合体</span></a></li></ol></li></ol></div>
             
 
           </div>
