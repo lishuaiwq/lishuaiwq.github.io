@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。 定义： sizeof是C/C++中的一个操作符（operator），简单的说其作用就是返回一个对象或者类型所占的内存字节数。 MSDN上的解释为：The sizeof keyword gives the amount of storage, in bytes, associated with a varia">
+<meta name="description" content="首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。 定义： sizeof是C/C++中的一个操作符（operator），简单的说其作用就是返回一个对象或者类型所占的内存字节数。 MSDN上的解释为：The sizeof keyword gives the amount of storage, in bytes, associated with a vari">
 <meta name="keywords" content="sizeof">
 <meta property="og:type" content="article">
 <meta property="og:title" content="sizeof详解">
 <meta property="og:url" content="http://yoursite.com/2018/02/24/sizeof详解/index.html">
 <meta property="og:site_name" content="Lishuai&#39;s博客">
-<meta property="og:description" content="首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。 定义： sizeof是C/C++中的一个操作符（operator），简单的说其作用就是返回一个对象或者类型所占的内存字节数。 MSDN上的解释为：The sizeof keyword gives the amount of storage, in bytes, associated with a varia">
+<meta property="og:description" content="首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。 定义： sizeof是C/C++中的一个操作符（operator），简单的说其作用就是返回一个对象或者类型所占的内存字节数。 MSDN上的解释为：The sizeof keyword gives the amount of storage, in bytes, associated with a vari">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-24T13:08:10.644Z">
+<meta property="og:updated_time" content="2018-02-24T13:11:56.577Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sizeof详解">
-<meta name="twitter:description" content="首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。 定义： sizeof是C/C++中的一个操作符（operator），简单的说其作用就是返回一个对象或者类型所占的内存字节数。 MSDN上的解释为：The sizeof keyword gives the amount of storage, in bytes, associated with a varia">
+<meta name="twitter:description" content="首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。 定义： sizeof是C/C++中的一个操作符（operator），简单的说其作用就是返回一个对象或者类型所占的内存字节数。 MSDN上的解释为：The sizeof keyword gives the amount of storage, in bytes, associated with a vari">
 
 
 
@@ -373,7 +373,8 @@
       
 
       
-        <p>首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。</p>
+        <a id="more"></a>
+<p>首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。</p>
 <h1 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h1><hr>
 <p>sizeof是C/C++中的一个操作符（operator），简单的说其作用就是返回一个对象或者类型所占的内存字节数。</p>
 <p>MSDN上的解释为：<br>The sizeof keyword gives the amount of storage, in bytes, associated with a variable or a type(including aggregate types). This keyword returns a value of type size_t.</p>
@@ -389,8 +390,7 @@
 <hr>
 <h1 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h1><hr>
 <p>接下来我就所说sizeof的一些应用场景和用法</p>
-<h2 id="1-sizeof对一个表达式求值"><a href="#1-sizeof对一个表达式求值" class="headerlink" title="1 sizeof对一个表达式求值"></a>1 sizeof对一个表达式求值</h2><a id="more"></a>
-<p>注意：对于表达式求值，编译器会根据表达式结果的类型来计算，一般不会对表达式进行计算</p>
+<h2 id="1-sizeof对一个表达式求值"><a href="#1-sizeof对一个表达式求值" class="headerlink" title="1 sizeof对一个表达式求值"></a>1 sizeof对一个表达式求值</h2><p>注意：对于表达式求值，编译器会根据表达式结果的类型来计算，一般不会对表达式进行计算</p>
 <p>举例如下：</p>
 <pre><code>      int fun(int a)
 {
