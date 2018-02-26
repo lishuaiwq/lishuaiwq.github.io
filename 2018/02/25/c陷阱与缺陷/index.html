@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="static," />
+  <meta name="keywords" content="c陷阱与缺陷," />
 
 
 
@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="static关键字是c和c++中都有的，只不过在c语言中它修饰局部变量，全局变量，和函数,在C++中它除了上述的功能外还可以修饰成员变量和成员函数。">
-<meta name="keywords" content="static">
+<meta name="description" content="1.词法陷阱1.注意不要讲=和==混用，还有&amp;amp;和&amp;amp;&amp;amp;是两回事，这个自己都要搞清楚。 2.词法分析使用的是贪心法，即读取一个字符以后，如果该字符可能组成一个符号，则继续读入下一个 字符，然后判断两个字符组成的字符串是否可以是一个符号的组成部分，如果是则继续读入依此类推。 3.用单引号引起来的一个字符实际上表示一个整数，整数值对应其ascii的值。而双引号引起来的字符串表示的是">
+<meta name="keywords" content="c陷阱与缺陷">
 <meta property="og:type" content="article">
-<meta property="og:title" content="static详解">
-<meta property="og:url" content="http://yoursite.com/2018/02/25/static详详解/index.html">
+<meta property="og:title" content="c陷阱与缺陷">
+<meta property="og:url" content="http://yoursite.com/2018/02/25/c陷阱与缺陷/index.html">
 <meta property="og:site_name" content="Lishuai&#39;s博客">
-<meta property="og:description" content="static关键字是c和c++中都有的，只不过在c语言中它修饰局部变量，全局变量，和函数,在C++中它除了上述的功能外还可以修饰成员变量和成员函数。">
+<meta property="og:description" content="1.词法陷阱1.注意不要讲=和==混用，还有&amp;amp;和&amp;amp;&amp;amp;是两回事，这个自己都要搞清楚。 2.词法分析使用的是贪心法，即读取一个字符以后，如果该字符可能组成一个符号，则继续读入下一个 字符，然后判断两个字符组成的字符串是否可以是一个符号的组成部分，如果是则继续读入依此类推。 3.用单引号引起来的一个字符实际上表示一个整数，整数值对应其ascii的值。而双引号引起来的字符串表示的是">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-25T08:14:11.678Z">
+<meta property="og:image" content="https://i.imgur.com/4isVrdE.jpg">
+<meta property="og:updated_time" content="2018-02-26T06:45:30.078Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="static详解">
-<meta name="twitter:description" content="static关键字是c和c++中都有的，只不过在c语言中它修饰局部变量，全局变量，和函数,在C++中它除了上述的功能外还可以修饰成员变量和成员函数。">
+<meta name="twitter:title" content="c陷阱与缺陷">
+<meta name="twitter:description" content="1.词法陷阱1.注意不要讲=和==混用，还有&amp;amp;和&amp;amp;&amp;amp;是两回事，这个自己都要搞清楚。 2.词法分析使用的是贪心法，即读取一个字符以后，如果该字符可能组成一个符号，则继续读入下一个 字符，然后判断两个字符组成的字符串是否可以是一个符号的组成部分，如果是则继续读入依此类推。 3.用单引号引起来的一个字符实际上表示一个整数，整数值对应其ascii的值。而双引号引起来的字符串表示的是">
+<meta name="twitter:image" content="https://i.imgur.com/4isVrdE.jpg">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/25/static详详解/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/02/25/c陷阱与缺陷/"/>
 
 
 
 
 
-  <title>static详解 | Lishuai's博客</title>
+  <title>c陷阱与缺陷 | Lishuai's博客</title>
   
 
 
@@ -253,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/25/static详详解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/25/c陷阱与缺陷/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李帅">
@@ -270,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">static详解</h1>
+          <h1 class="post-title" itemprop="name headline">c陷阱与缺陷</h1>
         
 
         <div class="post-meta">
@@ -282,7 +284,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-25T13:15:28+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-25T23:10:39+08:00">
                 2018-02-25
               </time>
             
@@ -305,8 +307,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/c-c/" itemprop="url" rel="index">
-                    <span itemprop="name">c/c++</span>
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
                   </a>
                 </span>
 
@@ -341,7 +343,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,264
+                  1,064
                 </span>
               
 
@@ -357,7 +359,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  5
+                  4
                 </span>
               
             </div>
@@ -378,62 +380,48 @@
       
 
       
-        <p>static关键字是c和c++中都有的，只不过在c语言中它修饰局部变量，全局变量，和函数,在C++中它除了上述的功能外还可以修饰成员变量和成员函数。<br><a id="more"></a></p>
-<p>作用：</p>
-<p>1.限定作用域</p>
-<p>2.保持变量的内容持久化</p>
-<h2 id="1-C语言中的static"><a href="#1-C语言中的static" class="headerlink" title="1.C语言中的static"></a>1.C语言中的static</h2><h3 id="1-修饰全局变量"><a href="#1-修饰全局变量" class="headerlink" title="1.修饰全局变量"></a>1.修饰全局变量</h3><p>当一个进程的全局变量被static修饰以后，它就可以成为全局静态变量，全局静态变量和其他的全局变量的存储地是一样的，都是在.data段（存放已经初始化了的全局变量）或者.bss段（存放未初始化的全局变量），具体在哪里取决于你有没有初始化这个全局变量。在这里static的作用就是限定作用域了，即被修饰的全局变量只能在定义它的源文件内有效，其他源文件无法访问。</p>
-<p>举例如下：</p>
-<p>.h文件</p>
-<pre><code>#include&lt;stdio.h&gt;
-extern int a;//声明全局变量
-void fun();//声明函数
-</code></pre><p>b.c文件</p>
-<pre><code>b.c文件
-#include&quot;head.h&quot;
-static int a = 10;//静态全局变量，放在了.data段
-void fun()
+        <h2 id="1-词法陷阱"><a href="#1-词法陷阱" class="headerlink" title="1.词法陷阱"></a>1.词法陷阱</h2><p>1.注意不要讲=和==混用，还有&amp;和&amp;&amp;是两回事，这个自己都要搞清楚。</p>
+<p>2.词法分析使用的是贪心法，即读取一个字符以后，如果该字符可能组成一个符号，则继续读入下一个 字符，然后判断两个字符组成的字符串是否可以是一个符号的组成部分，如果是则继续读入依此类推。</p>
+<p>3.用单引号引起来的一个字符实际上表示一个整数，整数值对应其ascii的值。而双引号引起来的字符串表示的是一个指向无名数组起始字符的指针，该数组被双引号引起来的字符和一个额外的’\0’初始化</p>
+<p>4.用int a=’abc’,则a的值是616263即每个字符对应的ascii的序列，用char a=’abc’，则a的值是c。即c将ab覆盖</p>
+<p>5.a+++++b的解释，词法分析的贪心算法可以解得为a ++ ++ + b即((a++)++)+b,但是a++不能当左值，所以这应该是个错误的写法。</p>
+<h2 id="2-语法陷阱"><a href="#2-语法陷阱" class="headerlink" title="2.语法陷阱"></a>2.语法陷阱</h2><p>1.</p>
+<pre><code>(*(void(*)())0)()
+</code></pre><p>将0转换为函数指针（这个函数指针返回值为void参数为空），然后再调用这个函数.<br>用typedef比较好理解</p>
+<pre><code>typedef void (*funcptr)();
+(*(funcptr)0)(); 
+</code></pre><p>2.</p>
+<pre><code>(void)(*signal(int,void(*)(int)))(int);
+</code></pre><p>signal的参数是整形和函数指针,返回值也是函数指针。用typedef比较好理解</p>
+<pre><code>typedef (void ) (*handler)(int);
+handler signal(int,handler);
+</code></pre><p>3.else总是和同一对括号内最近的未匹配的if相结合。</p>
+<h2 id="3-语义陷阱"><a href="#3-语义陷阱" class="headerlink" title="3.语义陷阱"></a>3.语义陷阱</h2><p>1.如果我们在该使用指针的，确使用了数组名来替换，那么数组名就被当做指向该数组下标为0的元素的指针，所以我们可以这样写</p>
+<pre><code>int arr[]={1,2,3};
+int *p=arr;//没有任何问题
+</code></pre><p>注意在上述代码中我们并没有写成如下形式</p>
+<pre><code>int *p=&amp;arr;
+</code></pre><p>其实这是不合法的操作，因为其类型不匹配，&amp;arr表示整个数组的指针其类型是int[3]*,所以如果你这么写了可能会被视为非法也可能被视为和p=arr一样的操作。</p>
+<p>要强调的是：数组名除了在sizeof中以外，其余的所有情形都表示数组下标为0的元素的指针。</p>
+<p>（上述问题的背景还限于一维数组，下面我们来讨论一下二维数组）</p>
+<p>二维数组其实也是由一维数组组成的，只不过这个一维数组中的每个元素都是一个一维数组。<br>所以如果你这么赋值是不对的</p>
+<pre><code>int arr[][3]={1,2,3,4,5,6,7,8,9}
+int *p=a;错
+int **p=a;错
+</code></pre><p>因为a表示数组下标为0的元素的指针，因为其实二维数组，其下标为0的元素也是个数组，所以a的类型就是int (*)[3],类型不兼容的！如果你这么使用了，虽然可能会通过编译，那么将失去了二维数组的意义<br>，就是将二维数组变成了一维数组。<br>我们正确的方式应该是这样的</p>
+<pre><code>int (*p)[3]=a;
+</code></pre><p>2.对于指针的复制并不是复制指针的内容，而是使两个指针指向同一块区域，还有就是对字符串常量的修改是非法的！不能对空指针解引用！即使输出空指针的内容也是不合法的！</p>
+<p>3.关于数组越界的无限循环问题</p>
+<pre><code>int i, arr[10] = {0};
+for (i = 0; i &lt;= 12; i++)
 {
-printf(&quot;%d\n&quot;, a);
+    arr[i] = 0;
+    printf(&quot;hello\n&quot;);
 }
-</code></pre><p>a.c文件    </p>
-<pre><code>#include&quot;head.h&quot;
-int main()
-{
-printf(&quot;%d&quot;, a);
-return 0;
-}
-</code></pre><p>在上述例子中，a.c文件无法使用源文件b.c的被static修饰的全局变量，编译会报错！但是如果在a.c中调用fun函数，在这个函数中使用a就可以，因为其作用域就在其定义的源文件，所以被自己的源文件内的函数访问是没有问题的。</p>
-<h3 id="2-修饰局部变量"><a href="#2-修饰局部变量" class="headerlink" title="2.修饰局部变量"></a>2.修饰局部变量</h3><p>被static修饰的局部变量会被放在.data段，注意这里不是在.bss段，所以这个变量的生命周期在整个程序的生命周期中存在，尽管被放在.data段，但是同样它也只能被自己作用域内的函数或者变量所访问，不能被外界访问。同样static在这里的作用相当于改变了局部变量的生命周期。注意这里解释一下为什么放在了.data段，因为如果用户没有初始化的话，编译器会自动给其赋值0，所以放在了.data段。所以以后每次调用这个变量的时候相当于一直读取同一位置的这个变量，在这里注意和局部变量区别开来。<br>就是因为这一特性，内含静态局部变量的函数是不可重入函数。</p>
-<p>b.c文件</p>
-<pre><code>#include&quot;head.h&quot;
-void fun()
-{
-static int a;
-printf(&quot;%d\n&quot;, a++);
-}
-</code></pre><p>a.c文件</p>
-<pre><code>#include&quot;head.h&quot;
- int main()
- {
-fun();
-fun();
-fun();
-getchar();
-return 0;
-} 
-</code></pre><p>这样的输出结果是0 1 2.</p>
-<h3 id="3-修饰函数"><a href="#3-修饰函数" class="headerlink" title="3.修饰函数"></a>3.修饰函数</h3><p>这里static的作用也是限定了函数的作用，使被static修饰的函数不能被其他源文件所调用。这里很简单的就不举例子了。static函数可以很好的解决不同源文件中的函数重名的问题，因为每个函数的名字仅自己可见，肯定不会发生冲突的！</p>
-<h2 id="2-C-中的static"><a href="#2-C-中的static" class="headerlink" title="2.C++中的static"></a>2.C++中的static</h2><p>C++的中的static关键字主要要讲的就是其修饰的成员变量和成员函数。</p>
-<h3 id="1-static修饰成员变量"><a href="#1-static修饰成员变量" class="headerlink" title="1.static修饰成员变量"></a>1.static修饰成员变量</h3><p>当一个类的成员变量被static关键字修饰以后就变成了静态数据成员了，静态数据成员有一下特点：</p>
-<p>1.静态数据成员是类的成员而非对象的成员，它对于所有的对象是共享的，即无论对象被定义了多少个这个静态的成员只有一份，即只分配一次内存，这一样某种程度来说还节省了空间</p>
-<p>2.静态成员存储在全局数据区，静态成员在定义的时候要分配空间，所以不不能再类声明的时候定义，需要在类外使用如下形式定义</p>
-<p>int myclass::a=0;</p>
-<p>3.静态成员同样遵守三个访问限制，同时即使不定义类对象也可以对它进行操作</p>
-<p>4.静态成员的作用就是在多个对象拥有同一个属性的时候，使用它可以方便操作，改变一次就全部改变，使用静态数据成员也不存在和其他全局变量的名字冲突，因为其有访问限制属性所以可以实现信息隐藏。</p>
-<h2 id="2-static修饰成员函数"><a href="#2-static修饰成员函数" class="headerlink" title="2.static修饰成员函数"></a>2.static修饰成员函数</h2><p>1.同样静态成员函数也是被所有对象共享，并且他没有this指针，所以他不能访问成员函数和成员变量只能访问静态成员函数和静态成员变量，但是非静态成员函数可以访问静态成员函数和静态变量</p>
-<p>2.因为没有this指针，其速度相对于成员函数来说会快一些</p>
-<p>3.调用静态成员函数的方式和调用静音胎成员的方式差不多，可以使用.，-&gt;和::</p>
+</code></pre><p>此代码会无限输出hello,原因如下<br><img src="https://i.imgur.com/4isVrdE.jpg" alt=""></p>
+<h2 id="4-连接"><a href="#4-连接" class="headerlink" title="4.连接"></a>4.连接</h2><p>1.连接器：就是想编译汇编产生的若干目标模块，整和成一个被称为载入模块或者可执行程序文件的实体，该实体可以被操作系统直接执行。并且会检查是否有重命名的函数和变量。</p>
+<p>2.为了避免发生不必要的麻烦，每个外部变量在所有源文件中只能定义一次。</p>
+<p>3.使用static可以防止不同源文件的命名冲突问题，因为它限制了变量的作用域。</p>
 
       
     </div>
@@ -480,7 +468,7 @@ return 0;
       
         <div class="post-tags">
           
-            <a href="/tags/static/" rel="tag"><i class="fa fa-tag"></i> static</a>
+            <a href="/tags/c陷阱与缺陷/" rel="tag"><i class="fa fa-tag"></i> c陷阱与缺陷</a>
           
         </div>
       
@@ -493,8 +481,8 @@ return 0;
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/24/堆随笔/" rel="next" title="堆随笔">
-                <i class="fa fa-chevron-left"></i> 堆随笔
+              <a href="/2018/02/25/链表随笔/" rel="next" title="链表随笔">
+                <i class="fa fa-chevron-left"></i> 链表随笔
               </a>
             
           </div>
@@ -502,10 +490,6 @@ return 0;
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/02/25/链表随笔/" rel="prev" title="链表随笔">
-                链表随笔 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -703,7 +687,7 @@ return 0;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-C语言中的static"><span class="nav-number">1.</span> <span class="nav-text">1.C语言中的static</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-修饰全局变量"><span class="nav-number">1.1.</span> <span class="nav-text">1.修饰全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-修饰局部变量"><span class="nav-number">1.2.</span> <span class="nav-text">2.修饰局部变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-修饰函数"><span class="nav-number">1.3.</span> <span class="nav-text">3.修饰函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-C-中的static"><span class="nav-number">2.</span> <span class="nav-text">2.C++中的static</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-static修饰成员变量"><span class="nav-number">2.1.</span> <span class="nav-text">1.static修饰成员变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-static修饰成员函数"><span class="nav-number">3.</span> <span class="nav-text">2.static修饰成员函数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-词法陷阱"><span class="nav-number">1.</span> <span class="nav-text">1.词法陷阱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-语法陷阱"><span class="nav-number">2.</span> <span class="nav-text">2.语法陷阱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-语义陷阱"><span class="nav-number">3.</span> <span class="nav-text">3.语义陷阱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-连接"><span class="nav-number">4.</span> <span class="nav-text">4.连接</span></a></li></ol></div>
             
 
           </div>
