@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="sizeof," />
+  <meta name="keywords" content="对象模型剖析," />
 
 
 
@@ -79,18 +79,27 @@
 
 
 
-<meta name="description" content="首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。">
-<meta name="keywords" content="sizeof">
+<meta name="description" content="1.单继承对象模型（含有虚函数）首先阐述对象模型： 1.子类和父类都拥有各自的虚函数表 2.如果子类重写了父类的虚函数，则在子类的虚函数表中替换同名的父类虚函数，如果没有重写，则子类的虚函数表中是父类的虚函数（注意在这里只要子类的函数 中有和父类一样的，不管子类加不加vartual，都是重写父类的虚函数） 3.如果子类有自己新写的虚函数，则该虚函数放在虚函数表的后面 class Base { pu">
+<meta name="keywords" content="对象模型剖析">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sizeof详解">
-<meta property="og:url" content="http://yoursite.com/2018/02/24/sizeof详解/index.html">
+<meta property="og:title" content="C++对象模型的剖析">
+<meta property="og:url" content="http://yoursite.com/2018/02/26/c++对象模型的剖析/index.html">
 <meta property="og:site_name" content="Lishuai&#39;s博客">
-<meta property="og:description" content="首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。">
+<meta property="og:description" content="1.单继承对象模型（含有虚函数）首先阐述对象模型： 1.子类和父类都拥有各自的虚函数表 2.如果子类重写了父类的虚函数，则在子类的虚函数表中替换同名的父类虚函数，如果没有重写，则子类的虚函数表中是父类的虚函数（注意在这里只要子类的函数 中有和父类一样的，不管子类加不加vartual，都是重写父类的虚函数） 3.如果子类有自己新写的虚函数，则该虚函数放在虚函数表的后面 class Base { pu">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-24T13:14:35.584Z">
+<meta property="og:image" content="https://i.imgur.com/CX0gNv7.jpg">
+<meta property="og:image" content="https://i.imgur.com/dNiCO7p.jpg">
+<meta property="og:image" content="https://i.imgur.com/1rYOHkz.jpg">
+<meta property="og:image" content="https://i.imgur.com/H5A3DzY.jpg">
+<meta property="og:image" content="https://i.imgur.com/CEoQgzq.jpg">
+<meta property="og:image" content="https://i.imgur.com/ynnFjGK.jpg">
+<meta property="og:image" content="https://i.imgur.com/0Hu7rQV.jpg">
+<meta property="og:image" content="https://i.imgur.com/iGVt8Hh.jpg">
+<meta property="og:updated_time" content="2018-02-26T10:03:31.654Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="sizeof详解">
-<meta name="twitter:description" content="首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。">
+<meta name="twitter:title" content="C++对象模型的剖析">
+<meta name="twitter:description" content="1.单继承对象模型（含有虚函数）首先阐述对象模型： 1.子类和父类都拥有各自的虚函数表 2.如果子类重写了父类的虚函数，则在子类的虚函数表中替换同名的父类虚函数，如果没有重写，则子类的虚函数表中是父类的虚函数（注意在这里只要子类的函数 中有和父类一样的，不管子类加不加vartual，都是重写父类的虚函数） 3.如果子类有自己新写的虚函数，则该虚函数放在虚函数表的后面 class Base { pu">
+<meta name="twitter:image" content="https://i.imgur.com/CX0gNv7.jpg">
 
 
 
@@ -120,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/24/sizeof详解/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/02/26/c++对象模型的剖析/"/>
 
 
 
 
 
-  <title>sizeof详解 | Lishuai's博客</title>
+  <title>C++对象模型的剖析 | Lishuai's博客</title>
   
 
 
@@ -253,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/24/sizeof详解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/26/c++对象模型的剖析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李帅">
@@ -270,7 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">sizeof详解</h1>
+          <h1 class="post-title" itemprop="name headline">C++对象模型的剖析</h1>
         
 
         <div class="post-meta">
@@ -282,8 +291,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-24T15:42:50+08:00">
-                2018-02-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-26T15:11:42+08:00">
+                2018-02-26
               </time>
             
 
@@ -341,7 +350,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,138
+                  874
                 </span>
               
 
@@ -378,70 +387,220 @@
       
 
       
-        <p>首先对于sizeof做一个简单的介绍让你知道什么是sizoef，从心里对它有个大致的印象。<br><a id="more"></a></p>
-<h1 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h1><hr>
-<p>sizeof是C/C++中的一个操作符（operator），简单的说其作用就是返回一个对象或者类型所占的内存字节数。</p>
-<p>MSDN上的解释为：<br>The sizeof keyword gives the amount of storage, in bytes, associated with a variable or a type(including aggregate types). This keyword returns a value of type size_t.</p>
-<p>其返回值类型为size_t，在头文件stddef.h中定义。这是一个依赖于编译系统的值，一般定义为</p>
-<pre><code>typedef unsigned int size_t;
-</code></pre><p>好了现在你应该对于sizoef有了一个大概的认识了，现在我们来看看sizoef的基本用法：</p>
-<ol>
-<li>sizeof(对象）；</li>
-<li>sizeof(类型）；</li>
-<li>sizeof 对象；//这个主意和1区分</li>
-</ol>
-<p>对于上面的三种用法，其实你只需要掌握sizoef()的这种用法就够了，另外一个自己知道就可以了，因为根本没人去那么用。好了划重点了：<strong>记住sizeof计算对象的大小也是转换成对应的类型来计算的，</strong>这句话的言外之意就是不同的对象如果类型一样的话，sizoef计算的值是一样的。</p>
-<hr>
-<h1 id="用法："><a href="#用法：" class="headerlink" title="用法："></a>用法：</h1><hr>
-<p>接下来我就所说sizeof的一些应用场景和用法</p>
-<h2 id="1-sizeof对一个表达式求值"><a href="#1-sizeof对一个表达式求值" class="headerlink" title="1 sizeof对一个表达式求值"></a>1 sizeof对一个表达式求值</h2><p>注意：对于表达式求值，编译器会根据表达式结果的类型来计算，一般不会对表达式进行计算</p>
-<p>举例如下：</p>
-<pre><code>      int fun(int a)
+        <h2 id="1-单继承对象模型（含有虚函数）"><a href="#1-单继承对象模型（含有虚函数）" class="headerlink" title="1.单继承对象模型（含有虚函数）"></a>1.单继承对象模型（含有虚函数）</h2><p>首先阐述对象模型：</p>
+<p>1.子类和父类都拥有各自的虚函数表</p>
+<p>2.如果子类重写了父类的虚函数，则在子类的虚函数表中替换同名的父类虚函数，如果没有重写，则子类的虚函数表中是父类的虚函数（注意在这里只要子类的函数 中有和父类一样的，不管子类加不加vartual，都是重写父类的虚函数）</p>
+<p>3.如果子类有自己新写的虚函数，则该虚函数放在虚函数表的后面</p>
+<pre><code>class Base
 {
-cout &lt;&lt; &quot;fun::sizoef&quot; &lt;&lt; endl;
-return a;
+public:
+    int a;
+public:
+    virtual void fun1()
+{
+    cout &lt;&lt; &quot;base::fun1()&quot; &lt;&lt; endl;
 }
+virtual void fun2()
+{
+    cout &lt;&lt; &quot;base::fun2()&quot; &lt;&lt; endl;
+}
+};
+class Dervice :public Base
+{
+public:
+    int b;
+public:
+    virtual void fun2()
+{
+    cout &lt;&lt; &quot;Dervice::fun2()&quot; &lt;&lt; endl;
+}
+    virtual void fun3()
+{
+    cout &lt;&lt; &quot;Dervice::fun3()&quot; &lt;&lt; endl;
+}
+};
 void test()
 {
-cout &lt;&lt; sizeof(fun(4));
+Base b;
+Dervice d;
+Base *p = &amp;d;
+b.a = 10;
+d.b = 20;
+d.a = 30;
 }
-</code></pre><p>此例子的输出就是 4，不会输出fun::sizeof,证明函数没有执行。        </p>
-<h2 id="2-sizoef的常量性"><a href="#2-sizoef的常量性" class="headerlink" title="2.sizoef的常量性"></a>2.sizoef的常量性</h2><p>sizeof的计算是放生在编译期间的，所以其可以被当做常量表达式使用</p>
-<p>举例如下：</p>
-<pre><code>int n=10;
-int arr[sizeof(n)];
-</code></pre><h2 id="3-sizeof和指针变量"><a href="#3-sizeof和指针变量" class="headerlink" title="3.sizeof和指针变量"></a>3.sizeof和指针变量</h2><p>注意：当sizoef的对象是指针变量的时候，它的结果和指针所指的内容没有任何的关系，所以在32位计算机中指针变量是4,64位计算机中是8</p>
-<h2 id="4-sizeof和数组"><a href="#4-sizeof和数组" class="headerlink" title="4.sizeof和数组"></a>4.sizeof和数组</h2><p>sizoef的数组的值等于数组所占的内存字节数，这里我在CSDN的博客写的很清楚了，感兴趣的可以自己去看<br><a href="http://blog.csdn.net/it_iverson/article/details/74733426" title="http://blog.csdn.net/it_iverson/article/details/74733426" target="_blank" rel="noopener">http://blog.csdn.net/it_iverson/article/details/74733426</a></p>
-<p>这里还要强调的一个重点就是数组传参的时候。</p>
-<pre><code>void fun(int arr[])
+</code></pre><p>首先来看base类的对象模型：<br><img src="https://i.imgur.com/CX0gNv7.jpg" alt=""><br>然后看d的对象模型<br><img src="https://i.imgur.com/dNiCO7p.jpg" alt=""><br>下面来验证一下 ：</p>
+<pre><code>typedef void(*fun)();
+fun *pp = (fun*)(*(int*)&amp;d);
+(*pp)();
+pp++;
+(*pp)();
+pp++;
+(*pp)();
+</code></pre><p><img src="https://i.imgur.com/1rYOHkz.jpg" alt=""></p>
+<h2 id="2-简单多继承对象模型"><a href="#2-简单多继承对象模型" class="headerlink" title="2.简单多继承对象模型"></a>2.简单多继承对象模型</h2><p>简单描述：</p>
+<p>1.如果子类新增虚函数，则放在声明的第一个父类的虚函数表中（理解成继承下来的虚表比较好理解），</p>
+<p>2.如果子类重写了父类的虚函数（两个父类中都有的那个虚函数），所有父类虚函数表都要改变。</p>
+<p>3.子类内存布局中父类按照其声明顺序排列</p>
+<pre><code>class Base1
 {
-cout &lt;&lt; sizeof(arr);
+public:
+int base1;
+public:
+virtual void fun1()
+{
+    cout &lt;&lt; &quot;base1::fun1()&quot; &lt;&lt; endl;
 }
+};
+class Base2
+{
+public:
+int base2;
+public:
+virtual void fun1()
+{
+    cout &lt;&lt; &quot;base2::fun1()&quot; &lt;&lt; endl;
+}
+virtual void fun2()
+{
+    cout &lt;&lt; &quot;base2::fun2()&quot; &lt;&lt; endl;
+}
+};
+class Dervice :public Base1,public Base2
+{
+public:
+int b;
+public:
+virtual void fun1()
+{
+    cout &lt;&lt; &quot;Dervice::fun1()&quot; &lt;&lt; endl;
+}
+virtual void fun3()
+{
+    cout &lt;&lt; &quot;Dervice::fun3()&quot; &lt;&lt; endl;
+}
+};
 void test()
 {
-int arr[10] = { 0 };
-fun(arr);
+Base1 b1;
+Base2 b2;
+Dervice d;
+b1.base1 = 10;
+b2.base2 = 20;
+d.b = 30;
+d.base1 = 40;
+d.base2 = 50;
 }
-</code></pre><p>这里的sizoef的输出是4而不是40，因为在函数的形参那里arr已经不是数组类型了，而是蜕变成了指针。相当于int *arr,因为数组是传址传参的，只是把数组首地址传过去了，所以接受地址的自然就是指针变量了，那么正如上文所说，指针变量的大小和其指向的内容没有关系，所以大小为4</p>
-<h2 id="5-sizeof和结构体"><a href="#5-sizeof和结构体" class="headerlink" title="5.sizeof和结构体"></a>5.sizeof和结构体</h2><p>这里主要强调的是结构体内存对其的一些知识在CSDN的博客中也有详细说明</p>
-<p><a href="http://blog.csdn.net/it_iverson/article/details/74790127" title="http://blog.csdn.net/it_iverson/article/details/74790127" target="_blank" rel="noopener">http://blog.csdn.net/it_iverson/article/details/74790127</a></p>
-<h2 id="6-含有位字段的结构体"><a href="#6-含有位字段的结构体" class="headerlink" title="6.含有位字段的结构体"></a>6.含有位字段的结构体</h2><p>   注意：单独的位字段成员不能被sizeof求值</p>
-<p>那么什么是为字段呢？</p>
-<p>位字段是C语言中一种存储结构，不同于一般结构体的是它在定义成员的时候需要指定成员所占的位数。主要应用于嵌入开发</p>
-<p>如下：</p>
-<pre><code>struct stu
+</code></pre><p><img src="https://i.imgur.com/H5A3DzY.jpg" alt=""><br>验证输出：</p>
+<pre><code>typedef void(*fun)();
+fun *pp = (fun*)(*(int*)&amp;d);
+(*pp)();
+pp++;
+(*pp)();
+pp += 2;
+/*pp++;*/
+(*pp)();
+pp++;
+(*pp)();
+</code></pre><p><img src="https://i.imgur.com/CEoQgzq.jpg" alt=""></p>
+<h2 id="3-简单虚继承对象模型"><a href="#3-简单虚继承对象模型" class="headerlink" title="3.简单虚继承对象模型"></a>3.简单虚继承对象模型</h2><p>简单阐述：</p>
+<p>1.虚继承的子类，如果本身定义了新的虚函数，则编译器为其生成一个新的vptr指针和和虚表，将其新定义的虚函数放进去，并且这个vptr位于对象的最前面</p>
+<p>2.虚继承的子类也保留了父类的vptr和虚表</p>
+<p>3.虚继承的子类有虚基类表指针vbptr，虚基类表中放的第一个是基类表指针到到对象首地址的偏移地址，后面的则放的是到第二个，第三个虚继承父类的偏移值。</p>
+<pre><code>class Base1
 {
-char a : 4;//占4位
-char b : 3;//占3位
-char  c : 8;//占8位
-};//大小为两个字节
-</code></pre><p>在这里要注意的是：</p>
-<p>1.如果相邻的位字段的类型相同，且其位数之和小于自身类型数，则后面的字段和紧挨着前面的字段存储，直到这个不能容纳为止</p>
-<p>2.如果相邻的位字段类型相同，且其位数之和大于自身的类型数，则后面的字段从新的存储单元开始。</p>
-<p>3.如果相邻位字段类型不同，则根据编译器的不同，是否采取压缩存储就不一定了。</p>
-<p>4.如果位字段之间穿插着非为字段，则不进行压缩存储</p>
-<h2 id="7-sizeof和联合体"><a href="#7-sizeof和联合体" class="headerlink" title="7.sizeof和联合体"></a>7.sizeof和联合体</h2><p>因为联合体是重叠式存储，各成员共享一段内存，所以整个联合体的大小就是最大成员所占的空间的大小，假如联合体中有一个结构体成员，那么这个联合体的大小就是这个结构体的大小。</p>
-<hr>
+public:
+int base1;
+public:
+virtual void fun1()
+{
+    cout &lt;&lt; &quot;base1::fun1()&quot; &lt;&lt; endl;
+}
+virtual void fun2()
+{
+    cout &lt;&lt; &quot;base1::fun2()&quot; &lt;&lt; endl;
+}
+};
+class Dervice :virtual public Base1
+{
+public:
+int b;
+public:
+virtual void fun1()
+{
+    cout &lt;&lt; &quot;Dervice::fun1()&quot; &lt;&lt; endl;
+}
+virtual void fun3()
+{
+    cout &lt;&lt; &quot;Dervice::fun3()&quot; &lt;&lt; endl;
+}
+};
+void test()
+{
+Base1 b1;
+Dervice d;
+b1.base1 = 10;
+d.b = 20;
+d.base1 = 30;
+}
+</code></pre><p><img src="https://i.imgur.com/ynnFjGK.jpg" alt=""></p>
+<h2 id="4-菱形继承对象模型"><a href="#4-菱形继承对象模型" class="headerlink" title="4.菱形继承对象模型"></a>4.菱形继承对象模型</h2><p>菱形继承是多继承和虚继承的复合<br>    class A<br>    {<br>    public:<br>    int _a;<br>    virtual void fun1()<br>    {<br>        cout &lt;&lt; “A::fun1” &lt;&lt; endl;<br>    }<br>    virtual void fun2()<br>    {<br>        cout &lt;&lt; “A::fun2” &lt;&lt; endl;<br>    }<br>    };<br>    class B1 : virtual public A<br>    {<br>    public:<br>    int _b1;<br>    virtual void fun1()<br>    {<br>        cout &lt;&lt; “B1::fun1” &lt;&lt; endl;<br>    }<br>    virtual void fun3()<br>    {<br>        cout &lt;&lt; “B1::fun3” &lt;&lt; endl;<br>    }</p>
+<pre><code>};
+class B2 :virtual public A
+{
+public:
+int _b2;
+virtual void fun1()
+{
+    cout &lt;&lt; &quot;B2::fun1&quot; &lt;&lt; endl;
+}
+virtual void fun4()
+{
+    cout &lt;&lt; &quot;B2::fun4&quot; &lt;&lt; endl;
+}
+};
+class C :public B1, public B2
+{
+public:
+int _c;
+virtual void fun1()
+{
+    cout &lt;&lt; &quot;C::fun1&quot; &lt;&lt; endl;
+}
+virtual void fun3()
+{
+    cout &lt;&lt; &quot;C::fun3&quot; &lt;&lt; endl;
+}
+virtual void fun4()
+{
+    cout &lt;&lt; &quot;C::fun4&quot; &lt;&lt; endl;
+}
+
+virtual void fun5()
+{
+    cout &lt;&lt; &quot;C::fun5&quot; &lt;&lt; endl;
+}
+};void test()
+{
+
+cout &lt;&lt; &quot;A:&quot; &lt;&lt; sizeof(A) &lt;&lt; endl;
+cout &lt;&lt; &quot;B1:&quot; &lt;&lt; sizeof(B1) &lt;&lt; endl;
+cout &lt;&lt; &quot;B2:&quot; &lt;&lt; sizeof(B2) &lt;&lt; endl;
+cout &lt;&lt; &quot;C:&quot; &lt;&lt; sizeof(C) &lt;&lt; endl;
+A a;
+B1 b1;
+B2 b2;
+C c;
+a._a = 10;
+b1._a = 10;
+b1._b1 = 20;
+b2._b2 = 30;
+b2._a = 10;
+c._c = 40;
+c._a = 10;
+c._b1 = 20;
+c._b2 = 30;
+}
+</code></pre><p><img src="https://i.imgur.com/0Hu7rQV.jpg" alt=""><br><img src="https://i.imgur.com/iGVt8Hh.jpg" alt=""></p>
 
       
     </div>
@@ -488,7 +647,7 @@ char  c : 8;//占8位
       
         <div class="post-tags">
           
-            <a href="/tags/sizeof/" rel="tag"><i class="fa fa-tag"></i> sizeof</a>
+            <a href="/tags/对象模型剖析/" rel="tag"><i class="fa fa-tag"></i> 对象模型剖析</a>
           
         </div>
       
@@ -501,15 +660,15 @@ char  c : 8;//占8位
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/02/25/c陷阱与缺陷/" rel="next" title="c陷阱与缺陷">
+                <i class="fa fa-chevron-left"></i> c陷阱与缺陷
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/02/24/堆随笔/" rel="prev" title="堆随笔">
-                堆随笔 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -707,7 +866,7 @@ char  c : 8;//占8位
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#定义："><span class="nav-number">1.</span> <span class="nav-text">定义：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用法："><span class="nav-number">2.</span> <span class="nav-text">用法：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-sizeof对一个表达式求值"><span class="nav-number">2.1.</span> <span class="nav-text">1 sizeof对一个表达式求值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-sizoef的常量性"><span class="nav-number">2.2.</span> <span class="nav-text">2.sizoef的常量性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-sizeof和指针变量"><span class="nav-number">2.3.</span> <span class="nav-text">3.sizeof和指针变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-sizeof和数组"><span class="nav-number">2.4.</span> <span class="nav-text">4.sizeof和数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-sizeof和结构体"><span class="nav-number">2.5.</span> <span class="nav-text">5.sizeof和结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-含有位字段的结构体"><span class="nav-number">2.6.</span> <span class="nav-text">6.含有位字段的结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-sizeof和联合体"><span class="nav-number">2.7.</span> <span class="nav-text">7.sizeof和联合体</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-单继承对象模型（含有虚函数）"><span class="nav-number">1.</span> <span class="nav-text">1.单继承对象模型（含有虚函数）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-简单多继承对象模型"><span class="nav-number">2.</span> <span class="nav-text">2.简单多继承对象模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-简单虚继承对象模型"><span class="nav-number">3.</span> <span class="nav-text">3.简单虚继承对象模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-菱形继承对象模型"><span class="nav-number">4.</span> <span class="nav-text">4.菱形继承对象模型</span></a></li></ol></div>
             
 
           </div>
