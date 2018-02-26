@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="1.词法陷阱">
+<meta name="description" content="1.词法陷阱1.注意不要讲=和==混用，还有&amp;amp;和&amp;amp;&amp;amp;是两回事，这个自己都要搞清楚。">
 <meta name="keywords" content="c陷阱与缺陷">
 <meta property="og:type" content="article">
 <meta property="og:title" content="c陷阱与缺陷">
 <meta property="og:url" content="http://yoursite.com/2018/02/25/c陷阱与缺陷/index.html">
 <meta property="og:site_name" content="Lishuai&#39;s博客">
-<meta property="og:description" content="1.词法陷阱">
+<meta property="og:description" content="1.词法陷阱1.注意不要讲=和==混用，还有&amp;amp;和&amp;amp;&amp;amp;是两回事，这个自己都要搞清楚。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.imgur.com/4isVrdE.jpg">
-<meta property="og:updated_time" content="2018-02-26T06:51:28.543Z">
+<meta property="og:updated_time" content="2018-02-26T06:53:49.448Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="c陷阱与缺陷">
-<meta name="twitter:description" content="1.词法陷阱">
+<meta name="twitter:description" content="1.词法陷阱1.注意不要讲=和==混用，还有&amp;amp;和&amp;amp;&amp;amp;是两回事，这个自己都要搞清楚。">
 <meta name="twitter:image" content="https://i.imgur.com/4isVrdE.jpg">
 
 
@@ -380,8 +380,7 @@
       
 
       
-        <h2 id="1-词法陷阱"><a href="#1-词法陷阱" class="headerlink" title="1.词法陷阱"></a>1.词法陷阱</h2><a id="more"></a>
-<p>1.注意不要讲=和==混用，还有&amp;和&amp;&amp;是两回事，这个自己都要搞清楚。</p>
+        <h2 id="1-词法陷阱"><a href="#1-词法陷阱" class="headerlink" title="1.词法陷阱"></a>1.词法陷阱</h2><p>1.注意不要讲=和==混用，还有&amp;和&amp;&amp;是两回事，这个自己都要搞清楚。<br><a id="more"></a></p>
 <p>2.词法分析使用的是贪心法，即读取一个字符以后，如果该字符可能组成一个符号，则继续读入下一个 字符，然后判断两个字符组成的字符串是否可以是一个符号的组成部分，如果是则继续读入依此类推。</p>
 <p>3.用单引号引起来的一个字符实际上表示一个整数，整数值对应其ascii的值。而双引号引起来的字符串表示的是一个指向无名数组起始字符的指针，该数组被双引号引起来的字符和一个额外的’\0’初始化</p>
 <p>4.用int a=’abc’,则a的值是616263即每个字符对应的ascii的序列，用char a=’abc’，则a的值是c。即c将ab覆盖</p>
