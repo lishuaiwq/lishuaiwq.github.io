@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="1.单继承对象模型（含有虚函数）首先阐述对象模型： 1.子类和父类都拥有各自的虚函数表 2.如果子类重写了父类的虚函数，则在子类的虚函数表中替换同名的父类虚函数，如果没有重写，则子类的虚函数表中是父类的虚函数（注意在这里只要子类的函数 中有和父类一样的，不管子类加不加vartual，都是重写父类的虚函数） 3.如果子类有自己新写的虚函数，则该虚函数放在虚函数表的后面 class Base { pu">
+<meta name="description" content="1.单继承对象模型（含有虚函数）首先阐述对象模型：">
 <meta name="keywords" content="对象模型剖析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++对象模型的剖析">
 <meta property="og:url" content="http://yoursite.com/2018/02/26/c++对象模型的剖析/index.html">
 <meta property="og:site_name" content="Lishuai&#39;s博客">
-<meta property="og:description" content="1.单继承对象模型（含有虚函数）首先阐述对象模型： 1.子类和父类都拥有各自的虚函数表 2.如果子类重写了父类的虚函数，则在子类的虚函数表中替换同名的父类虚函数，如果没有重写，则子类的虚函数表中是父类的虚函数（注意在这里只要子类的函数 中有和父类一样的，不管子类加不加vartual，都是重写父类的虚函数） 3.如果子类有自己新写的虚函数，则该虚函数放在虚函数表的后面 class Base { pu">
+<meta property="og:description" content="1.单继承对象模型（含有虚函数）首先阐述对象模型：">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.imgur.com/CX0gNv7.jpg">
 <meta property="og:image" content="https://i.imgur.com/dNiCO7p.jpg">
@@ -95,10 +95,10 @@
 <meta property="og:image" content="https://i.imgur.com/ynnFjGK.jpg">
 <meta property="og:image" content="https://i.imgur.com/0Hu7rQV.jpg">
 <meta property="og:image" content="https://i.imgur.com/iGVt8Hh.jpg">
-<meta property="og:updated_time" content="2018-02-26T10:03:31.654Z">
+<meta property="og:updated_time" content="2018-02-26T10:08:22.289Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++对象模型的剖析">
-<meta name="twitter:description" content="1.单继承对象模型（含有虚函数）首先阐述对象模型： 1.子类和父类都拥有各自的虚函数表 2.如果子类重写了父类的虚函数，则在子类的虚函数表中替换同名的父类虚函数，如果没有重写，则子类的虚函数表中是父类的虚函数（注意在这里只要子类的函数 中有和父类一样的，不管子类加不加vartual，都是重写父类的虚函数） 3.如果子类有自己新写的虚函数，则该虚函数放在虚函数表的后面 class Base { pu">
+<meta name="twitter:description" content="1.单继承对象模型（含有虚函数）首先阐述对象模型：">
 <meta name="twitter:image" content="https://i.imgur.com/CX0gNv7.jpg">
 
 
@@ -387,8 +387,7 @@
       
 
       
-        <h2 id="1-单继承对象模型（含有虚函数）"><a href="#1-单继承对象模型（含有虚函数）" class="headerlink" title="1.单继承对象模型（含有虚函数）"></a>1.单继承对象模型（含有虚函数）</h2><p>首先阐述对象模型：</p>
-<p>1.子类和父类都拥有各自的虚函数表</p>
+        <h2 id="1-单继承对象模型（含有虚函数）"><a href="#1-单继承对象模型（含有虚函数）" class="headerlink" title="1.单继承对象模型（含有虚函数）"></a>1.单继承对象模型（含有虚函数）</h2><p>首先阐述对象模型：<br><a id="more"></a><br>1.子类和父类都拥有各自的虚函数表</p>
 <p>2.如果子类重写了父类的虚函数，则在子类的虚函数表中替换同名的父类虚函数，如果没有重写，则子类的虚函数表中是父类的虚函数（注意在这里只要子类的函数 中有和父类一样的，不管子类加不加vartual，都是重写父类的虚函数）</p>
 <p>3.如果子类有自己新写的虚函数，则该虚函数放在虚函数表的后面</p>
 <pre><code>class Base
