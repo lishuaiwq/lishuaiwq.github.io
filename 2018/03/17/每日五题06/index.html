@@ -79,20 +79,18 @@
 
 
 
-<meta name="description" content="问题1：构造函数能不能是虚函数？为什么？答：构造函数不能是虚函数。解释如下： 1.存储角度：虚函数对应一个虚表，而这个虚表又对应了一个vptr指针，这个指针是在对象的存储空间中的，但是调用虚函数需要用vptr找到虚表中的虚函数来调用，所以对象还没有构造呢 ？构造函数怎么能是虚函数呢？这是矛盾的一点。">
+<meta name="description" content="问题1：fopen,open;fwrite write;fread,read他们的区别和那些的移植性好一些在说这个问题之前，首先补充一点小知识，就是文件描述符和文件指针的区别。（FILE* ,fd） 简单的来说文件描述符就是用linux系统I/O函数open打开文件的时候会返回一个文件描述符，内核会为每一个运行中的进程在进程控制块pcb中维护一个打开文件的记录表，每一个表项都有一个指针指向打开的文">
 <meta name="keywords" content="面试题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="每日五题02">
-<meta property="og:url" content="http://yoursite.com/2018/03/01/每日五题/index.html">
+<meta property="og:title" content="每日五题06">
+<meta property="og:url" content="http://yoursite.com/2018/03/17/每日五题06/index.html">
 <meta property="og:site_name" content="Lishuai&#39;s博客">
-<meta property="og:description" content="问题1：构造函数能不能是虚函数？为什么？答：构造函数不能是虚函数。解释如下： 1.存储角度：虚函数对应一个虚表，而这个虚表又对应了一个vptr指针，这个指针是在对象的存储空间中的，但是调用虚函数需要用vptr找到虚表中的虚函数来调用，所以对象还没有构造呢 ？构造函数怎么能是虚函数呢？这是矛盾的一点。">
+<meta property="og:description" content="问题1：fopen,open;fwrite write;fread,read他们的区别和那些的移植性好一些在说这个问题之前，首先补充一点小知识，就是文件描述符和文件指针的区别。（FILE* ,fd） 简单的来说文件描述符就是用linux系统I/O函数open打开文件的时候会返回一个文件描述符，内核会为每一个运行中的进程在进程控制块pcb中维护一个打开文件的记录表，每一个表项都有一个指针指向打开的文">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.imgur.com/Uqbozyh.jpg">
-<meta property="og:updated_time" content="2018-03-01T05:07:15.808Z">
+<meta property="og:updated_time" content="2018-03-17T07:03:12.218Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="每日五题02">
-<meta name="twitter:description" content="问题1：构造函数能不能是虚函数？为什么？答：构造函数不能是虚函数。解释如下： 1.存储角度：虚函数对应一个虚表，而这个虚表又对应了一个vptr指针，这个指针是在对象的存储空间中的，但是调用虚函数需要用vptr找到虚表中的虚函数来调用，所以对象还没有构造呢 ？构造函数怎么能是虚函数呢？这是矛盾的一点。">
-<meta name="twitter:image" content="https://i.imgur.com/Uqbozyh.jpg">
+<meta name="twitter:title" content="每日五题06">
+<meta name="twitter:description" content="问题1：fopen,open;fwrite write;fread,read他们的区别和那些的移植性好一些在说这个问题之前，首先补充一点小知识，就是文件描述符和文件指针的区别。（FILE* ,fd） 简单的来说文件描述符就是用linux系统I/O函数open打开文件的时候会返回一个文件描述符，内核会为每一个运行中的进程在进程控制块pcb中维护一个打开文件的记录表，每一个表项都有一个指针指向打开的文">
 
 
 
@@ -122,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/01/每日五题/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/17/每日五题06/"/>
 
 
 
 
 
-  <title>每日五题02 | Lishuai's博客</title>
+  <title>每日五题06 | Lishuai's博客</title>
   
 
 
@@ -255,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/01/每日五题/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/17/每日五题06/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李帅">
@@ -272,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">每日五题02</h1>
+          <h1 class="post-title" itemprop="name headline">每日五题06</h1>
         
 
         <div class="post-meta">
@@ -284,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-01T09:20:34+08:00">
-                2018-03-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-17T09:16:32+08:00">
+                2018-03-17
               </time>
             
 
@@ -307,18 +305,7 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/面试题/" itemprop="url" rel="index">
-                    <span itemprop="name">面试题</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/面试题/c-c/" itemprop="url" rel="index">
+                  <a href="/categories/c-c/" itemprop="url" rel="index">
                     <span itemprop="name">c/c++</span>
                   </a>
                 </span>
@@ -354,7 +341,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,365
+                  1,256
                 </span>
               
 
@@ -391,81 +378,46 @@
       
 
       
-        <h2 id="问题1：构造函数能不能是虚函数？为什么？"><a href="#问题1：构造函数能不能是虚函数？为什么？" class="headerlink" title="问题1：构造函数能不能是虚函数？为什么？"></a>问题1：构造函数能不能是虚函数？为什么？</h2><p>答：构造函数不能是虚函数。解释如下：</p>
-<p>1.存储角度：虚函数对应一个虚表，而这个虚表又对应了一个vptr指针，这个指针是在对象的存储空间中的，但是调用虚函数需要用vptr找到虚表中的虚函数来调用，所以对象还没有构造呢 ？构造函数怎么能是虚函数呢？这是矛盾的一点。<br><a id="more"></a></p>
-<p>2.使用角度：虚函数的作用在于通过父类的指针或者引用来调用它的时候能够变成调用子类的那个成员函数。而构造函数是在创建对象时自动调用的，不可能通过父类的指针或者引用去调用，因此也就规定构造函数不能是虚函数。</p>
-<p>3.从实现上看：构造一个对象的时候，必须知道对象的实际类型，而虚函数行为是在运行期间确定实际类型的。而在构造一个对象时，由于对象还未构造成功。编译器无法知道对象 的实际类型，是该类本身，还是该类的一个派生类，或是更深层次的派生类。无法确定。。。</p>
-<h2 id="问题2：什么是大小端？如何判断机器的大小端？"><a href="#问题2：什么是大小端？如何判断机器的大小端？" class="headerlink" title="问题2：什么是大小端？如何判断机器的大小端？"></a>问题2：什么是大小端？如何判断机器的大小端？</h2><p>首先给出大小端的来源： 端模式出自Jonathan Swift书写的《格列佛游记》一书，这本书根据将鸡蛋敲开的方法不同将所有的人分为两类，从圆头开始将鸡蛋敲开的人被归为Big Endian，从尖头开始将鸡蛋敲开的人被归为Littile Endian。小人国的内战就源于吃鸡蛋时是究竟从大头（Big-Endian）敲开还是从小头（Little-Endian）敲开。</p>
-<pre><code>在计算机业Big Endian和Little Endian也几乎引起一场战争。在计算机业界，Endian表示数据在存储器中的存放顺序。
-大端：高位存在低地址，低位存在高地址；
-小端：高位存在高地址，低位存在低地址；（intel的x86，ARM普遍都是属于小端）
-</code></pre><p>你只需要记住：大端：高低，低高。小端：低低高高。大小端在网络字节序中也需要注意这个后面再补充。<br>举个例子：<br><img src="https://i.imgur.com/Uqbozyh.jpg" alt=""><br>那么怎么判断自己的机器的大小端呢？<br>首先强调一句：CPU对数据的读取是从低地址到高地址的</p>
-<pre><code>int is_endian()
+        <h2 id="问题1：fopen-open-fwrite-write-fread-read他们的区别和那些的移植性好一些"><a href="#问题1：fopen-open-fwrite-write-fread-read他们的区别和那些的移植性好一些" class="headerlink" title="问题1：fopen,open;fwrite write;fread,read他们的区别和那些的移植性好一些"></a>问题1：fopen,open;fwrite write;fread,read他们的区别和那些的移植性好一些</h2><p>在说这个问题之前，首先补充一点小知识，就是文件描述符和文件指针的区别。（FILE* ,fd）</p>
+<p>简单的来说文件描述符就是用linux系统I/O函数open打开文件的时候会返回一个文件描述符，内核会为每一个运行中的进程在进程控制块pcb中维护一个打开文件的记录表，每一个表项都有一个指针指向打开的文件，上边的索引值是记录表的索引值。<br>文件描述符的优点：兼容POSIX标准，许多系统调用都依赖于它；缺点是不能移植到unix之外的系统上去。。<br><a id="more"></a><br>而FILE*是使用c语言库函数fopen打开文件的时候，返回一个FILE结构的指针，这个结构中主要的内容就是文件描述符和缓冲区。所以说c语言的I/O库函数会维护一个缓冲区，而linux中没有缓冲区，需要我们自己去定义。所以可以说FILE是索引的索引！</p>
+<p>使缓冲区写入磁盘的几种情况：</p>
+<p>1.fflush:int fflush(FILE *stream)</p>
+<p>2.缓冲区满了，自动写入</p>
+<p>3.正常的关闭文件 发fclose,return(main函数中),exit(main函数中)</p>
+<p>4.回车键</p>
+<p>5.遇到\n换行结束</p>
+<p>下面来一个一个说：</p>
+<p>1.fopen和open</p>
+<p>上面已经说过了fopen会返回一个FILE类型的指针，而open返回的是文件描述符，并且fopen是c语言的库函数，有缓冲区，open是系统函数，没有缓冲区。并且fopen的可移植性较高，open不可移植。</p>
+<p>2.fread和read</p>
+<p>fread：size_t fread ( void <em>buffer, size_t size, size_t count, FILE </em>stream) </p>
+<p>buffer：用于接收数据的内存地址（一般情况是自己定义的数组）</p>
+<p>size：要读的每个数据项的字节数，单位是字节</p>
+<p>count：要读count个数据项，每个数据项size个字节</p>
+<p>stream：输入流</p>
+<p>在这里fwrite也是c库函数，它从文件流中读数据，最多读取count个项，每个项size个字节，如果调用成功返回实际读取到的项个数（小于或等于count），如果不成功或读到文件末尾返回 0。也是库函数，并且有缓冲区，read是linux的系统调用函数，一般来说fread底层也是调用的read，所以fread的效率更高，而且功能比read更强大，read是从文件中读取多少个字节，返回值是读取的字节数。read返回实际读到的字节数，返回0表示已经读到了文件末尾或者没有文件可读，如果出错返回-1并设置错误码。</p>
+<p>3.fwrite和write</p>
+<p>和fread和read对应着理解这里就不多说了，可移植性肯定是c语言库函数比较好。</p>
+<h2 id="问题2：typeid类型检查"><a href="#问题2：typeid类型检查" class="headerlink" title="问题2：typeid类型检查"></a>问题2：typeid类型检查</h2><p>在c++中，typeid用于返回指针或引用所指对象的实际类型。注意：typeid是操作符，不是函数！</p>
+<p>运行时获知变量类型名称，可以使用 typeid(变量).name()，需要注意不是所有编译器都输出”int”、”float”等之类的名称，对于这类的编译器可以这样使用：float f = 1.1f; if( typeid(f) == typeid(0.0f) ) ……</p>
+<p>补充：对非引用类型，typeid是在编译时期识别的，只有引用类型才会在运行时识别。</p>
+<h2 id="问题3-模板中的非类型参数与类型参数的区别"><a href="#问题3-模板中的非类型参数与类型参数的区别" class="headerlink" title="问题3:模板中的非类型参数与类型参数的区别"></a>问题3:模板中的非类型参数与类型参数的区别</h2><p>首先解释一下什么是类型模板参数和非类型模板参数呢？</p>
+<p>我们知道，用模板的时候可以为他提供两种类型的模板形参：一种是类型模板形参，一种是非类型模板形参。例如如下声明：</p>
+<pre><code>template&lt;class T&gt;void foo(T t);   //用的类型模板形参
+template&lt;class T,int n&gt;void foo(T t);   //用了类型模板形参，同时还用到了非类型模板形参int
+</code></pre><p>两者的区别是：对应类型模板形参，编译器会根据实参（对应模板函数）或者用户指定类型来实例化对应的模板函数或类型。而非类型模板形参主要是用来在模板函数调用时指定该形参的值。<br>非类型模板形参最常用的是用来自动获取数组的维数。</p>
+<pre><code>template&lt;class T,int N&gt;
+void print(T (&amp;r)[N])
 {
-union MyUnion
+for (int i=0;i&lt;N;++i)
 {
-    int a;
-    char b;
-}un;
-un.a =100;//0x0001不知道放在高端还是低端了，
-return un.b;//如果返回1的话，证明我们机器是低字节，低地址，即为小端
-}//等于1证明为小端，等于0证明为大端
-</code></pre><p>这里就列举一种方法当然还有其他方法，比如说强制类型转换，打印变量地址观察。</p>
-<h2 id="问题3：模拟实现strncpy-memcpy-memove"><a href="#问题3：模拟实现strncpy-memcpy-memove" class="headerlink" title="问题3：模拟实现strncpy,memcpy,memove"></a>问题3：模拟实现strncpy,memcpy,memove</h2><p>1.简单描述strncpy:指定拷贝n个字节，n大于拷贝字节数则多余的补’\0’,如果n&gt;存储空间，则正常崩溃，n小于拷贝字节，则自己在最后加一个’\0’.</p>
-<pre><code>char* my_strncpy(char *dest, char *src, size_t count)
-{
-assert(dest&amp;&amp;src);
-char *p = dest;
-while (count &amp;&amp; (*dest++ = *src++))
-{
-    count--;
+    cout&lt;&lt;r[i]&lt;&lt;&quot;,&quot;;
 }
-if (count &gt; 0)//上述循环出来就意味着&apos;\0&apos;都复制进去了
-{
-    while (--count)
-        *dest++ = &apos;\0&apos;;
+cout&lt;&lt;endl;
 }
-return p;
-}
-</code></pre><p>2.memcpy拷贝的时候容易覆盖，比图12345，我要把123拷贝到234的位置讲道理拷贝完以后应该是11235，但是用memcpy的话结果就是11115,因为当走到2的时候2已经被1覆盖了，则用1继续覆盖3…，所以我们就需要用memove来拷贝，它 可以实现逆向拷贝即从后往前拷贝,上述例子的拷贝就会是这个样子，把3给4，把2给3，把1给2，这样就不会出现覆盖的问题了即得到我们要的答案，11235</p>
-<pre><code>void* my_memcpy(void* dest, void* src, size_t count)
-{
-void* ret = dest;
-char *str1 = (char *)dest;
-char *str2 = (char *)src;
-assert(str1&amp;&amp;str2);
-while (count--)
-{
-    *str1++ = *str2++;
-}
-return ret;
-}
-void* my_memove(void* dest, void* src, size_t count)
-{
-void* ret = dest;
-char *str1 = (char *)dest;
-char *str2 = (char *)src;
-assert(str1&amp;&amp;str2);
-if (str1 &gt; str2)//目标位置大于起始位置//使用反向拷贝
-{
-    while (count--)
-    {
-        *(str1 + count) = *(str2 + count);
-    }
-}
-else
-{
-    while (count--)
-    {
-        *str1++ = *str2++;
-    }
-}
-return ret;
-}
-</code></pre><h2 id="问题4：“dynamic-cast”和“static-cast”的区别"><a href="#问题4：“dynamic-cast”和“static-cast”的区别" class="headerlink" title="问题4：“dynamic_cast”和“static _ cast”的区别"></a>问题4：“dynamic_cast”和“static _ cast”的区别</h2><p>首先C++提供了两个在层次间转换的关键字那么就是他们两个</p>
-<p>首先来说说dynamic_cast：<br>　该运算符把expression转换为type-id类型，但没有运行时类型检查来保证转换的安全性。它主要有如下几种用法：<br>　　①用于类层次结构中基类（父类）和派生类（子类）之间指针或引用的转换。<br>　　进行上行转换（把派生类的指针或引用转换成基类表示）是安全的；<br>　　进行下行转换（把基类指针或引用转换成派生类表示）时，由于没有动态类型检查，所以是不安全的。<br>　　②用于基本数据类型之间的转换，如把int转换成char，把int转换成enum。这种转换的安全性也要开发人员来保证。<br>　　③把空指针转换成目标类型的空指针。<br>　　④把任何类型的表达式转换成void类型。<br>　　注意：static_cast不能转换掉expression的const、volatile、或者__unaligned属性。</p>
-<p><a href="http://blog.csdn.net/qq_26849233/article/details/62218385" title="http://blog.csdn.net/qq_26849233/article/details/62218385" target="_blank" rel="noopener">http://blog.csdn.net/qq_26849233/article/details/62218385</a></p>
-<h2 id="问题5：-C-数据类型所表示的值及范围"><a href="#问题5：-C-数据类型所表示的值及范围" class="headerlink" title="问题5： C++数据类型所表示的值及范围"></a>问题5： C++数据类型所表示的值及范围</h2><p><a href="http://blog.csdn.net/a775992553/article/details/8790241" title="http://blog.csdn.net/a775992553/article/details/8790241" target="_blank" rel="noopener">http://blog.csdn.net/a775992553/article/details/8790241</a></p>
+</code></pre><p>数组的模板形式一般写成这个样子。<br>还有关于非类型的模板参数的一些详解我给出如下博客的链接：<br><a href="http://blog.csdn.net/u012999985/article/details/50780311" target="_blank" rel="noopener">http://blog.csdn.net/u012999985/article/details/50780311</a></p>
+<h2 id="问题4-static-cast和reinterpret-cast区别"><a href="#问题4-static-cast和reinterpret-cast区别" class="headerlink" title="问题4:static_cast和reinterpret_cast区别"></a>问题4:static_cast和reinterpret_cast区别</h2><p><a href="http://blog.csdn.net/deyili/article/details/5354242" target="_blank" rel="noopener">http://blog.csdn.net/deyili/article/details/5354242</a></p>
+<h2 id="问题5：继承中析构函数最好为虚函数，为什么？为什么不建议在构造函数中调用虚函数？"><a href="#问题5：继承中析构函数最好为虚函数，为什么？为什么不建议在构造函数中调用虚函数？" class="headerlink" title="问题5：继承中析构函数最好为虚函数，为什么？为什么不建议在构造函数中调用虚函数？"></a>问题5：继承中析构函数最好为虚函数，为什么？为什么不建议在构造函数中调用虚函数？</h2><p>1.<a href="http://blog.csdn.net/it_iverson/article/details/78531651" target="_blank" rel="noopener">http://blog.csdn.net/it_iverson/article/details/78531651</a><br>2.<a href="http://blog.csdn.net/it_iverson/article/details/78541948" target="_blank" rel="noopener">http://blog.csdn.net/it_iverson/article/details/78541948</a></p>
 
       
     </div>
@@ -525,8 +477,8 @@ return ret;
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/28/每日十题/" rel="next" title="每日五题01">
-                <i class="fa fa-chevron-left"></i> 每日五题01
+              <a href="/2018/03/13/多路I-O转接-poll/" rel="next" title="多路I/O转接-poll">
+                <i class="fa fa-chevron-left"></i> 多路I/O转接-poll
               </a>
             
           </div>
@@ -534,10 +486,6 @@ return ret;
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/02/每日五题03/" rel="prev" title="每日五题03">
-                每日五题03 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -735,7 +683,7 @@ return ret;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题1：构造函数能不能是虚函数？为什么？"><span class="nav-number">1.</span> <span class="nav-text">问题1：构造函数能不能是虚函数？为什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题2：什么是大小端？如何判断机器的大小端？"><span class="nav-number">2.</span> <span class="nav-text">问题2：什么是大小端？如何判断机器的大小端？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题3：模拟实现strncpy-memcpy-memove"><span class="nav-number">3.</span> <span class="nav-text">问题3：模拟实现strncpy,memcpy,memove</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题4：“dynamic-cast”和“static-cast”的区别"><span class="nav-number">4.</span> <span class="nav-text">问题4：“dynamic_cast”和“static _ cast”的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题5：-C-数据类型所表示的值及范围"><span class="nav-number">5.</span> <span class="nav-text">问题5： C++数据类型所表示的值及范围</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题1：fopen-open-fwrite-write-fread-read他们的区别和那些的移植性好一些"><span class="nav-number">1.</span> <span class="nav-text">问题1：fopen,open;fwrite write;fread,read他们的区别和那些的移植性好一些</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题2：typeid类型检查"><span class="nav-number">2.</span> <span class="nav-text">问题2：typeid类型检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题3-模板中的非类型参数与类型参数的区别"><span class="nav-number">3.</span> <span class="nav-text">问题3:模板中的非类型参数与类型参数的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题4-static-cast和reinterpret-cast区别"><span class="nav-number">4.</span> <span class="nav-text">问题4:static_cast和reinterpret_cast区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题5：继承中析构函数最好为虚函数，为什么？为什么不建议在构造函数中调用虚函数？"><span class="nav-number">5.</span> <span class="nav-text">问题5：继承中析构函数最好为虚函数，为什么？为什么不建议在构造函数中调用虚函数？</span></a></li></ol></div>
             
 
           </div>
