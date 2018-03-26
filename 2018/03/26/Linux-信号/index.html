@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="信号," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="此篇博客对于Linux中信号的相关知识点做介绍。 一.信号的概念什么是信号呢?">
+<meta name="keywords" content="信号">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux-信号">
+<meta property="og:url" content="http://yoursite.com/2018/03/26/Linux-信号/index.html">
+<meta property="og:site_name" content="Lishuai&#39;s博客">
+<meta property="og:description" content="此篇博客对于Linux中信号的相关知识点做介绍。 一.信号的概念什么是信号呢?">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/yPsQ1sc.jpg">
+<meta property="og:image" content="https://i.imgur.com/4QzL3ss.jpg">
+<meta property="og:image" content="https://i.imgur.com/lEbeH67.jpg">
+<meta property="og:image" content="https://i.imgur.com/FUDF4eO.jpg">
+<meta property="og:image" content="https://i.imgur.com/Bogjhuc.jpg">
+<meta property="og:image" content="https://i.imgur.com/j2WHo5R.jpg">
+<meta property="og:image" content="https://i.imgur.com/jopbDyj.jpg">
+<meta property="og:updated_time" content="2018-03-26T12:05:32.676Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux-信号">
+<meta name="twitter:description" content="此篇博客对于Linux中信号的相关知识点做介绍。 一.信号的概念什么是信号呢?">
+<meta name="twitter:image" content="https://i.imgur.com/yPsQ1sc.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/26/Linux-信号/"/>
+
+
+
+
+
+  <title>Linux-信号 | Lishuai's博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lishuai's博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/26/Linux-信号/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李帅">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/timg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lishuai's博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux-信号</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T11:42:02+08:00">
+                2018-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/系统编程/" itemprop="url" rel="index">
+                    <span itemprop="name">系统编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4,368
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  16
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>此篇博客对于Linux中信号的相关知识点做介绍。</p>
+<h2 id="一-信号的概念"><a href="#一-信号的概念" class="headerlink" title="一.信号的概念"></a>一.信号的概念</h2><p>什么是信号呢?</p>
+<a id="more"></a>
+<p> 信号怎么说呢？比如古代的摔杯为号，比赛名枪为号，这都是信号。</p>
+<p>这些信号都有一个共同的特性，那就是简单、不能携带大量信息，满足一点条件时才产生。</p>
+<p>信号是软件中断，很多重要的程序的需要处理信号，信号提供了一种异步事件的方法，所以是系统中必不可少的东西！</p>
+<p>Unix早期版本就提供了信号机制，但不可靠，信号可能丢失。Berkeley 和 AT&amp;T都对信号模型做了更改，增加了可靠信号机制。但彼此不兼容。POSIX.1对可靠信号例程进行了标准化。</p>
+<p>信号的机制：A给B发送信号，B收到信号之前执行自己的代码，收到信号后，不管执行到程序的什么位置，都要暂停运行，去处理信号，处理完毕再继续执行。与硬件中断类似——异步模式。但信号是软件层面上实现的中断，早期常被称为“软中断”。</p>
+<p>信号的特质：由于信号是通过软件方法实现，其实现手段导致信号有很强的延时性。但对于用户来说，这个延迟时间非常短，不易察觉。</p>
+<p>首先来看一下Linux中的一些信号。<br><img src="https://i.imgur.com/yPsQ1sc.jpg" alt=""><br>这是linux系统中的提供的一些信号，一共是62个不是64个，但是我们只需要掌握了解1-31号信号（非实时信号，不可靠信号，不支持排队，容易丢失），34-64序列的信号是驱动层次的信号（实时信号，可靠信号，支持排队，不会丢失），我们一般接触不到！</p>
+<hr>
+<h2 id="二-信号的产生方式"><a href="#二-信号的产生方式" class="headerlink" title="二.信号的产生方式"></a>二.信号的产生方式</h2><h4 id="1-当用户按某些中断键时，引发终端产生对应的信号，比如ctrl-c"><a href="#1-当用户按某些中断键时，引发终端产生对应的信号，比如ctrl-c" class="headerlink" title="1.当用户按某些中断键时，引发终端产生对应的信号，比如ctrl +c."></a>1.当用户按某些中断键时，引发终端产生对应的信号，比如ctrl +c.</h4><p>这里详细说一下：当我们在shell下启动一个前台进程，这个时候当用户在键盘上按下ctrl+c,这个时候键盘输入产生一个硬件中断，如果当前cpu正在执行这个进程的代码，则该进程的用户空间代码暂停执行，cpu从用户态切入内核态处理硬件中断，终端驱动程序将ctrl+c解释成一个SIGINT信号，将这个信号记录在这个前台进程的pcb中，当某个时候准备从内核返回到该用户空间代码的时候，首先检查pcb中的记录，发现有信号SIGIN未处理，而且发现这个信号的处理动作是默认动作，因为其默认动作是终止进程，那么将直接终止进程而不再返回它的用户空间去执行刚才未执行完的代码。 </p>
+<p>注意：按键产生方式产生的信号只能发给前台进程。因为前台程序在执行的过程中用户随时可以按下组合件所以这体现了信号具有异步性。</p>
+<p>还要说明一个问题那就是Core Dump，有的信号的默认处理动作是结束进程，但是有的信号在结束进程的同时并且Core Dump，下面解释一下Core Dump</p>
+<p>:当一个进程要异常终止的时候，可以选择把进程的用户空间内的数据全部保存在磁盘上，这个保存数据的文件名是core,这个动作就是Core Dump。进程异常终止的原因一般来说是有BUG,所以我们可以通过这个文件来找出我们的错误出在了哪里。。。但是系统默认是不支持core文件产生的，因为其中会保存关系用户密码等敏感信息，不安全，如果我们想使用的话需要用ulimit来进行设置。<br><img src="https://i.imgur.com/4QzL3ss.jpg" alt=""></p>
+<p><img src="https://i.imgur.com/lEbeH67.jpg" alt=""></p>
+<p>接下来我们写一个死循环程序，让其在前台运行，然后通过ctrl+\产生SIGQUIT（能产生core文件的信号）</p>
+<p><img src="https://i.imgur.com/FUDF4eO.jpg" alt=""></p>
+<p>需要找bug的话，使用gdb  core-file +core文件，程序会自动跳到出错的地方</p>
+<h4 id="2-硬件异常产生的信号"><a href="#2-硬件异常产生的信号" class="headerlink" title="2.硬件异常产生的信号"></a>2.硬件异常产生的信号</h4><p>比如除数为0，无效的内存引用等。这些条件通常由硬件检测到，并通知内核，然后内核为产生该条件的进程发送一个信号（这里的发送其实实质上指的是在进程的PCB中做一些记录，后面我们在详细去讲）</p>
+<h4 id="3-调用系统函数向进程发送信号"><a href="#3-调用系统函数向进程发送信号" class="headerlink" title="3.调用系统函数向进程发送信号"></a>3.调用系统函数向进程发送信号</h4><p>1.使用kill函数（man 2 kill可查看）</p>
+<pre><code>#include &lt;sys/types.h&gt;
+#include &lt;signal.h&gt;
+
+int kill(pid_t pid, int sig);
+              成功返回0，失败-1
+</code></pre><p>说明：</p>
+<p>id &gt; 0:  发送信号给指定的进程。</p>
+<p>pid = 0:  发送信号给 与调用kill函数进程属于同一进程组的所有进程。</p>
+<p>pid &lt; 0:  取|pid|发给对应进程组。</p>
+<p>pid = -1：发送给进程有权限发送的系统中所有进程。</p>
+<p>进程组：每个进程都属于一个进程组，进程组是一个或多个进程集合，他们相互关联，共同完成一个实体任务，每个进程组都有一个进程组长，默认进程组ID与进程组长ID相同。<br>权限保护：super用户(root)可以发送信号给任意用户，普通用户是不能向系统用户发送信号的。 kill -9 (root用户的pid)  是不可以的。同样，普通用户也不能向其他普通用户发送信号，终止其进程。 只能向自己创建的进程发送信号。普通用户基本规则是：发送者实际或有效用户ID == 接收者实际或有效用户ID</p>
+<p>2.使用kill命令（man 1 kill可查看）,此命令只是kill函数的一个借口，用来终止一个失控的后台程序</p>
+<p>3.raise函数：给当前进程发送指定信号，自己给自己发</p>
+<pre><code>#include &lt;signal.h&gt;
+
+   int raise(int sig);
+            成功返回0，失败返回-1
+</code></pre><p>4.abort函数：自己给自己发送异常终止信号6）SIGARBT，终止自己并产生core文件</p>
+<pre><code>#include &lt;stdlib.h&gt;
+
+  void abort(void);
+                   因为这个函数和exit一样总会 成功执行，所以没有返回值
+</code></pre><h4 id="4-由软件条件产生的信号"><a href="#4-由软件条件产生的信号" class="headerlink" title="4.由软件条件产生的信号"></a>4.由软件条件产生的信号</h4><p>比如SIGPIPE，不过这次要重点介绍alarm函数</p>
+<pre><code>#include &lt;unistd.h&gt;
+
+   unsigned int alarm(unsigned int seconds);
+</code></pre><p>调用alarm函数可以给当前进程设置一个闹钟，也就是告诉内核早seconds秒之后给当前进程发送SIGALRM信号，该信号的默认处理动作是将当前进程终止。每个进程都有仅且唯一的一个定时器。</p>
+<p>这个函数返回值如果是0，则说明闹铃正确设置并且只有一个闹铃，如果你当前已经设置了一个闹铃了，那么alarm(0)，表示取消之前所设置的闹铃，返回之前闹铃剩余的时间。假如在次使用alarm(10)，则表示重新设置闹铃为10秒，并且此时的闹铃返回之前 设置闹铃的剩余时间。</p>
+<p>另外设置闹铃和进程的状态无关。使用time+可执行程序可以查看程序的执行时间。</p>
+<p>另外除了alarm可以设置闹铃以外。setitimer函数也可以设置闹铃，并且它的计时功能更加的齐全。感兴趣的自己了解，，，这块我后面再补充吧。</p>
+<hr>
+<h2 id="三-信号在内核中的表示方法和信号的处理方法"><a href="#三-信号在内核中的表示方法和信号的处理方法" class="headerlink" title="三.信号在内核中的表示方法和信号的处理方法"></a>三.信号在内核中的表示方法和信号的处理方法</h2><p>1.信号内核中的表示<br><img src="https://i.imgur.com/Bogjhuc.jpg" alt=""></p>
+<p>block:是用来设置信号屏蔽的，如果里面对应的是1则表示该信号产生了，并且被屏蔽不能抵达，即如果block里面是1则,pending里面一定是1</p>
+<p>pending:表示产生了一个信号。</p>
+<p>默认执行动作：表示这个信号一旦抵达根据默认执行动作的指示执行相关动作，如果用户自己设置了捕捉函数的话，则将执行用户指定的函数。<br>SIG_DFL：表示指针默认动作<br>SIG_IGN:表示忽略此信号</p>
+<p>注意：一个信号一旦被阻塞，如果在这信号阻塞期间多次产生这个信号的话，如果这个信号不是实时信号的话，则只记录一次，如果是实时信号的话，则将所有产生的信号放在一个队列里。</p>
+<p>2.信号处理方法</p>
+<p>1.执行其默认动作 </p>
+<p>2.忽略</p>
+<p>3.用户自定义函数捕捉。</p>
+<hr>
+<h2 id="四-信号集操作函数"><a href="#四-信号集操作函数" class="headerlink" title="四.信号集操作函数"></a>四.信号集操作函数</h2><p>内核通过读取未决信号集来判断信号是否应被处理。信号屏蔽字mask可以影响未决信号集。而我们可以在应用程序中自定义set来改变mask。已达到屏蔽指定信号的目的。</p>
+<p>所以引入一种类型sigset_t 表示信号集类型，我们可以通过这个类型定义信号集变量，通过一些信号集操作函数来影响信号屏蔽字从而达到屏蔽指定信号的目的。</p>
+<p>1.下面来介绍一下信号集的操作函数</p>
+<pre><code> #include &lt;signal.h&gt;
+
+int sigemptyset(sigset_t *set);//将自定义信号集所有位清为0
+
+int sigfillset(sigset_t *set);//将自定义的信号集所有位清为1
+
+int sigaddset(sigset_t *set, int signum);//将指定信号加入信号集
+
+int sigdelset(sigset_t *set, int signum);//将指定信号从信号集中删除
+
+int sigismember(const sigset_t *set, int signum);//判断某个信号是否在信号集中
+</code></pre><p>这些函数都是成功返回0，错误返回-1，最后一个函数是一个布尔函数。</p>
+<p>既然我们自定义的信号集已经设置好了，那么如何通过自定义的信号集取影响内核的信号屏蔽字呢？</p>
+<p>2.使用sigprocmask函数</p>
+<pre><code> #include &lt;signal.h&gt;
+
+int sigprocmask(int how, const sigset_t *set, sigset_t *oldset);
+                            成功返回0，出错返回-1
+</code></pre><p>参数</p>
+<p>1.how有三个取值b，分别表示自定义的信号集和内核的信号屏蔽字做什么样的操作，即如果影响内核的信号屏蔽字</p>
+<p>SIG_BLOCK：表示mask=mask | set,即将我们希望添加屏蔽的信号添加到信号屏蔽字当中去</p>
+<p>SIG_UNBLOCK：表示mask=mask &amp;~ set ,表示我们想将信号屏蔽字中的哪些信号解除阻塞</p>
+<p>SIG_SETMASK：表示mask=set，将内核中的信号屏蔽字的值替换为我们自己定义的值</p>
+<p>2.set:表示我们自己定义的信号集</p>
+<p>3.oldset:保存更改前的信号屏蔽字的值，可以为空</p>
+<p>如果调用sigprocmask解除了对当前若干个未决信号的阻塞，则在sigprocmask返回前，至少将其中一个信号抵达</p>
+<p>3.sigpending：读取当前未决信号集，由set传出</p>
+<pre><code>#include &lt;signal.h&gt;
+
+  int sigpending(sigset_t *set);
+</code></pre><hr>
+<h2 id="五-信号捕捉函数"><a href="#五-信号捕捉函数" class="headerlink" title="五.信号捕捉函数"></a>五.信号捕捉函数</h2><p>1.signal</p>
+<pre><code>#include &lt;signal.h&gt;
+
+   typedef void (*sighandler_t)(int);
+
+   sighandler_t signal(int signum, sighandler_t handler);
+</code></pre><p>参数<br>signum:表示要捕捉的信号</p>
+<p>handlrt:表示要执行的捕捉动作，可以看出其实函数指针</p>
+<p>2.signaction</p>
+<pre><code>  #include &lt;signal.h&gt;
+
+int sigaction(int signum, const struct sigaction *act,
+              struct sigaction *oldact);
+</code></pre><p><img src="https://i.imgur.com/j2WHo5R.jpg" alt=""></p>
+<p>在这里只关系我标记星星的三个成员</p>
+<p>参数：</p>
+<p>signum:表示要捕捉的信号</p>
+<p>sa_handler:表示执行的捕捉动作</p>
+<p>sa_mask表示在函数调用期间所要屏蔽的信号的信号集</p>
+<p>sa_flag=0，系统默认设置</p>
+<p>此函数的信号捕捉函数执行的时候，sa_mask中屏蔽的信号多次发过来的话，则等处理函数处理完只执行一次，在捕捉函数执行期间，信号屏蔽字由sa_mask决定！</p>
+<p>信号在 内核中的捕捉过程</p>
+<p><img src="https://i.imgur.com/jopbDyj.jpg" alt=""></p>
+<p>当一个进程发生某种异常中断后，这个时候系统切换到内核状态处理中断，然后在要返回的时候检查进程有信号抵达，并且用户设置了自定义的信号捕捉函数，则内核调用handle_signal（）函数从而回到用户态去调用用户自定义的信号处理函数（这期间需要使用setup_frame或setup_rt_frame来为信号处理函数设置栈)，当内核回到用户态执行完用户自定义的处理函数以后，位于  setup_framesetup_rt_frame栈之上的返回代码(return code)被执行,这返回代码会执行sigreturn，再次进入内核回到上次从内核转到用户态的位置，然后返回用户态执行刚才主函数中断的 代码的下面的指令。</p>
+<hr>
+<h2 id="六-时序静态问题"><a href="#六-时序静态问题" class="headerlink" title="六.时序静态问题"></a>六.时序静态问题</h2><p>介绍时序静态之前就要说一下pause函数</p>
+<pre><code>#include &lt;unistd.h&gt;
+
+   int pause(void);
+</code></pre><p>pause函数使进程挂起直到有信号抵达，如果信号的处理动作是终止进程，则进程终止，pause函数没有机会返回，如果信号处理动作是忽略，那么pause继续处于挂起状态不返回；如果信号的处理动作是捕捉，则调用了信号处理函数之后则pasue返回-1,errno设置EINTR，所以pause只有出错返回值！EINTR表示被信号中断。</p>
+<p>时序静态问题是：</p>
+<ol>
+<li>注册SIGALRM信号处理函数     （sigaction…)调用alarm(1) 函数设定闹钟1秒。</li>
+</ol>
+<p>2.函数调用刚结束，开始倒计时1秒。当前进程失去cpu，内核调度优先级高的进程(有多个)取代当前进程。当前进程无法获得cpu，进入就绪态等待cpu。</p>
+<p>3.1秒后，闹钟超时，内核向当前进程发送SIGALRM信号(自然定时法，与进程状态无关)，高优先级进程尚未执行完，当前进程仍处于就绪态，信号无法处理(未决)</p>
+<ol>
+<li><p>优先级高的进程执行完，当前进程获得cpu资源，内核调度回当前进程执行。SIGALRM信号递达，信号设置捕捉，执行处理函数sig_alarm。</p>
+<p>5.信号处理函数执行结束，返回当前进程主控流程，pause()被调用挂起等待。（欲等待alarm函数发送的SIGALRM信号将自己唤醒）</p>
+<p>SIGALRM信号已经处理完毕，pause不会等到。</p>
+</li>
+</ol>
+<p>即简单讲就是alarm和pause之间失去了cup的时候alarm发出了信号，当cpu切回来的时候捕捉了这个信号，这个时候pause才挂起，即变成了永久挂起。</p>
+<p>问题就是我们想到了在pause挂起之前设置屏蔽SIGALLRM这个信号，这样<br>就不会提前处理了，在pause挂起的时候在解除屏蔽。可是这样的话在解除屏蔽的时候cpu又被切走了,那么一样会永久挂起。所以要解决这个问题，就需要将解除屏蔽和pause挂起设置为一个原子操作，即中间不会失去cpu。这就需要我们用到这个函数</p>
+<p>1.sigsuspend</p>
+<pre><code>  #include &lt;signal.h&gt;
+
+int sigsuspend(const sigset_t *mask);
+</code></pre><p>这个函数的作用是，在调用sigsuspend函数的时候，进程的信号屏蔽字由其传入的mask决定，然后挂起等待，当sigsuspend返回的时候即信号屏蔽字恢复为原来的进程的值。</p>
+<p>这个函数怎么用呢？</p>
+<p>我们可以进程原来的信号屏蔽字设置为屏蔽SIGALRM，这样的话无论你什么时候cpu切出去，切多久，你如果产生了SIGALRM信号的话，那么系统也不处理，当回来以后sigsuspend挂起后，这个时候将其中的信号屏蔽字并没有屏蔽SIGALRM信号，则立刻处理，然后结束挂起。这样就可以实现解除屏蔽和挂起的原子性从而解决时序竟态的问题</p>
+<hr>
+<h2 id="七-可重入函数"><a href="#七-可重入函数" class="headerlink" title="七.可重入函数"></a>七.可重入函数</h2><p>一个函数在被调用执行期间(尚未调用结束)，由于某种时序又被重复调用，称之为“重入”。根据函数实现的方法可分为“可重入函数”和“不可重入函数”两种</p>
+<p>注意事项<br>1.定义可重入函数，函数内不能含有全局变量及static变量，不能使用malloc、free</p>
+<p>2.信号捕捉函数应设计为可重入函数</p>
+<p>3.信号处理程序可以调用的可重入函数可参阅man 7 signal </p>
+<p>4.没有包含在上述列表中的函数大多是不可重入的，其原因为：</p>
+<p>a)使用静态数据结构</p>
+<p>b)调用了malloc或free</p>
+<p>c)是标准I/O函数</p>
+<hr>
+<h2 id="八-SIGCHLD"><a href="#八-SIGCHLD" class="headerlink" title="八.SIGCHLD"></a>八.SIGCHLD</h2><p>子进程在终止的时候会给父进程发送SIGCHLD信号，该信号的默认处理动作是忽略，父进程可以自定义SIGCHLD捕捉函数，在里面来回收子进程了。这样就弥补了wait的一直阻塞和waitpid的轮询回收缺点。</p>
+<p>其实要想不产生僵尸进程还有另外一种办法就是父进程调用信号捕捉函数sigaction将SIGCHLD设置SIG_IGN，这样fork出来的子进程在终止时会自动清理掉，不会产生僵尸进程，也不会通知父进程。对于系统的默认胡洛和我们自己设置的忽略一般来说是没有区别的，但是就是这个比较特殊。同样是忽略，结果却不一样，此方法只对于Linux可用。</p>
+<p>相关代码上传至github:</p>
+<p><a href="https://github.com/lishuaiwq/Linux-System-programming/blob/master/signal/my_sleep_sigsuspend.c" target="_blank" rel="noopener">https://github.com/lishuaiwq/Linux-System-programming/blob/master/signal/my_sleep_sigsuspend.c</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的鼓励！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="李帅 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="李帅 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/信号/" rel="tag"><i class="fa fa-tag"></i> 信号</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/22/Linux进程间通信/" rel="next" title="Linux进程间通信(IPC)">
+                <i class="fa fa-chevron-left"></i> Linux进程间通信(IPC)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDMxMC8xMDg0Nw=="></div>
+    </div>
+
+  
+
+
+
+<div id="lv-container" data-uid="MTAyMC8zNDMxMC8xMDg0Nw=="></div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/timg.jpg"
+                alt="李帅" />
+            
+              <p class="site-author-name" itemprop="name">李帅</p>
+              <p class="site-description motion-element" itemprop="description">承载着太多希望，怎敢轻易辜负</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lishuaiwq" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://blog.csdn.net/it_iverson" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-信号的概念"><span class="nav-number">1.</span> <span class="nav-text">一.信号的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-信号的产生方式"><span class="nav-number">2.</span> <span class="nav-text">二.信号的产生方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-当用户按某些中断键时，引发终端产生对应的信号，比如ctrl-c"><span class="nav-number">2.0.1.</span> <span class="nav-text">1.当用户按某些中断键时，引发终端产生对应的信号，比如ctrl +c.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-硬件异常产生的信号"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.硬件异常产生的信号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-调用系统函数向进程发送信号"><span class="nav-number">2.0.3.</span> <span class="nav-text">3.调用系统函数向进程发送信号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-由软件条件产生的信号"><span class="nav-number">2.0.4.</span> <span class="nav-text">4.由软件条件产生的信号</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-信号在内核中的表示方法和信号的处理方法"><span class="nav-number">3.</span> <span class="nav-text">三.信号在内核中的表示方法和信号的处理方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四-信号集操作函数"><span class="nav-number">4.</span> <span class="nav-text">四.信号集操作函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五-信号捕捉函数"><span class="nav-number">5.</span> <span class="nav-text">五.信号捕捉函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六-时序静态问题"><span class="nav-number">6.</span> <span class="nav-text">六.时序静态问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七-可重入函数"><span class="nav-number">7.</span> <span class="nav-text">七.可重入函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八-SIGCHLD"><span class="nav-number">8.</span> <span class="nav-text">八.SIGCHLD</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+
+&copy; 
+<span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李帅</span>
+</div>
+  <div class="powered-by">
+   莫忘初心 | 
+  </div>
+
+  <div class="theme-info">
+  方得始终 
+  </dev>
+ 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
