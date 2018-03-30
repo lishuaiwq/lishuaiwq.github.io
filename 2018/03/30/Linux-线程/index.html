@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="面试题," />
+  <meta name="keywords" content="线程," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="问题1：写一个不能被继承的类，并且可以正常使用首先一个类不能被继承，则意味着继承这个类的类并没有办法正常工作，比如无法创建对象。所以根据我们对继承的了解，在构造子类对象时先调用基类的构造函数构造子类中基类的部分，所以我们可以在 这里讲父类的构造函数和析构函数设置为私有 ，这样的话，子类就无法正常的创建对象，也就实现了我们的题目所描述的问题了。代码如下：">
-<meta name="keywords" content="面试题">
+<meta name="description" content="此篇博客主要介绍一下关于线程的概念及线程控制原语。 首先在Linux下并不存在真正意义上的线程，他是由进程模拟出来的。所以可以说线程是轻量级的进程，其本质也是进程。进程和线程的区别是进程有自己独立的地址空间（整租）而线程没有自己独立的地址空间（合租），从内核中看线程和进程是一样都有PCB，只不过PCB中指向资源的三级页表是相同的，创建线程和进程底层使用的函数都是clone，进程可以蜕变成线程，在L">
+<meta name="keywords" content="线程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="每日五题01">
-<meta property="og:url" content="http://yoursite.com/2018/02/28/每日十题/index.html">
+<meta property="og:title" content="Linux_线程">
+<meta property="og:url" content="http://yoursite.com/2018/03/30/Linux-线程/index.html">
 <meta property="og:site_name" content="Lishuai&#39;s博客">
-<meta property="og:description" content="问题1：写一个不能被继承的类，并且可以正常使用首先一个类不能被继承，则意味着继承这个类的类并没有办法正常工作，比如无法创建对象。所以根据我们对继承的了解，在构造子类对象时先调用基类的构造函数构造子类中基类的部分，所以我们可以在 这里讲父类的构造函数和析构函数设置为私有 ，这样的话，子类就无法正常的创建对象，也就实现了我们的题目所描述的问题了。代码如下：">
+<meta property="og:description" content="此篇博客主要介绍一下关于线程的概念及线程控制原语。 首先在Linux下并不存在真正意义上的线程，他是由进程模拟出来的。所以可以说线程是轻量级的进程，其本质也是进程。进程和线程的区别是进程有自己独立的地址空间（整租）而线程没有自己独立的地址空间（合租），从内核中看线程和进程是一样都有PCB，只不过PCB中指向资源的三级页表是相同的，创建线程和进程底层使用的函数都是clone，进程可以蜕变成线程，在L">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-06T00:50:21.713Z">
+<meta property="og:updated_time" content="2018-03-30T04:10:24.003Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="每日五题01">
-<meta name="twitter:description" content="问题1：写一个不能被继承的类，并且可以正常使用首先一个类不能被继承，则意味着继承这个类的类并没有办法正常工作，比如无法创建对象。所以根据我们对继承的了解，在构造子类对象时先调用基类的构造函数构造子类中基类的部分，所以我们可以在 这里讲父类的构造函数和析构函数设置为私有 ，这样的话，子类就无法正常的创建对象，也就实现了我们的题目所描述的问题了。代码如下：">
+<meta name="twitter:title" content="Linux_线程">
+<meta name="twitter:description" content="此篇博客主要介绍一下关于线程的概念及线程控制原语。 首先在Linux下并不存在真正意义上的线程，他是由进程模拟出来的。所以可以说线程是轻量级的进程，其本质也是进程。进程和线程的区别是进程有自己独立的地址空间（整租）而线程没有自己独立的地址空间（合租），从内核中看线程和进程是一样都有PCB，只不过PCB中指向资源的三级页表是相同的，创建线程和进程底层使用的函数都是clone，进程可以蜕变成线程，在L">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/28/每日十题/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/30/Linux-线程/"/>
 
 
 
 
 
-  <title>每日五题01 | Lishuai's博客</title>
+  <title>Linux_线程 | Lishuai's博客</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/28/每日十题/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/30/Linux-线程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李帅">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">每日五题01</h1>
+          <h1 class="post-title" itemprop="name headline">Linux_线程</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-28T10:39:09+08:00">
-                2018-02-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-30T09:12:42+08:00">
+                2018-03-30
               </time>
             
 
@@ -305,8 +305,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/面试题/" itemprop="url" rel="index">
-                    <span itemprop="name">面试题</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
 
@@ -316,8 +316,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/面试题/c-c/" itemprop="url" rel="index">
-                    <span itemprop="name">c/c++</span>
+                  <a href="/categories/Linux/系统编程/" itemprop="url" rel="index">
+                    <span itemprop="name">系统编程</span>
                   </a>
                 </span>
 
@@ -352,7 +352,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,709
+                  1,577
                 </span>
               
 
@@ -389,129 +389,79 @@
       
 
       
-        <h2 id="问题1：写一个不能被继承的类，并且可以正常使用"><a href="#问题1：写一个不能被继承的类，并且可以正常使用" class="headerlink" title="问题1：写一个不能被继承的类，并且可以正常使用"></a>问题1：写一个不能被继承的类，并且可以正常使用</h2><p>首先一个类不能被继承，则意味着继承这个类的类并没有办法正常工作，比如无法创建对象。所以根据我们对继承的了解，在构造子类对象时先调用基类的构造函数构造子类中基类的部分，所以我们可以在 这里讲父类的构造函数和析构函数设置为私有 ，这样的话，子类就无法正常的创建对象，也就实现了我们的题目所描述的问题了。代码如下：<br><a id="more"></a></p>
-<pre><code>class Base//基类
-{
-private:
-Base()
-{};
-~Base(){};
-};
- Dervice :public Base//派生类
-{};
-</code></pre><p>上面的这个例子中类Base就不能被继承。<br>这样写虽然实现了问题的描述，不过也显得太挫了吧，因为虽然不能被继承，但是同时类Base也无法使用呀，因为其私有的构造函数和析构函数，我们没有办法在类外创建对象。这个时候你可能就会又有一个点子了，在类Base中使用static函数创建一个对象给外界使用不就好了嘛，因为static函数的调用不需要创建对象就可以调用，这样就可以在外界使用类Base了，这确实是个不错的注意。我们来看代码</p>
-<pre><code>  class Base
-{
-private:
-Base()
-{};
-~Base(){};
-public:
-static Base* getobj()//生产对象
-{
-    Base  *p = new Base;
-    return p;
-}
-static void delobj(Base *p)//再把对象送进来销毁
-{
-    delete p;
-    p = NULL;
-}
-};
-class Dervice :public Base
-{};
-</code></pre><p>  这样的话，我们通过对static函数调用（Base s=Base::getobj()）从而实现对类Base的调用，并且如果需要参数的话还可以通过函数将参数传进去。但是这样的话貌似只能在堆上创建对象，而不能在栈上创建对象。可能有人会说你把new 改成 Base s,然后return s不就行了，呵呵。。你可别忘了，Base的析构函数也是私有的，所以在函数退出的地方没法调用私有函数。所以行不通。所以还是不够完美。那么我们接下来该如何优化呢？<br>先给出代码</p>
-<pre><code>class Parent
-{
-private:
-~Parent(){};
-Parent(){};
-friend class Base;
-};
-class Base : virtual public Parent
-{
-public:
-Base(){};
-~Base(){};
-};
-class Dervice :public Base
-{
-public:
-Dervice(){};
-~Dervice(){};
-};
-</code></pre><p>我们给通过这种形式就可以使Base可以正常的使用，并且他不能被继承。注意Base一定是虚继承Parent,因为只有根据虚继承的特性，当子类继承了Base以后，创建对象的时候直接去调用Parent的构造对象，从而无法成功。才使Base不能被继承。如果不使用虚继承的话，就会通Base的构造函数去调用，Parent的构造函数，这样是可以的，所以Base就能被继承了在这里需要注意一下！</p>
-<h2 id="问题2：解释一下多态，并且一个多态的例子；说明一个类的默认函数有哪些。"><a href="#问题2：解释一下多态，并且一个多态的例子；说明一个类的默认函数有哪些。" class="headerlink" title="问题2：解释一下多态，并且一个多态的例子；说明一个类的默认函数有哪些。"></a>问题2：解释一下多态，并且一个多态的例子；说明一个类的默认函数有哪些。</h2><p>1.多态：通俗的说就是同样的调用语句有不同的表现形式。根据实际的对象类型从而决定调用语句的具体的调用目标。C++中对于多态的支持是通过virtual关键字，即使用virtual声明的函数被重写后可以实现多态性。多态只能发生在父类和子类之间。<br>想实现多态有三个固定的条件缺一不可：</p>
-<p>①：要有继承，即父类子类这种形式</p>
-<p>②要有虚函数的重写</p>
-<p>③需要父类的指针或者引用</p>
-<p>说道多态其实又能牵扯到静态联编和动态联编</p>
-<p>联编：就是指一个程序模块代码之间相互关联的一个过程</p>
-<p>静态联编：静态联编是指联编工作在编译阶段完成的，这种联编过程是在程序运行之前完成的，又称为早期联编。要实现静态联编，在编译阶段就必须确定程序中的操作调用（如函数调用）与执行该操作代码间的关系，确定这种关系称为束定，在编译时的束定称为静态束定。静态联编对函数的选择是基于指向对象的指针或者引用的类型。其优点是效率高，但灵活性差。（比如重载函数使用静态联编）</p>
-<p>动态联编：程序联编推迟到运行时刻进行，所以又成为晚期联编，迟邦定，比如switch和if语句。</p>
-<p>不写virtual关键字，编译器实行的是静态联编，不管因为是父类类型所以不管参数类型是什么在编译阶段就确定执行父类的函数了，而动态联编就是在运行时根据不同对象决定调用哪个函数！</p>
-<p>至于多态的实现原理呢？</p>
-<p>1.当类中声明虚函数时，编译器会在类中生成一个虚函数表</p>
-<p>2.虚函数表是一个存储类成员函数指针的数据结构</p>
-<p>3.虚函数表是由编译器自动生成与维护的</p>
-<p>4.virtual成员函数会被编译器放入虚函数表中</p>
-<p>5.当存在虚函数时，每个对象中都有一个指向虚函数的指针（C++编译器给父类对象，子类对象提前布局vptr指针），当进行test(parent *base)函数的时候，C++编译器不需要区分子类或者父类对象，只需要再base指针中，找到vptr指针即可）</p>
-<p>6.vptr一般作为类对象的第一个成员。</p>
-<p>2.类的默认成员函数有：这个是我CSDN博客的详解<br><a href="http://blog.csdn.net/it_iverson/article/details/78511564" title="http://blog.csdn.net/it_iverson/article/details/78511564" target="_blank" rel="noopener">http://blog.csdn.net/it_iverson/article/details/78511564</a></p>
-<h2 id="问题3：一个指针指向的内容经常变化，如何防止编译器去优化它"><a href="#问题3：一个指针指向的内容经常变化，如何防止编译器去优化它" class="headerlink" title="问题3：一个指针指向的内容经常变化，如何防止编译器去优化它"></a>问题3：一个指针指向的内容经常变化，如何防止编译器去优化它</h2><p>答：这里考察的是volatitle<br><a href="http://blog.csdn.net/turkeyzhou/article/details/8953911" title="http://blog.csdn.net/turkeyzhou/article/details/8953911" target="_blank" rel="noopener">http://blog.csdn.net/turkeyzhou/article/details/8953911</a></p>
-<h2 id="问题4：写一个字符串转浮点型"><a href="#问题4：写一个字符串转浮点型" class="headerlink" title="问题4：写一个字符串转浮点型"></a>问题4：写一个字符串转浮点型</h2><p>在这个里考察的是atof的模拟实现<br>首先对于算法中强调几点：</p>
-<p>1.字符数字-‘\0’=数字本身，举个例子‘1’的ascii的值为48,‘\0’的ascii值为47,则48-47=1;</p>
-<p>2.对于字符串需要判断是否有+-号</p>
-<p>3.需要判断字符串是否有小数点</p>
-<p>4.判断空格，是否属于0-9等等一些情况</p>
-<pre><code>double my_atof(char *ptr)
-{
-int count=0;
-double sum = 0.0;
-int flag = 0;//标志位判断是否有+-号,0负数，1正数
-while (*ptr)
-{
-    if (count)
-        count *= 10;
-    if (*ptr == &apos;+&apos;)
-    {
-        ptr++;
-        flag = 1;
-    }
-    else if (*ptr == &apos;-&apos;)
-        ptr++;
-    else if (*ptr == &apos;.&apos;)
-    {
-        ptr++;
-        count++;
-    }
-    else if (*ptr&gt;&apos;0&apos;&amp;&amp;*ptr&lt;&apos;9&apos;)
-    {
-        sum = sum*10 + (*ptr - &apos;0&apos;);
-        ptr++;
-    }
-    else if (*ptr == &apos; &apos;)
-    {
-        ptr++;
-    }
-    else
-        return 0;
-}
-sum = sum / count;
-if (flag == 0)
-    return sum*(-1);
-else
-    return sum;
-}
-</code></pre><h2 id="问题5：写一个strcpy函数"><a href="#问题5：写一个strcpy函数" class="headerlink" title="问题5：写一个strcpy函数"></a>问题5：写一个strcpy函数</h2><pre><code>char* my_strcpy(char *str, char *dest)
-{
-assert(str);
-assert(dest);
-char *src = str;
-while (*str++ = *dest++)
-    ;
-return src;
-}
+        <p>此篇博客主要介绍一下关于线程的概念及线程控制原语。</p>
+<p>首先在Linux下并不存在真正意义上的线程，他是由进程模拟出来的。所以可以说线程是轻量级的进程，其本质也是进程。进程和线程的区别是进程有自己独立的地址空间（整租）而线程没有自己独立的地址空间（合租），从内核中看线程和进程是一样都有PCB，只不过PCB中指向资源的三级页表是相同的，创建线程和进程底层使用的函数都是clone，进程可以蜕变成线程，在Linux下，线程是最小的调度单位，CPU是最小的资源分配的单位，可以将进程看成只有一个线程的进程。</p>
+<p>线程之间共享的资源：</p>
+<p>1.文件描述符表</p>
+<p>2.每种信号的处理方式</p>
+<p>3.当前工作目录</p>
+<p>4.用户ID和组ID</p>
+<p>5.内存地址空间 (.text/.data/.bss/heap/共享库)</p>
+<p>线程非共享资源：</p>
+<p>1.线程id</p>
+<p>2.处理器现场和栈指针(内核栈)</p>
+<p>3.独立的栈空间(用户空间栈)</p>
+<p>4.errno变量</p>
+<p>5.信号屏蔽字</p>
+<p>6.调度优先级</p>
+<p>线程的优缺点：</p>
+<ul>
+<li>优点：1. 提高程序并发性    2. 开销小    3. 数据通信、共享数据方便</li>
+<li>缺点 ：1. 使用的是库函数，不稳定    2. 调试、编写困难、gdb不支持    3. 对信号支持不好<br>优点相对突出，缺点均不是硬伤。Linux下由于实现方法导致进程、线程差别不是很大。</li>
+</ul>
+<p>下面来看一下关于线程中的控制原语</p>
+<h4 id="1-创建一个线程"><a href="#1-创建一个线程" class="headerlink" title="1.创建一个线程"></a>1.创建一个线程</h4><pre><code> #include &lt;pthread.h&gt;
+
+int pthread_create(pthread_t *thread, const pthread_attr_t *attr,
+                   void *(*start_routine) (void *), void *arg);
+</code></pre><p>参数：</p>
+<p>1.pthread:是线程的ID，是线程库管理分配的用来操作使用线程.穿入传出参数</p>
+<p>2.attr:表示所使用的线程属性，是一个结构体类型，里面包含了一些所创建的线程的属性值得设置，一般使用NULL，表示使用线程的默认属性</p>
+<p>3.start_routine：表示我们所要创建的线程的函数，其类型是返回值void<em>，参数也是void</em>，</p>
+<p>4.arg:表示给我们所创建的线程传的参数</p>
+<p>注意：</p>
+<p>1.当pthread_create成功返回的时候，新创建的线程ID会被设置为pthread指向的内存单元,新创建的线程从start_routine函数的地址开始运行，如果需要向函数传递多个参数的话，需要将这个参数放到一个结构体中，然后将结构体的地址 作为atg参数传递过去</p>
+<p>2.在创建新线程的时候让主线程sleep(1)秒，不然的话新创建的线程还来不及执行，主线程已经返回退出了</p>
+<hr>
+<h4 id="2-获取线程的ID"><a href="#2-获取线程的ID" class="headerlink" title="2.获取线程的ID"></a>2.获取线程的ID</h4><pre><code>  #include &lt;pthread.h&gt;
+
+pthread_t pthread_self(void);
+</code></pre><p>此函数返回我们所创建的线程的ID，其实可以理解为线程在一个地址空间中的标识，用来方便我们使用这个线程，其类型是长整型，记得打印的时候使用lu。</p>
+<hr>
+<h4 id="3-线程的退出函数"><a href="#3-线程的退出函数" class="headerlink" title="3.线程的退出函数"></a>3.线程的退出函数</h4><pre><code>#include &lt;pthread.h&gt;
+
+  void pthread_exit(void *retval);
+</code></pre><p>参数：retval表示线程的退出状态，通常情况下传NULL。</p>
+<p>注意：如果进程中的任意线程调用了exit,_Exit或者_exit，那么整个进程就会终止，与此类似的是如果某个线程收到了一个终止进程的信号，那么这个进程也会终止。</p>
+<p>单线程的退出方式有三种</p>
+<p>1.单线程可以从简单的启动例程返回。，返回值是线程的退出码。（return,不适用main函数 ）</p>
+<p>2.其可以被同一进程中其他的线程取消(pthread_cancel)</p>
+<p>3.线程调用上述 函数pthread_exit退出。</p>
+<p>当某个线程调用了pthread_exit函数以后，则其他的线程可以调用如下的函数来获取线程的退出状态，调用这个函数的线程会阻塞，直到获取的线程调用pthread_exit或者从启动例程返回或者线程被取消</p>
+<pre><code> #include &lt;pthread.h&gt;
+
+int pthread_join(pthread_t thread, void **retval);
+</code></pre><p>参数</p>
+<p>1.要获取的线程的ID</p>
+<p>2.</p>
+<p>如果线程从例程返回(return)，则retval指向的内存单元中的值是return的返回值</p>
+<p>如果线程被pthread_cancel掉，那么retval指向的内存单元中的值是PTHREAD_CANCELED</p>
+<p>如果线程是pthread_exit，则retval指向的内存单元中的值是pthread_exit的参数</p>
+<p>如果对其退出值不感兴趣，则将retval设置为null。</p>
+<p>上面既然讲了pthread_cancel强迫线程退出，那么下面就来说一下这个函数</p>
+<pre><code>  #include &lt;pthread.h&gt;
+
+int pthread_cancel(pthread_t thread);
+</code></pre><p>一个线程调用这个函数可以请求取消同一进程中的其他线程。</p>
+<p>注意：一个线程被其他线程调用pthread_cancel取消的话，有一定的延迟性，即被取消的线程需要等线程达到某个取消点或者检查点才能被杀死。这些检查点通常是一些系统调用。如果线程没有取消点，那么我们可以自己来设置这个取消点，使用pthreestcancel函数，对于一个被取消的线程，使用pthread_join回收的时候,返回值是-1（PTHREAD_CANCELED的宏定义）。</p>
+<hr>
+<h4 id="3-线程分离"><a href="#3-线程分离" class="headerlink" title="3.线程分离"></a>3.线程分离</h4><p>线程分离：指的是线程和当前的主控线程等线程脱离关系（状态上分开），线程结束后其退出状态不由其他的线程获取，而直接自己释放。一般情况下，线程终止后，其终止状态一直保留到其它线程调用pthread_join获取它的状态为止。但是线程也可以被置为detach状态，这样的线程一旦终止就立刻回收它占用的所有资源，而不保留终止状态。不能对一个已经处于detach状态的线程调用pthread_join，这样的调用将返回EINVAL错误。也就是说，如果已经对一个线程调用了pthread_detach就不能再调用pthread_join了。在设置线程分离的时候可以使用如下函数</p>
+<pre><code>#include &lt;pthread.h&gt;
+
+   int pthread_detach(pthread_t thread);
+</code></pre><h4 id="4-比较两个线程ID是否相等"><a href="#4-比较两个线程ID是否相等" class="headerlink" title="4.比较两个线程ID是否相等"></a>4.比较两个线程ID是否相等</h4><pre><code>  #include &lt;pthread.h&gt;
+
+int pthread_equal(pthread_t t1, pthread_t t2);
 </code></pre>
       
     </div>
@@ -558,7 +508,7 @@ return src;
       
         <div class="post-tags">
           
-            <a href="/tags/面试题/" rel="tag"><i class="fa fa-tag"></i> 面试题</a>
+            <a href="/tags/线程/" rel="tag"><i class="fa fa-tag"></i> 线程</a>
           
         </div>
       
@@ -571,8 +521,8 @@ return src;
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/26/深度探索c++对象模型-第四章Function语意学/" rel="next" title="深度探索c++对象模型-第四章Function语意学">
-                <i class="fa fa-chevron-left"></i> 深度探索c++对象模型-第四章Function语意学
+              <a href="/2018/03/29/UDP概述/" rel="next" title="UDP概述">
+                <i class="fa fa-chevron-left"></i> UDP概述
               </a>
             
           </div>
@@ -580,10 +530,6 @@ return src;
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/01/每日五题/" rel="prev" title="每日五题02">
-                每日五题02 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -781,7 +727,7 @@ return src;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题1：写一个不能被继承的类，并且可以正常使用"><span class="nav-number">1.</span> <span class="nav-text">问题1：写一个不能被继承的类，并且可以正常使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题2：解释一下多态，并且一个多态的例子；说明一个类的默认函数有哪些。"><span class="nav-number">2.</span> <span class="nav-text">问题2：解释一下多态，并且一个多态的例子；说明一个类的默认函数有哪些。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题3：一个指针指向的内容经常变化，如何防止编译器去优化它"><span class="nav-number">3.</span> <span class="nav-text">问题3：一个指针指向的内容经常变化，如何防止编译器去优化它</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题4：写一个字符串转浮点型"><span class="nav-number">4.</span> <span class="nav-text">问题4：写一个字符串转浮点型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题5：写一个strcpy函数"><span class="nav-number">5.</span> <span class="nav-text">问题5：写一个strcpy函数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-创建一个线程"><span class="nav-number">1.</span> <span class="nav-text">1.创建一个线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-获取线程的ID"><span class="nav-number">2.</span> <span class="nav-text">2.获取线程的ID</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-线程的退出函数"><span class="nav-number">3.</span> <span class="nav-text">3.线程的退出函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-线程分离"><span class="nav-number">4.</span> <span class="nav-text">3.线程分离</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-比较两个线程ID是否相等"><span class="nav-number">5.</span> <span class="nav-text">4.比较两个线程ID是否相等</span></a></li></ol></div>
             
 
           </div>
