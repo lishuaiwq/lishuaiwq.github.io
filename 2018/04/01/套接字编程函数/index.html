@@ -88,7 +88,7 @@
 <meta property="og:description" content="此篇博客的主要内容对如下函数进行详细的介绍 1.int socket(int domain, int type, int protocol); 2.int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen); 3.int listen(int sockfd, int backlog); 4.int accept(int">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.imgur.com/EzLJJOu.jpg">
-<meta property="og:updated_time" content="2018-04-07T08:53:39.086Z">
+<meta property="og:updated_time" content="2018-04-07T09:05:29.236Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="套接字编程函数">
 <meta name="twitter:description" content="此篇博客的主要内容对如下函数进行详细的介绍 1.int socket(int domain, int type, int protocol); 2.int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen); 3.int listen(int sockfd, int backlog); 4.int accept(int">
@@ -354,7 +354,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,867
+                  2,852
                 </span>
               
 
@@ -439,8 +439,8 @@ int bind(int sockfd, const struct sockaddr *addr,socklen_t addrlen);
 <p>2.addr:指向特定的协议的地址结构的指针.</p>
 <p>3.addrlen:是这个结构体的长度</p>
 <p>重点强调：</p>
-<p>1.服务器在一般使用bind比较多，服务器会绑定一个众所周知的的端口号。如果TCP客户端或者服务器端忘记使用bind函数，那么当调用connect或者listen函数的时候，内核就会为相应的套接字选择一个临时的端口。但是服务器很少这么干</p>
-<p>2.进程也可以通过Bind将特定的IP捆绑到创建的套接字上面去。不过这个IP地址必须属于其注意所在的网络接口之一。对于客户端来讲，绑定的这个IP就意味着为发送的IP数据报指定了源IP地址，对于服务器来说，相当于只接受目的IP为绑定的IP的数据。如果TCP的客户没有绑定IP地址的话那么，那么当发起连接的时候，内核会根据外出网络的接口来选择合适的源IP地址，而这个外出网络的接口取决于所到达的服务器的路径。如果TCP的服务器端没有绑定IP地址的话，内核就把客户端发送的SYN的目的IP地址作为服务器的 源IP地址。（个人觉得服务器不绑定IP地址并且客户端能够把自己发送SYN的目的地址作为服务器的IP地址的情况是客户端和服务器端都使用系统指定的默认IP，不然的话指定无法通信的.）</p>
+<p>1.服务器在一般使用bind比较多，服务器会绑定一个众所周知的的端口号。如果TCP客户端，那么当调用connect的时候，内核就会为相应的套接字选择一个临时的端口。但是服务器一定要使用bind.</p>
+<p>2.进程也可以通过Bind将特定的IP捆绑到创建的套接字上面去。不过这个IP地址必须属于其注意所在的网络接口之一。对于客户端来讲，绑定的这个IP就意味着为发送的IP数据报指定了源IP地址，对于服务器来说，相当于只接受目的IP为绑定的IP的数据。如果TCP的客户没有绑定IP地址的话那么，那么当发起连接的时候，内核会根据外出网络的接口来选择合适的源IP地址，而这个外出网络的接口取决于所到达的服务器的路径。如果TCP的服务器端没有绑定IP地址的话，内核就把客户端发送的SYN的目的IP地址作为服务器的 源IP地址。（个人觉得服务器不指定IP地址并且客户端能够把自己发送SYN的目的地址作为服务器的IP地址的情况是客户端和服务器端都使用系统指定的默认IP，不然的话指定无法通信的.）</p>
 <p>3.如果指定端口号为0，那么内核就会在bind被调用的时候选择一个临时的端口，如果指定IP地址为通配地址（由INADDR_ANY来指定，一般其值为0），那么等到内核的套接字已经连接或者已经在套接字上发送一个数据的时候才选择一个本地的IP.</p>
 <p>从bind函数返回的一个常见的错误是EADDRINUSE（地址已使用）</p>
 <hr>
