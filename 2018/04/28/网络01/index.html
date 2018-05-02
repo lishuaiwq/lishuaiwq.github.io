@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="static," />
+  <meta name="keywords" content="网络," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="static关键字是c和c++中都有的，只不过在c语言中它修饰局部变量，全局变量，和函数,在C++中它除了上述的功能外还可以修饰成员变量和成员函数。">
-<meta name="keywords" content="static">
+<meta name="description" content="问题1：TCP为什么需要三次握手四次断开？答：1.需要三次握手是为了：防止已经失效连接请求得报文段突然又传送到了服务器端，因为产生错误。这里所产生的的错误会导致服务器端陷入等待，虽然有保活计时器，但是也会浪费资源呀（这种错误是两次握手导致的结果）。">
+<meta name="keywords" content="网络">
 <meta property="og:type" content="article">
-<meta property="og:title" content="static详解">
-<meta property="og:url" content="http://yoursite.com/2018/02/25/static详详解/index.html">
+<meta property="og:title" content="网络01">
+<meta property="og:url" content="http://yoursite.com/2018/04/28/网络01/index.html">
 <meta property="og:site_name" content="Lishuai&#39;s博客">
-<meta property="og:description" content="static关键字是c和c++中都有的，只不过在c语言中它修饰局部变量，全局变量，和函数,在C++中它除了上述的功能外还可以修饰成员变量和成员函数。">
+<meta property="og:description" content="问题1：TCP为什么需要三次握手四次断开？答：1.需要三次握手是为了：防止已经失效连接请求得报文段突然又传送到了服务器端，因为产生错误。这里所产生的的错误会导致服务器端陷入等待，虽然有保活计时器，但是也会浪费资源呀（这种错误是两次握手导致的结果）。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-25T08:14:11.678Z">
+<meta property="og:updated_time" content="2018-05-02T12:47:03.203Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="static详解">
-<meta name="twitter:description" content="static关键字是c和c++中都有的，只不过在c语言中它修饰局部变量，全局变量，和函数,在C++中它除了上述的功能外还可以修饰成员变量和成员函数。">
+<meta name="twitter:title" content="网络01">
+<meta name="twitter:description" content="问题1：TCP为什么需要三次握手四次断开？答：1.需要三次握手是为了：防止已经失效连接请求得报文段突然又传送到了服务器端，因为产生错误。这里所产生的的错误会导致服务器端陷入等待，虽然有保活计时器，但是也会浪费资源呀（这种错误是两次握手导致的结果）。">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/25/static详详解/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/04/28/网络01/"/>
 
 
 
 
 
-  <title>static详解 | Lishuai's博客</title>
+  <title>网络01 | Lishuai's博客</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/25/static详详解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/28/网络01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李帅">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">static详解</h1>
+          <h1 class="post-title" itemprop="name headline">网络01</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-25T13:15:28+08:00">
-                2018-02-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-28T16:55:17+08:00">
+                2018-04-28
               </time>
             
 
@@ -305,8 +305,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/c-c/" itemprop="url" rel="index">
-                    <span itemprop="name">c/c++</span>
+                  <a href="/categories/面试题/" itemprop="url" rel="index">
+                    <span itemprop="name">面试题</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试题/网络/" itemprop="url" rel="index">
+                    <span itemprop="name">网络</span>
                   </a>
                 </span>
 
@@ -341,7 +352,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,264
+                  2,238
                 </span>
               
 
@@ -357,7 +368,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  5
+                  8
                 </span>
               
             </div>
@@ -378,62 +389,34 @@
       
 
       
-        <p>static关键字是c和c++中都有的，只不过在c语言中它修饰局部变量，全局变量，和函数,在C++中它除了上述的功能外还可以修饰成员变量和成员函数。<br><a id="more"></a></p>
-<p>作用：</p>
-<p>1.限定作用域</p>
-<p>2.保持变量的内容持久化</p>
-<h2 id="1-C语言中的static"><a href="#1-C语言中的static" class="headerlink" title="1.C语言中的static"></a>1.C语言中的static</h2><h3 id="1-修饰全局变量"><a href="#1-修饰全局变量" class="headerlink" title="1.修饰全局变量"></a>1.修饰全局变量</h3><p>当一个进程的全局变量被static修饰以后，它就可以成为全局静态变量，全局静态变量和其他的全局变量的存储地是一样的，都是在.data段（存放已经初始化了的全局变量）或者.bss段（存放未初始化的全局变量），具体在哪里取决于你有没有初始化这个全局变量。在这里static的作用就是限定作用域了，即被修饰的全局变量只能在定义它的源文件内有效，其他源文件无法访问。</p>
-<p>举例如下：</p>
-<p>.h文件</p>
-<pre><code>#include&lt;stdio.h&gt;
-extern int a;//声明全局变量
-void fun();//声明函数
-</code></pre><p>b.c文件</p>
-<pre><code>b.c文件
-#include&quot;head.h&quot;
-static int a = 10;//静态全局变量，放在了.data段
-void fun()
-{
-printf(&quot;%d\n&quot;, a);
-}
-</code></pre><p>a.c文件    </p>
-<pre><code>#include&quot;head.h&quot;
-int main()
-{
-printf(&quot;%d&quot;, a);
-return 0;
-}
-</code></pre><p>在上述例子中，a.c文件无法使用源文件b.c的被static修饰的全局变量，编译会报错！但是如果在a.c中调用fun函数，在这个函数中使用a就可以，因为其作用域就在其定义的源文件，所以被自己的源文件内的函数访问是没有问题的。</p>
-<h3 id="2-修饰局部变量"><a href="#2-修饰局部变量" class="headerlink" title="2.修饰局部变量"></a>2.修饰局部变量</h3><p>被static修饰的局部变量会被放在.data段，注意这里不是在.bss段，所以这个变量的生命周期在整个程序的生命周期中存在，尽管被放在.data段，但是同样它也只能被自己作用域内的函数或者变量所访问，不能被外界访问。同样static在这里的作用相当于改变了局部变量的生命周期。注意这里解释一下为什么放在了.data段，因为如果用户没有初始化的话，编译器会自动给其赋值0，所以放在了.data段。所以以后每次调用这个变量的时候相当于一直读取同一位置的这个变量，在这里注意和局部变量区别开来。<br>就是因为这一特性，内含静态局部变量的函数是不可重入函数。</p>
-<p>b.c文件</p>
-<pre><code>#include&quot;head.h&quot;
-void fun()
-{
-static int a;
-printf(&quot;%d\n&quot;, a++);
-}
-</code></pre><p>a.c文件</p>
-<pre><code>#include&quot;head.h&quot;
- int main()
- {
-fun();
-fun();
-fun();
-getchar();
-return 0;
-} 
-</code></pre><p>这样的输出结果是0 1 2.</p>
-<h3 id="3-修饰函数"><a href="#3-修饰函数" class="headerlink" title="3.修饰函数"></a>3.修饰函数</h3><p>这里static的作用也是限定了函数的作用，使被static修饰的函数不能被其他源文件所调用。这里很简单的就不举例子了。static函数可以很好的解决不同源文件中的函数重名的问题，因为每个函数的名字仅自己可见，肯定不会发生冲突的！</p>
-<h2 id="2-C-中的static"><a href="#2-C-中的static" class="headerlink" title="2.C++中的static"></a>2.C++中的static</h2><p>C++的中的static关键字主要要讲的就是其修饰的成员变量和成员函数。</p>
-<h3 id="1-static修饰成员变量"><a href="#1-static修饰成员变量" class="headerlink" title="1.static修饰成员变量"></a>1.static修饰成员变量</h3><p>当一个类的成员变量被static关键字修饰以后就变成了静态数据成员了，静态数据成员有一下特点：</p>
-<p>1.静态数据成员是类的成员而非对象的成员，它对于所有的对象是共享的，即无论对象被定义了多少个这个静态的成员只有一份，即只分配一次内存，这一样某种程度来说还节省了空间</p>
-<p>2.静态成员存储在全局数据区，静态成员在定义的时候要分配空间，所以不不能再类声明的时候定义，需要在类外使用如下形式定义</p>
-<p>int myclass::a=0;</p>
-<p>3.静态成员同样遵守三个访问限制，同时即使不定义类对象也可以对它进行操作</p>
-<p>4.静态成员的作用就是在多个对象拥有同一个属性的时候，使用它可以方便操作，改变一次就全部改变，使用静态数据成员也不存在和其他全局变量的名字冲突，因为其有访问限制属性所以可以实现信息隐藏。</p>
-<h2 id="2-static修饰成员函数"><a href="#2-static修饰成员函数" class="headerlink" title="2.static修饰成员函数"></a>2.static修饰成员函数</h2><p>1.同样静态成员函数也是被所有对象共享，并且他没有this指针，所以他不能访问成员函数和成员变量只能访问静态成员函数和静态成员变量，但是非静态成员函数可以访问静态成员函数和静态变量</p>
-<p>2.因为没有this指针，其速度相对于成员函数来说会快一些</p>
-<p>3.调用静态成员函数的方式和调用静音胎成员的方式差不多，可以使用.，-&gt;和::</p>
+        <h2 id="问题1：TCP为什么需要三次握手四次断开？"><a href="#问题1：TCP为什么需要三次握手四次断开？" class="headerlink" title="问题1：TCP为什么需要三次握手四次断开？"></a>问题1：TCP为什么需要三次握手四次断开？</h2><p>答：1.需要三次握手是为了：防止已经失效连接请求得报文段突然又传送到了服务器端，因为产生错误。<br>这里所产生的的错误会导致服务器端陷入等待，虽然有保活计时器，但是也会浪费资源呀（这种错误是两次握手导致的结果）。<br><a id="more"></a><br>下面详细解释一下为什么会产生这种错误：如果是两次握手的话那么相当于客户端发送SYN给服务器，然后服务器回送SYN+ACK以后服务器就会以为自己和客户端建立了连接，所以问题就来了，如果客户端第一次的SYN请求报文阻塞了，那么根据超时重传机制，那么会发送第二个SYN，第二次成功建立并且顺利完成数据交付并结束连接，这个时候第一个阻塞的报文到达了服务器端、那么服务器端就认为客户端又要和自己建立连接，这个时候发送SYN+ACK以后，服务器端就认为已经建立了连接，但是客户端并没有发送SYN，所以不会理会服务器端的 ，那么服务器就傻傻的等待客户端发送数据，是不是造成了一种资源的浪费。</p>
+<p>还有比如采用两次连接的话，只要服务器端发送SYN+ACK，服务器端就建立了连接，那么如果服务器的SYN+ACK丢失了，服务器还是建立连接，客户端重发SYN，服务器又建立连接，这样会很浪费资源的。</p>
+<p>如果建立连接换为4次的话，其实是可以的，即将服务器端收到客户端的SYN以后发送SYN+ACK拆成两步，只不过这么做有点多余。。。</p>
+<p>2.需要四次挥手是因为：TCP是一个全双工的通信协议，即允许允许同时通信的双方同时进行数据的收发，同样也允许收发两个方向的连接被独立关闭，以避免client数据发送完毕，向server发送FIN关闭连接，而server还有发送到client的数据没有发送完毕的情况。也就是因为其有个半关闭的状态！</p>
+<h2 id="问题2：TCP和UDP有什么区别？"><a href="#问题2：TCP和UDP有什么区别？" class="headerlink" title="问题2：TCP和UDP有什么区别？"></a>问题2：TCP和UDP有什么区别？</h2><p>答：对于这个问题可以从三个方面来回答，1.最基本的一些区别，2.应用场景的区别，3.socket编程上面的区别。下面我来一个一个阐述</p>
+<p>1.基本的区别：TCP是传输控制协议，提供的是面向连接、可靠的字节流服务。通信双方彼此交换数据前，必须先通过三次握手协议建立连接，之后才能传输数据。TCP提供超时重传，丢弃重复数据，检验数据，流量控制等功能，保证数据能从一端传到另一端。UDP是用户数据报协议，是一个简单的面向无连接的协议。UDP不提供复杂的控制机制，利用IP提供面向无连接的通信服务。并且它是将应用程序发来的数据在收到的那一刻，立刻按照原样发送到网络上的一种机制。即使是出现网络拥堵的情况下，UDP也无法进行流量控制等避免网络拥塞的行为。此外，传输途中如果出现了丢包，UDP也不负责重发。甚至当出现包的到达顺序乱掉时也没有纠正的功能。如果需要这些细节控制，那么不得不交给由采用UDP的应用程序去处理。换句话说，UDP将部分控制转移到应用程序去处理，自己却只提供作为传输层协议的最基本功能。UDP有点类似于用户说什么听什么的机制，但是需要用户充分考虑好上层协议类型并制作相应的应用程序UDP不提供可靠的服务。在数据数据前不用建立连接故而传输速度很快。所以TCP报文设计要比UDP复杂的多。<br><a href="http://lishuaii.top/2018/03/29/UDP%E6%A6%82%E8%BF%B0/" target="_blank" rel="noopener">http://lishuaii.top/2018/03/29/UDP%E6%A6%82%E8%BF%B0/</a></p>
+<p>这里给出UDP的介绍<br>2.应用场景：1.面向数据报方式，网络数据大多为短消息，拥有大量Client，对数据安全性无特殊要求<br> ，网络负担非常重，但对响应速度要求高。比如即时通讯，视频通讯，这种情况使用UDP。反之使用TCP</p>
+<p>下面给出常见应用使用的协议和端口号</p>
+<p>http:TCP,80;</p>
+<p>https:TCP:443;</p>
+<p>ftp:TCP:21;</p>
+<p>smtp:TCP:25</p>
+<p>sql:TCP:1433</p>
+<p>dns:TCP:53</p>
+<p>3.编程方面的区别：</p>
+<p>UDP在创建套接字使用的是SOCK_DGRAM而TCP使用的是SOCK_STREAM，UDP不使用Listen和accept、connect这三个函数，而TCP必须使用，UDP发送和接收消息需要sendto/recvfrom，而TCP可以使用send()和recv()，或者read()和write()，正是因为DUP没有三次握手的这个过程，所以看起来会比TCP编程简单很多。</p>
+<h2 id="问题3：交换机和路由器的区别"><a href="#问题3：交换机和路由器的区别" class="headerlink" title="问题3：交换机和路由器的区别"></a>问题3：交换机和路由器的区别</h2><p>1.工作的层次不同</p>
+<p>最初的交换机是工作在链路层的（第二层），而路由器的在网络层。</p>
+<p>2.数据转发依据的对象不同</p>
+<p>交换机是利用物理地址或者可以说是MAC地址来确定转发的数据的目的地址。而路由器是根据不同的网络号即IP地址来确定数据转发的地址。IP是在软件中实现的，描述的是设备所在的网络，而MAC地址是硬件自带的，由网卡生产商类分配，而且已经固化到了网卡中去，一般来说是不可更改的，而IP地址通常由网络管理员或者系统系统分配。</p>
+<p>3.交换机只能分割冲突不能分割广播，因为交换机所连的还是同一个局域网，即同一个广播域，而路由器可以分割广播，因为其可以连接不同的网段，即广播可以穿透路由器不能穿透广播。</p>
+<h2 id="问题4：TCP的流量控制"><a href="#问题4：TCP的流量控制" class="headerlink" title="问题4：TCP的流量控制"></a>问题4：TCP的流量控制</h2><p>所谓流量控制就是让发送方的发送速率不要太快，要让接收方来得及接收。利用滑动窗口实现流量控制，如果发送方把数据发送得过快，接收方可能会来不及接收，这就会造成数据的丢失。</p>
+<p>在这里要强调一点：坚持计时器</p>
+<p>目的：主要解决零窗口大小通知可能导致的死锁问题</p>
+<p>死锁问题的产生：当接收端的窗口大小为0时，接收端向发送端发送一个零窗口报文段，发送端即停止向对端发送数据。此后，如果接收端缓存区有空间则会重新给发送端发送一个窗口大小，即窗口更新。但接收端发送的这个确认报文段有可能会丢失，而此时接收端不知道已经丢失并认为自己已经发送成功，则一直处于等待数据的状态；而发送端由于没有收到该确认报文段，就会一直等待对方发来新的窗口大小，这样一来，双方都处在等待对方的状态，这样就形成了一种死锁问题。如果没有应对措施，这种局面是不会被打破的。为了解决这种问题，TCP为每一个连接设置了坚持计时器。</p>
+<p>工作原理：当发送端TCP收到接收端发来的零窗口通知时，就会启动坚持计时器。当计时器的期限到达时，发送端就会主动发送一个特殊的报文段告诉对方确认已经丢失，必须重新发送。【这个特殊的报文段就称为探测报文段，探测报文段只有1个字节的大小，里边只有一个序号，该序号不需要被确认，甚至在计算其他部分数据的确认时该序号会被忽略。</p>
+<p>截止期的设置：设置为重传时间的值。但如果没有收到接收端的响应，则会发送另一个探测报文段，并将计时器的值加倍并复位，直到大于门限值（一般为60秒）。在此之后，发送端会每隔60秒发送一个探测报文段，直到窗口重新打开。（注意TCP的四个计时器）</p>
+<h2 id="问题5：TCP的拥塞控制"><a href="#问题5：TCP的拥塞控制" class="headerlink" title="问题5：TCP的拥塞控制"></a>问题5：TCP的拥塞控制</h2><p><a href="http://lishuaii.top/2018/04/02/TCP%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%9E%E7%8E%B0/" target="_blank" rel="noopener">http://lishuaii.top/2018/04/02/TCP%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%9E%E7%8E%B0/</a><br>链接中有详解！</p>
 
       
     </div>
@@ -480,7 +463,7 @@ return 0;
       
         <div class="post-tags">
           
-            <a href="/tags/static/" rel="tag"><i class="fa fa-tag"></i> static</a>
+            <a href="/tags/网络/" rel="tag"><i class="fa fa-tag"></i> 网络</a>
           
         </div>
       
@@ -493,8 +476,8 @@ return 0;
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/24/堆随笔/" rel="next" title="堆随笔">
-                <i class="fa fa-chevron-left"></i> 堆随笔
+              <a href="/2018/04/02/TCP可靠传输的实现/" rel="next" title="TCP可靠传输的实现">
+                <i class="fa fa-chevron-left"></i> TCP可靠传输的实现
               </a>
             
           </div>
@@ -502,10 +485,6 @@ return 0;
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/02/25/链表随笔/" rel="prev" title="链表随笔">
-                链表随笔 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -703,7 +682,7 @@ return 0;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-C语言中的static"><span class="nav-number">1.</span> <span class="nav-text">1.C语言中的static</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-修饰全局变量"><span class="nav-number">1.1.</span> <span class="nav-text">1.修饰全局变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-修饰局部变量"><span class="nav-number">1.2.</span> <span class="nav-text">2.修饰局部变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-修饰函数"><span class="nav-number">1.3.</span> <span class="nav-text">3.修饰函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-C-中的static"><span class="nav-number">2.</span> <span class="nav-text">2.C++中的static</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-static修饰成员变量"><span class="nav-number">2.1.</span> <span class="nav-text">1.static修饰成员变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-static修饰成员函数"><span class="nav-number">3.</span> <span class="nav-text">2.static修饰成员函数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题1：TCP为什么需要三次握手四次断开？"><span class="nav-number">1.</span> <span class="nav-text">问题1：TCP为什么需要三次握手四次断开？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题2：TCP和UDP有什么区别？"><span class="nav-number">2.</span> <span class="nav-text">问题2：TCP和UDP有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题3：交换机和路由器的区别"><span class="nav-number">3.</span> <span class="nav-text">问题3：交换机和路由器的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题4：TCP的流量控制"><span class="nav-number">4.</span> <span class="nav-text">问题4：TCP的流量控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题5：TCP的拥塞控制"><span class="nav-number">5.</span> <span class="nav-text">问题5：TCP的拥塞控制</span></a></li></ol></div>
             
 
           </div>
