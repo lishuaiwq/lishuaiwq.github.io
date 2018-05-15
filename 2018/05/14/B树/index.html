@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="UDP," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,22 +79,17 @@
 
 
 
-<meta name="description" content="此篇博客主要介绍传输层的主要协议之一：用户数据协议报UDP协议（无连接协议），在只是实现传输层最基本的功能，复用和分用还有差错检验的功能。">
-<meta name="keywords" content="UDP">
+<meta name="description" content="B树的基本概念 B树是R.Bayer和E.mccreight提出的一种适合外查找的树（在磁盘上查找），他是一种平衡的多叉树，成为B树（有些地方写的是B-树，注意不要读成了”B减树”）  一个B数应该满足下列的性质 根节点至少有两个孩子，[2,M]个孩子 每个非根节点有[M/2,M]个孩子 每个非根节点有[M/2-1,M-1]个关键字，并且以升序排列 每个结点孩子的数量比关键字的数量多一个 key[">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UDP概述">
-<meta property="og:url" content="http://yoursite.com/2018/03/29/UDP概述/index.html">
+<meta property="og:title" content="B树">
+<meta property="og:url" content="http://yoursite.com/2018/05/14/B树/index.html">
 <meta property="og:site_name" content="Lishuai&#39;s博客">
-<meta property="og:description" content="此篇博客主要介绍传输层的主要协议之一：用户数据协议报UDP协议（无连接协议），在只是实现传输层最基本的功能，复用和分用还有差错检验的功能。">
+<meta property="og:description" content="B树的基本概念 B树是R.Bayer和E.mccreight提出的一种适合外查找的树（在磁盘上查找），他是一种平衡的多叉树，成为B树（有些地方写的是B-树，注意不要读成了”B减树”）  一个B数应该满足下列的性质 根节点至少有两个孩子，[2,M]个孩子 每个非根节点有[M/2,M]个孩子 每个非根节点有[M/2-1,M-1]个关键字，并且以升序排列 每个结点孩子的数量比关键字的数量多一个 key[">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.imgur.com/kOq87Qx.jpg">
-<meta property="og:image" content="https://i.imgur.com/JgRAeAe.jpg">
-<meta property="og:image" content="https://i.imgur.com/zy313RO.jpg">
-<meta property="og:updated_time" content="2018-03-29T13:56:04.551Z">
+<meta property="og:updated_time" content="2018-05-15T03:08:46.150Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="UDP概述">
-<meta name="twitter:description" content="此篇博客主要介绍传输层的主要协议之一：用户数据协议报UDP协议（无连接协议），在只是实现传输层最基本的功能，复用和分用还有差错检验的功能。">
-<meta name="twitter:image" content="https://i.imgur.com/kOq87Qx.jpg">
+<meta name="twitter:title" content="B树">
+<meta name="twitter:description" content="B树的基本概念 B树是R.Bayer和E.mccreight提出的一种适合外查找的树（在磁盘上查找），他是一种平衡的多叉树，成为B树（有些地方写的是B-树，注意不要读成了”B减树”）  一个B数应该满足下列的性质 根节点至少有两个孩子，[2,M]个孩子 每个非根节点有[M/2,M]个孩子 每个非根节点有[M/2-1,M-1]个关键字，并且以升序排列 每个结点孩子的数量比关键字的数量多一个 key[">
 
 
 
@@ -124,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/29/UDP概述/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/14/B树/"/>
 
 
 
 
 
-  <title>UDP概述 | Lishuai's博客</title>
+  <title>B树 | Lishuai's博客</title>
   
 
 
@@ -257,7 +252,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/29/UDP概述/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/B树/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李帅">
@@ -274,7 +269,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">UDP概述</h1>
+          <h1 class="post-title" itemprop="name headline">B树</h1>
         
 
         <div class="post-meta">
@@ -286,8 +281,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-29T19:46:53+08:00">
-                2018-03-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T11:10:47+08:00">
+                2018-05-14
               </time>
             
 
@@ -309,19 +304,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/网络学习/" itemprop="url" rel="index">
-                    <span itemprop="name">网络学习</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/网络学习/传输层/" itemprop="url" rel="index">
-                    <span itemprop="name">传输层</span>
+                  <a href="/categories/数据结构随笔/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构随笔</span>
                   </a>
                 </span>
 
@@ -356,7 +340,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,131
+                  343
                 </span>
               
 
@@ -372,7 +356,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  1
                 </span>
               
             </div>
@@ -393,32 +377,22 @@
       
 
       
-        <p>此篇博客主要介绍传输层的主要协议之一：用户数据协议报UDP协议（无连接协议），在只是实现传输层最基本的功能，复用和分用还有差错检验的功能。</p>
-<a id="more"></a>
-<p>UDP的特点：</p>
-<p>1.UDP是无连接的：即发送数据之前不需要建立连接，当然发送数据结束的时候有也不需要断开或者释放连接，正因为这样减少了开销和发送数据之前的延迟。</p>
-<p>2.UDP使用尽最大努力交付：即不保证可靠交付，因此主机里面不需要保存大量的维持连接状态的信息表（里面有很多参数）</p>
-<p>3.UDP是面向报文的：即UDP对于从应用层拿到的报文或者从网络层接收到的报文及不拆分，也不合并，只是加头发送，去头向上传递，也就是说UDP一次交付一个完成的报文，所以应用程序必须自己选择合适的报文大小，因为选择的过于小了，到时候传递给IP层后会显得IP层的首部相对较大影响效率，如果选择的报文过大，则在IP层会发生IP切片。</p>
-<p>4.UDP没有拥塞控制：所以当传输网路实现拥塞的时候，传输方的传输速率并不会降低，这对于一些实时的应用是很重要的（比如IP电话，即时视频会议等），其允许在网络拥塞是丢失部分数据，但是不允许有太大的延迟</p>
-<p>5.UDP支持，1对1,1对多，多对1，多对多交互式通信</p>
-<p>6.UDP的头部开销小：相对于TCP的20个字节来说。UDP头部只有八个字节。</p>
-<p>下面给出UDP的协议报文图</p>
-<p><img src="https://i.imgur.com/kOq87Qx.jpg" alt=""></p>
-<p>1.16位源端口号：在需要对方回信时选用，不需要时全为0.</p>
-<p>2.16为目的端口号：在报文交付时必须使用</p>
-<p>3.16位UDP长度：其最小值为8（只有头部）</p>
-<p>4.检验和：检测UDP用户数据报在传输中是否有错，有错则丢弃。</p>
-<p>注意：如果接受方的UDP发现收到的报文目的端口号不正确，即不存在向对应的应用程序，则丢弃该报文，同时由网际控制报文协议ICMP发送“端口不可达”差错报文给发送端。</p>
-<p>注意：虽然在UDP通信时要用到端口号，但是由于UDP的通信是无连接的，因此不需要使用套接字（TCP之间的通信必须使用两个套接字建立连接）。</p>
-<p>最后来说说UDP的差错检验和：</p>
-<p>在计算UDP的差错检验和的时候需要给UDP报文加上一个伪头部，用来更好的验证差错，这个伪头部并不是UDP的头部，它只是为了计算校验和临时得到的，即不向上传送，也不向下传送。下面给出示意图</p>
-<p><img src="https://i.imgur.com/JgRAeAe.jpg" alt=""></p>
-<p>UDP校验和的计算方法和IP的校验和相似，只不过IP的校验和仅仅是检验IP数据报首部的信息，而UDP校验和是检验首部和数据部分一起检验，检验其IP和端口号.</p>
-<p>为什么需要伪头部？<br>伪头部的目的是为了让UDP包接受者确定发送和接受的UDP包是来自正确的源且是发给自己的。</p>
-<p>但是收到的UDP包只有源和目的的UDP端口号，并没有IP地址信息，所以要重新构造个伪头部，加上源IP和目的IP（从IP包中拿来），再计算校验和以确定数据包的正确性。因为传输层和UDP和IP不一定在一个协议栈，IP层携带的数据不一定就要发送给UDP，所以UDP需要 确定就是发送给我的!</p>
-<p>计算举例如下：</p>
-<p>发送方首先把全零放入检验和中，然后将加上伪头部的UDP数据报看成由许多16位串起来的，如果UDP的数据报数据部分不是偶数字节的，则要填入全0字节，但是此字节不发送。然后将这些16位二进制求和，将最后的结果反码写入校验和。在接收端，重新计算校验和，如果没有差错结果为1.（因为只是校验和不同，和其对应的是反码，反码+源码=1）。</p>
-<p><img src="https://i.imgur.com/zy313RO.jpg" alt=""></p>
+        <h2 id="B树的基本概念"><a href="#B树的基本概念" class="headerlink" title="B树的基本概念"></a>B树的基本概念</h2><ul>
+<li>B树是R.Bayer和E.mccreight提出的一种适合外查找的树（在磁盘上查找），他是一种平衡的多叉树，成为B树（有些地方写的是B-树，注意不要读成了”B减树”）</li>
+</ul>
+<h3 id="一个B数应该满足下列的性质"><a href="#一个B数应该满足下列的性质" class="headerlink" title="一个B数应该满足下列的性质"></a>一个B数应该满足下列的性质</h3><ul>
+<li>根节点至少有两个孩子，[2,M]个孩子</li>
+<li>每个非根节点有[M/2,M]个孩子</li>
+<li>每个非根节点有[M/2-1,M-1]个关键字，并且以升序排列</li>
+<li>每个结点孩子的数量比关键字的数量多一个</li>
+<li>key[i]和key[i+1]之间的孩子结点的值介于key[i]、key[i+1]之间</li>
+<li>所有的叶子结点都在同一层</li>
+</ul>
+<h3 id="给出B树的结构框架"><a href="#给出B树的结构框架" class="headerlink" title="给出B树的结构框架"></a>给出B树的结构框架</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">K</span>,<span class="title">class</span> <span class="title">V</span>,<span class="title">size_t</span> <span class="title">M</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">BTreeNode</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	pair&lt;K, V&gt; _kvs[M - <span class="number">1</span>];<span class="comment">//关键字</span></span><br><span class="line">	BTreeNode&lt;K, V, M&gt;* subs[M];<span class="comment">//孩子的指针集</span></span><br><span class="line">	<span class="keyword">size_t</span> _size;<span class="comment">//关键字的数量</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">K</span>,<span class="title">class</span> <span class="title">V</span>,<span class="title">size_t</span> <span class="title">M</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">BTree</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">typedef</span> BTree&lt;K, V, M&gt; Node;</span><br><span class="line">	<span class="keyword">typedef</span> Node* PNode;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	PNode _pRoot;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这只是简单的最基础的框架，后面我们还要在此基础上进行修改！</p>
+</blockquote>
+<h2 id="B树的代码实现"><a href="#B树的代码实现" class="headerlink" title="B树的代码实现"></a>B树的代码实现</h2><h2 id="B树的应用"><a href="#B树的应用" class="headerlink" title="B树的应用"></a>B树的应用</h2><p>B+树是B树的变形，在实际中B+树用的最多，数据库这里剩下的东西需要自己去了解。</p>
 
       
     </div>
@@ -463,12 +437,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/UDP/" rel="tag"><i class="fa fa-tag"></i> UDP</a>
-          
-        </div>
-      
 
       
       
@@ -478,8 +446,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/27/TCP三次握手四次挥手/" rel="next" title="TCP三次握手四次挥手">
-                <i class="fa fa-chevron-left"></i> TCP三次握手四次挥手
+              <a href="/2018/05/14/海量数据面试题/" rel="next" title="海量数据面试题">
+                <i class="fa fa-chevron-left"></i> 海量数据面试题
               </a>
             
           </div>
@@ -487,10 +455,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/30/Linux-线程/" rel="prev" title="Linux_线程">
-                Linux_线程 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -588,8 +552,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -669,6 +642,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#B树的基本概念"><span class="nav-number">1.</span> <span class="nav-text">B树的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一个B数应该满足下列的性质"><span class="nav-number">1.1.</span> <span class="nav-text">一个B数应该满足下列的性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#给出B树的结构框架"><span class="nav-number">1.2.</span> <span class="nav-text">给出B树的结构框架</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B树的代码实现"><span class="nav-number">2.</span> <span class="nav-text">B树的代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B树的应用"><span class="nav-number">3.</span> <span class="nav-text">B树的应用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
