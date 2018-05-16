@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="铺垫 底层  首先set和map的底层都是基于红黑树实现的，只需要将红黑树封装起来就可以了，所以在这里给出我之前博客的红黑树的实现   https://blog.csdn.net/it_iverson/article/details/79299039 迭代器  其实迭代器和智能指针一样，将原类的遍历，++，–等操作用一个类封装起来，然后将其迭代器类型typedef到原类中方便其使用（一般typed">
+<meta property="og:type" content="article">
+<meta property="og:title" content="set和map简单模拟实现">
+<meta property="og:url" content="http://yoursite.com/2018/05/16/set和map简单模拟实现/index.html">
+<meta property="og:site_name" content="Lishuai&#39;s博客">
+<meta property="og:description" content="铺垫 底层  首先set和map的底层都是基于红黑树实现的，只需要将红黑树封装起来就可以了，所以在这里给出我之前博客的红黑树的实现   https://blog.csdn.net/it_iverson/article/details/79299039 迭代器  其实迭代器和智能指针一样，将原类的遍历，++，–等操作用一个类封装起来，然后将其迭代器类型typedef到原类中方便其使用（一般typed">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-16T15:56:34.935Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="set和map简单模拟实现">
+<meta name="twitter:description" content="铺垫 底层  首先set和map的底层都是基于红黑树实现的，只需要将红黑树封装起来就可以了，所以在这里给出我之前博客的红黑树的实现   https://blog.csdn.net/it_iverson/article/details/79299039 迭代器  其实迭代器和智能指针一样，将原类的遍历，++，–等操作用一个类封装起来，然后将其迭代器类型typedef到原类中方便其使用（一般typed">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/16/set和map简单模拟实现/"/>
+
+
+
+
+
+  <title>set和map简单模拟实现 | Lishuai's博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lishuai's博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/16/set和map简单模拟实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李帅">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/timg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lishuai's博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">set和map简单模拟实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-16T09:13:36+08:00">
+                2018-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,719
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  14
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="铺垫"><a href="#铺垫" class="headerlink" title="铺垫"></a>铺垫</h1><hr>
+<h3 id="底层"><a href="#底层" class="headerlink" title="底层"></a>底层</h3><blockquote>
+<blockquote>
+<p>首先set和map的底层都是基于红黑树实现的，只需要将红黑树封装起来就可以了，所以在这里给出我之前博客的红黑树的实现</p>
+</blockquote>
+</blockquote>
+<p><a href="https://blog.csdn.net/it_iverson/article/details/79299039" target="_blank" rel="noopener">https://blog.csdn.net/it_iverson/article/details/79299039</a></p>
+<h3 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h3><blockquote>
+<blockquote>
+<p>其实迭代器和智能指针一样，将原类的遍历，++，–等操作用一个类封装起来，然后将其迭代器类型typedef到原类中方便其使用（一般typedef 成iterator类型），封装后直接对这个对象进行操作就可以了，这个类就是迭代器。</p>
+</blockquote>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//红黑树的迭代器</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">V</span>,<span class="title">class</span> <span class="title">Ref</span>,<span class="title">class</span> <span class="title">Ptr</span>&gt;//分别传<span class="title">V</span> <span class="title">V</span>* <span class="title">V</span>&amp;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> _<span class="title">RBTreeIterator</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">typedef</span> _RBTreeIterator&lt;V,Ref,Ptr&gt; Self;</span><br><span class="line">	<span class="keyword">typedef</span> RBTreeNode&lt;V&gt; Node;</span><br><span class="line">	Node* _node;<span class="comment">//用来接头结点的指针，其实迭代器就是一个智能指针只不过他的功能是++和--还有一些解引用而已</span></span><br><span class="line">	_RBTreeIterator(Node* node)</span><br><span class="line">		:_node(node)&#123;&#125;<span class="comment">//这里只需要 浅拷贝就可以了，和迭代器的功能有关</span></span><br><span class="line">	_RBTreeIterator()</span><br><span class="line">	&#123;&#125;</span><br><span class="line">	Ref <span class="keyword">operator</span>*();<span class="comment">//返回引用</span></span><br><span class="line">	Ptr <span class="keyword">operator</span>-&gt;();<span class="comment">//返回指针,只是用模板来看更加的灵活</span></span><br><span class="line">	Self <span class="keyword">operator</span>++();<span class="comment">//前置++</span></span><br><span class="line">	Self <span class="keyword">operator</span>++(<span class="keyword">int</span>);</span><br><span class="line">	<span class="keyword">bool</span> <span class="keyword">operator</span>!=(<span class="keyword">const</span> Self&amp; s);</span><br><span class="line">	Self <span class="keyword">operator</span>--();</span><br><span class="line">	Self <span class="keyword">operator</span>--(<span class="keyword">int</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="改造后的红黑树"><a href="#改造后的红黑树" class="headerlink" title="改造后的红黑树"></a>改造后的红黑树</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Myset-&gt;RBtree&lt;K,K&gt;</span></span><br><span class="line"><span class="comment">//Myset-&gt;RBtree&lt;K,pair&lt;K,V&gt;&gt;</span></span><br><span class="line"><span class="keyword">template</span>&lt; <span class="class"><span class="keyword">class</span> <span class="title">V</span>,<span class="title">class</span> <span class="title">KeyOfValue</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">RBTree</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">typedef</span> RBTreeNode&lt; V&gt; Node;</span><br><span class="line">	<span class="keyword">typedef</span> Node* PNode;</span><br><span class="line">	<span class="keyword">typedef</span> _RBTreeIterator&lt;V, V&amp;, V*&gt; Iterator;</span><br><span class="line">	<span class="keyword">typedef</span> _RBTreeIterator&lt;V, <span class="keyword">const</span> V&amp;, <span class="keyword">const</span> V*&gt; ConstIterator;<span class="comment">//让在红黑树中可以使用迭代器</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	PNode _pRoot;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	RBTree()</span><br><span class="line">		:_pRoot(<span class="literal">NULL</span>)&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function">Iterator <span class="title">Begin</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		Node* left=_pRoot;</span><br><span class="line">		<span class="keyword">while</span> (left-&gt;_pLeft)</span><br><span class="line">		&#123;</span><br><span class="line">			left = left-&gt;_pLeft;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> left;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function">Iterator <span class="title">End</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	pair&lt;Iterator,<span class="keyword">bool</span>&gt; Insert(<span class="keyword">const</span> V&amp; value)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="literal">NULL</span> == _pRoot)<span class="comment">//根节点为黑色  </span></span><br><span class="line">		&#123;</span><br><span class="line">			_pRoot = <span class="keyword">new</span> Node( value);</span><br><span class="line">			_pRoot-&gt;_color = Black;</span><br><span class="line">			<span class="keyword">return</span> make_pair(Iterator(_pRoot),<span class="literal">true</span>);<span class="comment">//make_pair&lt;&gt;生成一个pair对象返回去</span></span><br><span class="line">		&#125;</span><br><span class="line">		KeyOfValue kof;</span><br><span class="line">		PNode cur = _pRoot;</span><br><span class="line">		PNode pParent = <span class="literal">NULL</span>;</span><br><span class="line">		<span class="keyword">while</span> (cur)<span class="comment">//找插入的位置  </span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (kof(cur-&gt;_v)==kof(value))</span><br><span class="line">				<span class="keyword">return</span> make_pair(Iterator(cur),<span class="literal">false</span>);</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (kof(cur-&gt;_v)&gt;kof(value))<span class="comment">//这里用仿函数巧妙的 处理了 set和map中值不同的问题</span></span><br><span class="line">			&#123;</span><br><span class="line">				pParent = cur;</span><br><span class="line">				cur = cur-&gt;_pLeft;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				pParent = cur;</span><br><span class="line">				cur = cur-&gt;_pRight;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		PNode pNewNode = <span class="keyword">new</span> Node(value);<span class="comment">//新插入的结点的颜色默认是红的  </span></span><br><span class="line">		PNode ret = pNewNode;</span><br><span class="line">		<span class="comment">//找到插入的位置以后开始插入  </span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span> (kof(pParent-&gt;_v)&gt;kof(value))</span><br><span class="line">		&#123;</span><br><span class="line">			pParent-&gt;_pLeft = pNewNode;</span><br><span class="line">			pNewNode-&gt;_pParent = pParent;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			pParent-&gt;_pRight = pNewNode;</span><br><span class="line">			pNewNode-&gt;_pParent = pParent;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">////当结点插入好了以后我们就要根据红黑树的性质来判断结点是否满足，从而调整结点  </span></span><br><span class="line">		<span class="keyword">while</span> (pParent)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (pParent-&gt;_color == Black)<span class="comment">//父结点是黑的,不用调整直接退出  </span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//记录祖父结点和定义保存叔叔结点  </span></span><br><span class="line">			PNode gparent = pParent-&gt;_pParent;</span><br><span class="line">			PNode uncle = <span class="literal">NULL</span>;</span><br><span class="line">			<span class="keyword">if</span> (pParent == gparent-&gt;_pLeft)<span class="comment">//在其左子节点上  </span></span><br><span class="line">			&#123;</span><br><span class="line">				uncle = gparent-&gt;_pRight;</span><br><span class="line">				<span class="keyword">if</span> (uncle&amp;&amp; uncle-&gt;_color == Red)<span class="comment">//叔叔结点存在切为红情况3,4  </span></span><br><span class="line">				&#123;</span><br><span class="line">					gparent-&gt;_color = Red;</span><br><span class="line">					uncle-&gt;_color = pParent-&gt;_color = Black;</span><br><span class="line">					pNewNode = gparent;<span class="comment">//保存gg结点  </span></span><br><span class="line">					pParent = gparent-&gt;_pParent;</span><br><span class="line">					<span class="keyword">continue</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (uncle == <span class="literal">NULL</span> || uncle-&gt;_color == Black)<span class="comment">//叔叔不存在或者为黑  </span></span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">if</span> (pNewNode == pParent-&gt;_pLeft)<span class="comment">//外侧插入  </span></span><br><span class="line">					&#123;</span><br><span class="line">						_RBRolateR(gparent);</span><br><span class="line">						gparent-&gt;_color = Red;</span><br><span class="line">						pParent-&gt;_color = Black;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span><span class="comment">//内测插入  </span></span><br><span class="line">					&#123;</span><br><span class="line">						_RBRolateL(pParent);</span><br><span class="line">						<span class="built_in">std</span>::swap(pParent, pNewNode);<span class="comment">//交换pParent和插入结点指针的值  </span></span><br><span class="line">						_RBRolateR(gparent);</span><br><span class="line">						gparent-&gt;_color = Red;</span><br><span class="line">						pParent-&gt;_color = Black;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;<span class="comment">//直接跳出循环  </span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span><span class="comment">//右边的情况  </span></span><br><span class="line">			&#123;</span><br><span class="line">				uncle = gparent-&gt;_pLeft;</span><br><span class="line">				<span class="keyword">if</span> (uncle&amp;&amp;uncle-&gt;_color == Red)<span class="comment">//叔叔存在而且为红色  </span></span><br><span class="line">				&#123;</span><br><span class="line">					gparent-&gt;_color = Red;</span><br><span class="line">					uncle-&gt;_color = pParent-&gt;_color = Black;</span><br><span class="line">					pNewNode = gparent;</span><br><span class="line">					pParent = pNewNode-&gt;_pParent;</span><br><span class="line">					<span class="keyword">continue</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span> (uncle == <span class="literal">NULL</span> || uncle-&gt;_color == Black)<span class="comment">//叔叔不存在或者为黑  </span></span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">if</span> (pNewNode == pParent-&gt;_pRight)</span><br><span class="line">					&#123;</span><br><span class="line">						_RBRolateL(gparent);</span><br><span class="line">						gparent-&gt;_color = Red;</span><br><span class="line">						pParent-&gt;_color = Black;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">else</span></span><br><span class="line">					&#123;</span><br><span class="line">						_RBRolateR(pParent);</span><br><span class="line">						<span class="built_in">std</span>::swap(pParent, pNewNode);</span><br><span class="line">						_RBRolateL(gparent);</span><br><span class="line">						gparent-&gt;_color = Red;</span><br><span class="line">						pParent-&gt;_color = Black;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		_pRoot-&gt;_color = Black;</span><br><span class="line">		<span class="keyword">return</span> make_pair(Iterator(ret), <span class="literal">true</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">InOrder</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		_InOrder(_pRoot);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">IsRBTree</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (_pRoot == <span class="literal">NULL</span>)<span class="comment">//根节点 为空是红黑树  </span></span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">		<span class="keyword">if</span> (_pRoot-&gt;_color == Red)<span class="comment">//根节点为红色肯定不是红黑树  </span></span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">int</span> count = <span class="number">0</span>;<span class="comment">//统计黑色结点的数目  </span></span><br><span class="line">		PNode cur = _pRoot;</span><br><span class="line">		<span class="keyword">while</span> (cur)<span class="comment">//根出一条参考路径的黑色结点的数目  </span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (cur-&gt;_color == Black)</span><br><span class="line">				++count;</span><br><span class="line">			cur = cur-&gt;_pLeft;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">int</span> k = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">return</span> _IsRBTree(_pRoot, count, k);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function">Iterator <span class="title">Find</span><span class="params">(<span class="keyword">const</span> V&amp; key)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		KeyOfValue kov;</span><br><span class="line">		PNode cur = _pRoot;</span><br><span class="line">		<span class="keyword">while</span> (cur)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (kov(cur-&gt;_v &gt; key))</span><br><span class="line">			&#123;</span><br><span class="line">				cur = cur-&gt;_pLeft;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (kov(cur-&gt;_v) &lt; key)</span><br><span class="line">			&#123;</span><br><span class="line">				cur = cur-&gt;_pRight;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">//return cur;</span></span><br><span class="line">				<span class="keyword">return</span> Iterator(cur);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">bool</span> _IsRBTree(PNode pRoot, <span class="keyword">int</span>&amp; count, <span class="keyword">int</span> k)<span class="comment">//这里的K不能传引用  </span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (pRoot == <span class="literal">NULL</span>)</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">		<span class="comment">//出现两个连续的红色的结点  </span></span><br><span class="line">		<span class="keyword">if</span> (pRoot-&gt;_pParent&amp;&amp;pRoot-&gt;_color == Red&amp;&amp;pRoot-&gt;_pParent-&gt;_color == Red)</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		<span class="comment">//如果是黑色结点k++  </span></span><br><span class="line">		<span class="keyword">if</span> (pRoot-&gt;_color == Black)</span><br><span class="line">			k++;</span><br><span class="line">		<span class="keyword">if</span> (pRoot-&gt;_pLeft == <span class="literal">NULL</span>&amp;&amp;pRoot-&gt;_pRight == <span class="literal">NULL</span>)<span class="comment">//如果是叶子结点的话进行判断k和count  </span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (k == count)</span><br><span class="line">				<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> _IsRBTree(pRoot-&gt;_pLeft, count, k) &amp;&amp; _IsRBTree(pRoot-&gt;_pRight, count, k);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//右单旋转  </span></span><br><span class="line">	<span class="keyword">void</span> _RBRolateR(PNode parent)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="literal">NULL</span> == parent)</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		PNode SubL = parent-&gt;_pLeft;<span class="comment">// </span></span><br><span class="line">		</span><br><span class="line">		PNode SubLR = SubL-&gt;_pRight;</span><br><span class="line"></span><br><span class="line">		parent-&gt;_pLeft = SubLR;</span><br><span class="line">		<span class="keyword">if</span> (SubLR != <span class="literal">NULL</span>)</span><br><span class="line">			SubLR-&gt;_pParent = parent;</span><br><span class="line">		PNode pParent = parent-&gt;_pParent;</span><br><span class="line">		SubL-&gt;_pRight = parent;</span><br><span class="line">		parent-&gt;_pParent = SubL;</span><br><span class="line">		<span class="keyword">if</span> (pParent == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			_pRoot = SubL;</span><br><span class="line">			SubL-&gt;_pParent = <span class="literal">NULL</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (pParent-&gt;_pLeft == parent)</span><br><span class="line">			&#123;</span><br><span class="line">				pParent-&gt;_pLeft = SubL;</span><br><span class="line">				SubL-&gt;_pParent = parent;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				pParent-&gt;_pRight = SubL;</span><br><span class="line">				SubL-&gt;_pParent = parent;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">void</span> _RBRolateL(PNode parent)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="literal">NULL</span> == parent)</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		PNode SubR = parent-&gt;_pRight;</span><br><span class="line">		PNode SubRL = SubR-&gt;_pLeft;</span><br><span class="line">		parent-&gt;_pRight = SubRL;</span><br><span class="line">		<span class="keyword">if</span> (SubRL)</span><br><span class="line">		&#123;</span><br><span class="line">			SubRL-&gt;_pParent = parent;</span><br><span class="line">		&#125;</span><br><span class="line">		PNode pParent = parent-&gt;_pParent;</span><br><span class="line">		SubR-&gt;_pLeft = parent;</span><br><span class="line">		parent-&gt;_pParent = SubR;</span><br><span class="line">		<span class="keyword">if</span> (pParent == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			_pRoot = SubR;</span><br><span class="line">			SubR-&gt;_pParent = <span class="literal">NULL</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (pParent-&gt;_pLeft == parent)</span><br><span class="line">			&#123;</span><br><span class="line">				pParent-&gt;_pLeft = SubR;</span><br><span class="line">				SubR-&gt;_pParent = pParent;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">			&#123;</span><br><span class="line">				pParent-&gt;_pRight = SubR;</span><br><span class="line">				SubR-&gt;_pRight = pParent;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">void</span> _InOrder(PNode pRoot)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (pRoot)</span><br><span class="line">		&#123;</span><br><span class="line">			_InOrder(pRoot-&gt;_pLeft);</span><br><span class="line">		<span class="comment">//	cout &lt;&lt; pRoot-&gt;_key &lt;&lt; " ";</span></span><br><span class="line">			_InOrder(pRoot-&gt;_pRight);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h1><h2 id="set的特性"><a href="#set的特性" class="headerlink" title="set的特性"></a>set的特性</h2><blockquote>
+<p>所有的元素都会根据元素的键值自动被排序。set的元素不像map那样可以同时拥有实值(value)和键值(key),set元素的键值就是实值，实值就是键值，set不允许两个元素有相同的值。我们也不允许通过set的迭代器改变set元素，因为set元素值就是其关键值，关系到set元素的排列规则。如果任意改变set的元素值得话，会严重破坏set的组织。所以在set的底层RBtree中定义的是const_iterator,用来防止修改值的，在上述的红黑树中也有体现<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> _RBTreeIterator&lt;V, <span class="keyword">const</span> V&amp;, <span class="keyword">const</span> V*&gt; ConstIterator</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="set实现"><a href="#set实现" class="headerlink" title="set实现"></a>set实现</h2><blockquote>
+<p>因为红黑树是一种平衡二叉搜索树，自动排序的效果很不错，所以标准的STL set以红黑树为底层。由于set所开放的接口，红黑树都提供了，所以几乎所有的set的行为都是红黑树接口的调转。</p>
+</blockquote>
+<h3 id="如何区分set和map呢？"><a href="#如何区分set和map呢？" class="headerlink" title="如何区分set和map呢？"></a>如何区分set和map呢？</h3><blockquote>
+<p>因为如果是set的话，其key就是键值也是实值,而map的话插入的是pair&lt;k,v&gt;结构<code>后面map中详细介绍</code>，而我们需要其中的键值key来进行相关的操作，所以这里我们使用仿函数就可以很容易的实现。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">//set的仿函数,因为直接在类中，所以少了模板</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">SetKeyOfValue</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		<span class="function"><span class="keyword">const</span> K&amp; <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> K&amp; key)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> key;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//map的仿函数,因为写在类外所以就带了模板参数</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">K</span>,<span class="title">class</span> <span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">MapKeyOfvalue</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="function"><span class="keyword">const</span> K&amp; <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> pair&lt;K, V&gt;&amp; kv)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> kv.first;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="set的简单模拟实现代码"><a href="#set的简单模拟实现代码" class="headerlink" title="set的简单模拟实现代码"></a>set的简单模拟实现代码</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"RBTree.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//template&lt;class K&gt;</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> K&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Set</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">SetKeyOfValue</span></span></span><br><span class="line"><span class="class">	&#123;</span></span><br><span class="line">		<span class="function"><span class="keyword">const</span> K&amp; <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> K&amp; key)</span></span></span><br><span class="line"><span class="function">		</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> key;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">typedef</span> <span class="keyword">typename</span> RBTree&lt; K, SetKeyOfValue&gt;::Iterator Iterator;</span><br><span class="line">	pair&lt;Iterator, <span class="keyword">bool</span>&gt; Insert(<span class="keyword">const</span> K&amp; key)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">_t</span>.Insert(key);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function">Iterator <span class="title">Find</span><span class="params">(<span class="keyword">const</span> K&amp; key)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">_t</span>.Find(key);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function">Iterator <span class="title">Begin</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">_t</span>.Begin();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function">Iterator <span class="title">End</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">_t</span>.End();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line"></span><br><span class="line">	RBTree&lt;K, SetKeyOfValue&gt; <span class="keyword">_t</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TestMySet</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Set&lt;<span class="built_in">string</span>&gt; s;</span><br><span class="line">	s.Insert(<span class="string">"sort"</span>);</span><br><span class="line">	s.Insert(<span class="string">"insert"</span>);</span><br><span class="line">	s.Insert(<span class="string">"set"</span>);</span><br><span class="line">	s.Insert(<span class="string">"map"</span>);</span><br><span class="line">	s.Insert(<span class="string">"iterator"</span>);</span><br><span class="line">	s.Insert(<span class="string">"value"</span>);</span><br><span class="line">	s.Insert(<span class="string">"value"</span>);</span><br><span class="line">	Set&lt;<span class="built_in">string</span>&gt;::Iterator it = s.Begin();</span><br><span class="line">	<span class="keyword">while</span> (it != s.End())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; *it &lt;&lt; <span class="string">"  "</span>;</span><br><span class="line">		++it;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="map"><a href="#map" class="headerlink" title="map"></a>map</h1><h2 id="map的特性"><a href="#map的特性" class="headerlink" title="map的特性"></a>map的特性</h2><blockquote>
+<p>所有的元素都会根据元素的键值(key)自动被排序.map的所有元素都是pair，同时拥有实值(value)和键值(key),pair的第一个元素被视为键值,第二元素被视为实值，map不允许有两个相同的键值。</p>
+</blockquote>
+<h2 id="pair的结构"><a href="#pair的结构" class="headerlink" title="pair的结构"></a>pair的结构</h2><p><code>给出pair的源代码</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __SGI_STL_INTERNAL_PAIR_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __SGI_STL_INTERNAL_PAIR_H</span></span><br><span class="line"></span><br><span class="line">__STL_BEGIN_NAMESPACE</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T1</span>, <span class="title">class</span> <span class="title">T2</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">pair</span> &#123;</span></span><br><span class="line">  <span class="keyword">typedef</span> T1 first_type;</span><br><span class="line">  <span class="keyword">typedef</span> T2 second_type;</span><br><span class="line"></span><br><span class="line">  T1 first;</span><br><span class="line">  T2 second;</span><br><span class="line">  pair() : first(T1()), second(T2()) &#123;&#125;</span><br><span class="line">  pair(<span class="keyword">const</span> T1&amp; a, <span class="keyword">const</span> T2&amp; b) : first(a), second(b) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __STL_MEMBER_TEMPLATES</span></span><br><span class="line">  <span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">U1</span>, <span class="title">class</span> <span class="title">U2</span>&gt;</span></span><br><span class="line"><span class="class">  <span class="title">pair</span>(<span class="title">const</span> <span class="title">pair</span>&lt;U1, U2&gt;&amp; <span class="title">p</span>) :</span> first(p.first), second(p.second) &#123;&#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T1</span>, <span class="title">class</span> <span class="title">T2</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">inline</span> <span class="title">bool</span> <span class="title">operator</span>==(<span class="title">const</span> <span class="title">pair</span>&lt;T1, T2&gt;&amp; <span class="title">x</span>, <span class="title">const</span> <span class="title">pair</span>&lt;T1, T2&gt;&amp; <span class="title">y</span>) &#123;</span> </span><br><span class="line">  <span class="keyword">return</span> x.first == y.first &amp;&amp; x.second == y.second; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T1</span>, <span class="title">class</span> <span class="title">T2</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">inline</span> <span class="title">bool</span> <span class="title">operator</span>&lt;(const pair&lt;T1, T2&gt;&amp; x, const pair&lt;T1, T2&gt;&amp; y) &#123; </span></span><br><span class="line"><span class="class">  return x.first &lt; y.first || (!(y.first &lt; x.first) &amp;&amp; x.second &lt; y.second); </span></span><br><span class="line"><span class="class">&#125;</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">template &lt;class T1, class T2&gt;</span></span><br><span class="line"><span class="class">inline pair&lt;T1, T2&gt; make_pair(const T1&amp; x, const T2&amp; y) &#123;</span></span><br><span class="line"><span class="class">  return pair&lt;T1, T2&gt;(x, y);</span></span><br><span class="line"><span class="class">&#125;</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">__STL_END_NAMESPACE</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">#endif /* __SGI_STL_INTERNAL_PAIR_H */</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">// Local Variables:</span></span><br><span class="line"><span class="class">// mode:C++</span></span><br><span class="line"><span class="class">// End:</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>其实简单的理解就这这个样子的，其实就是一个自定义的类型<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">K</span>,<span class="title">class</span> <span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">pair</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	K first;</span><br><span class="line">	V second;</span><br><span class="line">	pair()<span class="comment">//无参构造函数</span></span><br><span class="line">		:_first(K())</span><br><span class="line">		, second(V())&#123;&#125;</span><br><span class="line">	pair(<span class="keyword">const</span> K&amp; a, <span class="keyword">const</span> V&amp; b)<span class="comment">//有构造函数</span></span><br><span class="line">		:_first(a)</span><br><span class="line">		, second(b)&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="map简单模拟的实现"><a href="#map简单模拟的实现" class="headerlink" title="map简单模拟的实现"></a>map简单模拟的实现</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> once</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">"RBTree.h"</span></span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">K</span>,<span class="title">class</span> <span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">MapKeyOfvalue</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="function"><span class="keyword">const</span> K&amp; <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> pair&lt;K, V&gt;&amp; kv)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> kv.first;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">K</span>, <span class="title">class</span> <span class="title">V</span>, <span class="title">class</span> <span class="title">MapKeyOfvalue</span> = <span class="title">MapKeyOfvalue</span>&lt;K,V&gt; &gt;</span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">Map</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	RBTree&lt;/*K,*/ pair&lt;K, V&gt;,MapKeyOfvalue&gt; _t;//定义红黑树的对象</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	typedef typename RBTree&lt;/*K,*/ pair&lt;K, V&gt;, MapKeyOfvalue&gt;::Iterator Iterator;</span><br><span class="line">	pair&lt;Iterator, <span class="keyword">bool</span>&gt; Insert(<span class="keyword">const</span> pair&lt;K,V&gt;&amp; kv)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">_t</span>.Insert(kv);</span><br><span class="line">	&#125;</span><br><span class="line">	V&amp; <span class="keyword">operator</span>[](<span class="keyword">const</span> K&amp; key)</span><br><span class="line">	&#123;</span><br><span class="line">		pair&lt;Iterator, <span class="keyword">bool</span>&gt; ret = Insert(make_pair(key, V()));</span><br><span class="line">		<span class="keyword">return</span> (ret.first)-&gt;second;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function">Iterator <span class="title">Find</span><span class="params">(<span class="keyword">const</span> K&amp; key)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">_t</span>.Find(key);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function">Iterator <span class="title">Begin</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">_t</span>.Begin();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function">Iterator <span class="title">end</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">_t</span>.End();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TestMyMap</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Map&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; dict;</span><br><span class="line">	dict[<span class="string">"hehe"</span>] = <span class="string">"haha"</span>;</span><br><span class="line">	dict.Insert(make_pair(<span class="string">"left"</span>, <span class="string">"左边"</span>));</span><br><span class="line"></span><br><span class="line">	Map&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;::Iterator it = dict.Begin();</span><br><span class="line">	<span class="keyword">while</span> (it != dict.end())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; (*it).first &lt;&lt;<span class="string">" "</span>&lt;&lt;(*it).second&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">		++it;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在次梳理一下，在红黑树中如果是set的则V直接就是set的key,而如果是map的话，那么V的类型就是pair这个自定义的类型，这里自己注意区分。还有就是set的迭代器使用constiterator而map使用iterator就可以了。</p>
+</blockquote>
+<h3 id="map中的operator"><a href="#map中的operator" class="headerlink" title="map中的operator[]"></a>map中的operator[]</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的鼓励！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="李帅 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="李帅 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/15/位图/" rel="next" title="位图（哈希应用）">
+                <i class="fa fa-chevron-left"></i> 位图（哈希应用）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDMxMC8xMDg0Nw=="></div>
+    </div>
+
+  
+
+
+
+<div id="lv-container" data-uid="MTAyMC8zNDMxMC8xMDg0Nw=="></div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/timg.jpg"
+                alt="李帅" />
+            
+              <p class="site-author-name" itemprop="name">李帅</p>
+              <p class="site-description motion-element" itemprop="description">承载着太多希望，怎敢轻易辜负</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lishuaiwq" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://blog.csdn.net/it_iverson" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#铺垫"><span class="nav-number">1.</span> <span class="nav-text">铺垫</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#底层"><span class="nav-number">1.0.1.</span> <span class="nav-text">底层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迭代器"><span class="nav-number">1.0.2.</span> <span class="nav-text">迭代器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改造后的红黑树"><span class="nav-number">1.0.3.</span> <span class="nav-text">改造后的红黑树</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Set"><span class="nav-number">2.</span> <span class="nav-text">Set</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#set的特性"><span class="nav-number">2.1.</span> <span class="nav-text">set的特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#set实现"><span class="nav-number">2.2.</span> <span class="nav-text">set实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何区分set和map呢？"><span class="nav-number">2.2.1.</span> <span class="nav-text">如何区分set和map呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set的简单模拟实现代码"><span class="nav-number">2.2.2.</span> <span class="nav-text">set的简单模拟实现代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#map"><span class="nav-number">3.</span> <span class="nav-text">map</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#map的特性"><span class="nav-number">3.1.</span> <span class="nav-text">map的特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pair的结构"><span class="nav-number">3.2.</span> <span class="nav-text">pair的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#map简单模拟的实现"><span class="nav-number">3.3.</span> <span class="nav-text">map简单模拟的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map中的operator"><span class="nav-number">3.3.1.</span> <span class="nav-text">map中的operator[]</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+
+&copy; 
+<span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李帅</span>
+</div>
+  <div class="powered-by">
+   莫忘初心 | 
+  </div>
+
+  <div class="theme-info">
+  方得始终 
+  </dev>
+ 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
