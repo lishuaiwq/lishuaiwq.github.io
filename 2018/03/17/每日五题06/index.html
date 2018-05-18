@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="面试题," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="问题1：fopen,open;fwrite write;fread,read他们的区别和那些的移植性好一些在说这个问题之前，首先补充一点小知识，就是文件描述符和文件指针的区别。（FILE* ,fd） 简单的来说文件描述符就是用linux系统I/O函数open打开文件的时候会返回一个文件描述符，内核会为每一个运行中的进程在进程控制块pcb中维护一个打开文件的记录表，每一个表项都有一个指针指向打开的文">
+<meta name="keywords" content="面试题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日五题06">
+<meta property="og:url" content="http://yoursite.com/2018/03/17/每日五题06/index.html">
+<meta property="og:site_name" content="Lishuai&#39;s博客">
+<meta property="og:description" content="问题1：fopen,open;fwrite write;fread,read他们的区别和那些的移植性好一些在说这个问题之前，首先补充一点小知识，就是文件描述符和文件指针的区别。（FILE* ,fd） 简单的来说文件描述符就是用linux系统I/O函数open打开文件的时候会返回一个文件描述符，内核会为每一个运行中的进程在进程控制块pcb中维护一个打开文件的记录表，每一个表项都有一个指针指向打开的文">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-22T12:21:19.483Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="每日五题06">
+<meta name="twitter:description" content="问题1：fopen,open;fwrite write;fread,read他们的区别和那些的移植性好一些在说这个问题之前，首先补充一点小知识，就是文件描述符和文件指针的区别。（FILE* ,fd） 简单的来说文件描述符就是用linux系统I/O函数open打开文件的时候会返回一个文件描述符，内核会为每一个运行中的进程在进程控制块pcb中维护一个打开文件的记录表，每一个表项都有一个指针指向打开的文">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/17/每日五题06/"/>
+
+
+
+
+
+  <title>每日五题06 | Lishuai's博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lishuai's博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/17/每日五题06/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李帅">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/timg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lishuai's博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">每日五题06</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-17T09:16:32+08:00">
+                2018-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试题/" itemprop="url" rel="index">
+                    <span itemprop="name">面试题</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试题/c-c/" itemprop="url" rel="index">
+                    <span itemprop="name">c/c++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/17/每日五题06/" class="leancloud_visitors" data-flag-title="每日五题06">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+		 <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,256
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="问题1：fopen-open-fwrite-write-fread-read他们的区别和那些的移植性好一些"><a href="#问题1：fopen-open-fwrite-write-fread-read他们的区别和那些的移植性好一些" class="headerlink" title="问题1：fopen,open;fwrite write;fread,read他们的区别和那些的移植性好一些"></a>问题1：fopen,open;fwrite write;fread,read他们的区别和那些的移植性好一些</h2><p>在说这个问题之前，首先补充一点小知识，就是文件描述符和文件指针的区别。（FILE* ,fd）</p>
+<p>简单的来说文件描述符就是用linux系统I/O函数open打开文件的时候会返回一个文件描述符，内核会为每一个运行中的进程在进程控制块pcb中维护一个打开文件的记录表，每一个表项都有一个指针指向打开的文件，上边的索引值是记录表的索引值。<br>文件描述符的优点：兼容POSIX标准，许多系统调用都依赖于它；缺点是不能移植到unix之外的系统上去。。<br><a id="more"></a><br>而FILE*是使用c语言库函数fopen打开文件的时候，返回一个FILE结构的指针，这个结构中主要的内容就是文件描述符和缓冲区。所以说c语言的I/O库函数会维护一个缓冲区，而linux中没有缓冲区，需要我们自己去定义。所以可以说FILE是索引的索引！</p>
+<p>使缓冲区写入磁盘的几种情况：</p>
+<p>1.fflush:int fflush(FILE *stream)</p>
+<p>2.缓冲区满了，自动写入</p>
+<p>3.正常的关闭文件 发fclose,return(main函数中),exit(main函数中)</p>
+<p>4.回车键</p>
+<p>5.遇到\n换行结束</p>
+<p>下面来一个一个说：</p>
+<p>1.fopen和open</p>
+<p>上面已经说过了fopen会返回一个FILE类型的指针，而open返回的是文件描述符，并且fopen是c语言的库函数，有缓冲区，open是系统函数，没有缓冲区。并且fopen的可移植性较高，open不可移植。</p>
+<p>2.fread和read</p>
+<p>fread：size_t fread ( void <em>buffer, size_t size, size_t count, FILE </em>stream) </p>
+<p>buffer：用于接收数据的内存地址（一般情况是自己定义的数组）</p>
+<p>size：要读的每个数据项的字节数，单位是字节</p>
+<p>count：要读count个数据项，每个数据项size个字节</p>
+<p>stream：输入流</p>
+<p>在这里fwrite也是c库函数，它从文件流中读数据，最多读取count个项，每个项size个字节，如果调用成功返回实际读取到的项个数（小于或等于count），如果不成功或读到文件末尾返回 0。也是库函数，并且有缓冲区，read是linux的系统调用函数，一般来说fread底层也是调用的read，所以fread的效率更高，而且功能比read更强大，read是从文件中读取多少个字节，返回值是读取的字节数。read返回实际读到的字节数，返回0表示已经读到了文件末尾或者没有文件可读，如果出错返回-1并设置错误码。</p>
+<p>3.fwrite和write</p>
+<p>和fread和read对应着理解这里就不多说了，可移植性肯定是c语言库函数比较好。</p>
+<h2 id="问题2：typeid类型检查"><a href="#问题2：typeid类型检查" class="headerlink" title="问题2：typeid类型检查"></a>问题2：typeid类型检查</h2><p>在c++中，typeid用于返回指针或引用所指对象的实际类型。注意：typeid是操作符，不是函数！</p>
+<p>运行时获知变量类型名称，可以使用 typeid(变量).name()，需要注意不是所有编译器都输出”int”、”float”等之类的名称，对于这类的编译器可以这样使用：float f = 1.1f; if( typeid(f) == typeid(0.0f) ) ……</p>
+<p>补充：对非引用类型，typeid是在编译时期识别的，只有引用类型才会在运行时识别。</p>
+<h2 id="问题3-模板中的非类型参数与类型参数的区别"><a href="#问题3-模板中的非类型参数与类型参数的区别" class="headerlink" title="问题3:模板中的非类型参数与类型参数的区别"></a>问题3:模板中的非类型参数与类型参数的区别</h2><p>首先解释一下什么是类型模板参数和非类型模板参数呢？</p>
+<p>我们知道，用模板的时候可以为他提供两种类型的模板形参：一种是类型模板形参，一种是非类型模板形参。例如如下声明：</p>
+<pre><code>template&lt;class T&gt;void foo(T t);   //用的类型模板形参
+template&lt;class T,int n&gt;void foo(T t);   //用了类型模板形参，同时还用到了非类型模板形参int
+</code></pre><p>两者的区别是：对应类型模板形参，编译器会根据实参（对应模板函数）或者用户指定类型来实例化对应的模板函数或类型。而非类型模板形参主要是用来在模板函数调用时指定该形参的值。<br>非类型模板形参最常用的是用来自动获取数组的维数。</p>
+<pre><code>template&lt;class T,int N&gt;
+void print(T (&amp;r)[N])
+{
+for (int i=0;i&lt;N;++i)
+{
+    cout&lt;&lt;r[i]&lt;&lt;&quot;,&quot;;
+}
+cout&lt;&lt;endl;
+}
+</code></pre><p>数组的模板形式一般写成这个样子。<br>还有关于非类型的模板参数的一些详解我给出如下博客的链接：<br><a href="http://blog.csdn.net/u012999985/article/details/50780311" target="_blank" rel="noopener">http://blog.csdn.net/u012999985/article/details/50780311</a></p>
+<h2 id="问题4-static-cast和reinterpret-cast区别"><a href="#问题4-static-cast和reinterpret-cast区别" class="headerlink" title="问题4:static_cast和reinterpret_cast区别"></a>问题4:static_cast和reinterpret_cast区别</h2><p><a href="http://blog.csdn.net/deyili/article/details/5354242" target="_blank" rel="noopener">http://blog.csdn.net/deyili/article/details/5354242</a></p>
+<h2 id="问题5：继承中析构函数最好为虚函数，为什么？为什么不建议在构造函数中调用虚函数？"><a href="#问题5：继承中析构函数最好为虚函数，为什么？为什么不建议在构造函数中调用虚函数？" class="headerlink" title="问题5：继承中析构函数最好为虚函数，为什么？为什么不建议在构造函数中调用虚函数？"></a>问题5：继承中析构函数最好为虚函数，为什么？为什么不建议在构造函数中调用虚函数？</h2><p>1.<a href="http://blog.csdn.net/it_iverson/article/details/78531651" target="_blank" rel="noopener">http://blog.csdn.net/it_iverson/article/details/78531651</a><br>2.<a href="http://blog.csdn.net/it_iverson/article/details/78541948" target="_blank" rel="noopener">http://blog.csdn.net/it_iverson/article/details/78541948</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的鼓励！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="李帅 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="李帅 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试题/" rel="tag"><i class="fa fa-tag"></i> 面试题</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/13/多路I-O转接-poll/" rel="next" title="多路I/O转接-poll">
+                <i class="fa fa-chevron-left"></i> 多路I/O转接-poll
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/22/Linux进程间通信/" rel="prev" title="Linux进程间通信(IPC)">
+                Linux进程间通信(IPC) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDMxMC8xMDg0Nw=="></div>
+    </div>
+
+  
+
+
+
+<div id="lv-container" data-uid="MTAyMC8zNDMxMC8xMDg0Nw=="></div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/timg.jpg"
+                alt="李帅" />
+            
+              <p class="site-author-name" itemprop="name">李帅</p>
+              <p class="site-description motion-element" itemprop="description">承载着太多希望，怎敢轻易辜负</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lishuaiwq" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://blog.csdn.net/it_iverson" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题1：fopen-open-fwrite-write-fread-read他们的区别和那些的移植性好一些"><span class="nav-number">1.</span> <span class="nav-text">问题1：fopen,open;fwrite write;fread,read他们的区别和那些的移植性好一些</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题2：typeid类型检查"><span class="nav-number">2.</span> <span class="nav-text">问题2：typeid类型检查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题3-模板中的非类型参数与类型参数的区别"><span class="nav-number">3.</span> <span class="nav-text">问题3:模板中的非类型参数与类型参数的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题4-static-cast和reinterpret-cast区别"><span class="nav-number">4.</span> <span class="nav-text">问题4:static_cast和reinterpret_cast区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题5：继承中析构函数最好为虚函数，为什么？为什么不建议在构造函数中调用虚函数？"><span class="nav-number">5.</span> <span class="nav-text">问题5：继承中析构函数最好为虚函数，为什么？为什么不建议在构造函数中调用虚函数？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">
+
+&copy; 
+<span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李帅</span>
+</div>
+  <div class="powered-by">
+   莫忘初心 | 
+  </div>
+
+  <div class="theme-info">
+  方得始终 
+  </dev>
+ 
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=65847089" charset="UTF-8"></script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0BX9IKUhxkUaAts8RxeUw4Va-gzGzoHsz", "sx7pxW7Chj1NJJGH8X1kbsSM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
