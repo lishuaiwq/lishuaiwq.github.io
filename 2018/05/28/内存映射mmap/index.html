@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="此篇博客的偏向点主要是对于内存映射的原理说明。  mmap的初识 mmap是一种内存映射文件的方法，即将一个文件或者其它对象映射到进程的地址空间，实现文件磁盘地址和进程虚拟地址空间中一段虚拟地址的一一对映关系,如果虚拟区域比文件区要大那么剩余的区域用0来填充。实现这样的映射关系后，进程就可以采用指针的方式读写操作这一段内存，而系统会自动回写脏页面到对应的文件磁盘上，即完成了对文件的操作而不必再调">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内存映射mmap">
+<meta property="og:url" content="http://yoursite.com/2018/05/28/内存映射mmap/index.html">
+<meta property="og:site_name" content="Lishuai&#39;s博客">
+<meta property="og:description" content="此篇博客的偏向点主要是对于内存映射的原理说明。  mmap的初识 mmap是一种内存映射文件的方法，即将一个文件或者其它对象映射到进程的地址空间，实现文件磁盘地址和进程虚拟地址空间中一段虚拟地址的一一对映关系,如果虚拟区域比文件区要大那么剩余的区域用0来填充。实现这样的映射关系后，进程就可以采用指针的方式读写操作这一段内存，而系统会自动回写脏页面到对应的文件磁盘上，即完成了对文件的操作而不必再调">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/JdsLPIk.jpg">
+<meta property="og:image" content="https://i.imgur.com/4EAMoqZ.jpg">
+<meta property="og:image" content="https://i.imgur.com/n6QwDAb.jpg">
+<meta property="og:image" content="https://i.imgur.com/zeEFRbb.jpg">
+<meta property="og:image" content="https://i.imgur.com/UvjQ45t.jpg">
+<meta property="og:updated_time" content="2018-05-28T08:24:41.801Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="内存映射mmap">
+<meta name="twitter:description" content="此篇博客的偏向点主要是对于内存映射的原理说明。  mmap的初识 mmap是一种内存映射文件的方法，即将一个文件或者其它对象映射到进程的地址空间，实现文件磁盘地址和进程虚拟地址空间中一段虚拟地址的一一对映关系,如果虚拟区域比文件区要大那么剩余的区域用0来填充。实现这样的映射关系后，进程就可以采用指针的方式读写操作这一段内存，而系统会自动回写脏页面到对应的文件磁盘上，即完成了对文件的操作而不必再调">
+<meta name="twitter:image" content="https://i.imgur.com/JdsLPIk.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/28/内存映射mmap/"/>
+
+
+
+
+
+  <title>内存映射mmap | Lishuai's博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lishuai's博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/28/内存映射mmap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李帅">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/timg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lishuai's博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">内存映射mmap</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T13:07:21+08:00">
+                2018-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/系统学习/" itemprop="url" rel="index">
+                    <span itemprop="name">系统学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/28/内存映射mmap/" class="leancloud_visitors" data-flag-title="内存映射mmap">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+		 <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,332
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>此篇博客的偏向点主要是对于内存映射的原理说明。</p>
+</blockquote>
+<h1 id="mmap的初识"><a href="#mmap的初识" class="headerlink" title="mmap的初识"></a>mmap的初识</h1><blockquote>
+<p>mmap是一种内存映射文件的方法，即将一个文件或者其它对象映射到进程的地址空间，实现文件磁盘地址和进程虚拟地址空间中一段虚拟地址的一一对映关系,如果虚拟区域比文件区要大那么剩余的区域用0来填充。实现这样的映射关系后，进程就可以采用指针的方式读写操作这一段内存，而系统会自动回写脏页面到对应的文件磁盘上，即完成了对文件的操作而不必再调用read,write等系统调用函数。相反，内核空间对这段区域的修改也直接反映用户空间，从而可以实现不同进程间的文件共享。<br>如下图所示：</p>
+</blockquote>
+<p><img src="https://i.imgur.com/JdsLPIk.jpg" alt=""></p>
+<blockquote>
+<p>由上图可以看出，进程的虚拟地址空间，由多个虚拟内存区域构成。虚拟内存区域是进程的虚拟地址空间中的一个同质区间，即具有同样特性的连续地址范围。上图中所示的text数据段（代码段）、初始数据段、BSS数据段、堆、栈和内存映射，都是一个独立的虚拟内存区域。而为内存映射服务的地址空间处在堆栈之间的空余部分。</p>
+</blockquote>
+<h1 id="linux虚拟内存区域"><a href="#linux虚拟内存区域" class="headerlink" title="linux虚拟内存区域"></a>linux虚拟内存区域</h1><ul>
+<li>在大概知道什么是mmap以后，想要知道mmap的底层实现原理，我们还需要对linux虚拟内存区域的管理有一个大致的认识。</li>
+</ul>
+<p><img src="https://i.imgur.com/4EAMoqZ.jpg" alt=""></p>
+<blockquote>
+<p>Linux将虚拟内存组织成一些区域（也叫做段）的集合，一个区域就是已经存在着的（已经分配的）虚拟内存的连续片，这些页是以某种方式相关联的。每个存在的虚拟页都保存在某个区域当中，而不属于某个区域的虚拟页式不存在的。<code>即虚拟地址空间中有效的虚拟页面都对应着相应的虚拟页，不在这个虚拟页面中的虚拟页式不存在，并且不能被进程引用，即只要你虚拟页不在我这个虚拟页面我就认为你不存在，这样的话内核也不会去记录不存在的虚拟页，而这样的页也不任何资源</code>。</p>
+</blockquote>
+<ul>
+<li>在linux中内核为每个进程维护了一个task_struct结构体（PCB进程控制块）。这个控制块中的一些成员就是记录整个进程所需要的所有的信息，比如：PID，指向用户栈的指针，可执行目标文件的名字，以及程序计数器），那么管理虚拟地址空间的信息也在这个结构体中。</li>
+</ul>
+<p><img src="https://i.imgur.com/n6QwDAb.jpg" alt=""></p>
+<blockquote>
+<p>在task_struct结构体中有一个字段mm，其指向mm_struct（内存描述符），它描述了虚拟内存当前的状态。其中的pgd指向第一级页面的基地址，当内核运行这个进程的时候就将pgd放在cr3控制寄存器中。而mmap指向vm_area_struct的结构体的链表，这个结构体描述的是当前虚拟地址空间的一块区域。</p>
+</blockquote>
+<ul>
+<li><p>一个vm_area_struct结构体应该包含以下字段</p>
+<ul>
+<li>vm_start:指向这个区域的起始处</li>
+<li>vm_end:指向这个区域的结束处</li>
+<li>vm_prot:描述这个区域内包含的所有页的读写许可权限（在中断的时候要用）</li>
+<li>vm_flags:描述这个区域内的页面是与其他进程共享的，还是这个进程私有的（还描述了一些其他的信息）</li>
+<li>vm_next:指向链表中的下一个区域结构。<blockquote>
+<p>同时其包含一个vm_ops指针，其内部可引出所有针对这个区域可以使用的系统调用函数。这样，进程对某一虚拟内存区域的任何操作需要用要的信息，都可以从vm_area_struct中获得。mmap函数就是要创建一个新的vm_area_struct结构，并将其与文件的物理磁盘地址相连。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>补充一点，Linux缺页异常处理</li>
+</ul>
+<blockquote>
+<p>当MMU在试图翻译某个虚拟地址A的时候，触发了一个缺页。这个异常导致控制转到内核的缺页处理程序，处理程序随后会进行如下的步骤</p>
+</blockquote>
+<ol>
+<li>虚拟地址A合法吗（A这个虚拟地址在虚拟地址在vm_area_struct描述的结构体内吗）？为了判断这个情况，缺页处理程序搜索区域结构的链表，把A和进程维护的vm_area_struct中的vm_start和vm_end作比较。如果这个地址是不合法的，那么缺页异常处理程序就触发一个段错误，从而终止这个进程。<code>因为一个进程可能会创建很多的新的虚拟内存的区域，所以顺序搜索的话效率将会很差，所以在实际中在链表中建立了树，并在这棵树上进行查找。</code></li>
+<li>试图进行内存访问是否合法？换句话说，进程是否有读、写或者执行这个区域的页面内容的权限？比如对于只有读权限的页面进行写操作，或者用户模式对内核区域读取数据，如果是这个样子的话，那么会根据vm_area_struct里面的页面权限来判断，当然这个是建立在A合法的基础上,如果不合法则触发一个保护异常，从而终止这个进程。</li>
+<li>当现在为止排除了段错误和保护异常这类的错误，内核就知道了这是由于对合法地址进行方法引起的正常缺页，即物理内存中没有对应的页面，那么此时内核就会选择一个牺牲页面，然后判断其是否被修改过，修改过的话则将其写入外存，然后换入新的页面并更新页表，这里的换入换出其实就是对页表的修改，当缺页处理程序返回的时候，CPU重新启动引起缺页的指令，这次这条指令将A发送给MMU的时候,MMU就能正确的翻译A，而不会在产生缺页中断了。</li>
+</ol>
+<p><img src="https://i.imgur.com/zeEFRbb.jpg" alt=""></p>
+<hr>
+<h1 id="mmap的原理（映射建立过程）"><a href="#mmap的原理（映射建立过程）" class="headerlink" title="mmap的原理（映射建立过程）"></a>mmap的原理（映射建立过程）</h1><ul>
+<li>首先进程在用户空间调用glibc库函数，mmap  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">mmap</span><span class="params">(<span class="keyword">void</span> *start, <span class="keyword">size_t</span> length, <span class="keyword">int</span> prot, <span class="keyword">int</span> flags, <span class="keyword">int</span> fd, <span class="keyword">off_t</span> offset)</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>关于这个函数的使用详解在这篇博客中已经说得很详细了。。<br> <a href="https://blog.csdn.net/it_iverson/article/details/79303567" target="_blank" rel="noopener">https://blog.csdn.net/it_iverson/article/details/79303567</a></p>
+<ul>
+<li>然后mmap中调用sys_mmap2()</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">asmlinkage <span class="keyword">long</span> <span class="title">sys_mmap2</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> addr, <span class="keyword">unsigned</span> <span class="keyword">long</span> len,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">unsigned</span> <span class="keyword">long</span> prot, <span class="keyword">unsigned</span> <span class="keyword">long</span> flags,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">unsigned</span> <span class="keyword">long</span> fd, <span class="keyword">unsigned</span> <span class="keyword">long</span> pgoff)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> do_mmap2(addr, len, prot, flags, fd, pgoff);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在sys_mmap2中调用do_mmap2()<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">long</span> <span class="title">do_mmap2</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">unsigned</span> <span class="keyword">long</span> addr, <span class="keyword">unsigned</span> <span class="keyword">long</span> len,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">unsigned</span> <span class="keyword">long</span> prot, <span class="keyword">unsigned</span> <span class="keyword">long</span> flags,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">unsigned</span> <span class="keyword">long</span> fd, <span class="keyword">unsigned</span> <span class="keyword">long</span> pgoff)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> error = -EBADF;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">file</span> * <span class="title">file</span> = <span class="title">NULL</span>;</span>  <span class="comment">//呵呵，注意这里file指针初始为NULL</span></span><br><span class="line"></span><br><span class="line">    flags &amp;= ~(MAP_EXECUTABLE | MAP_DENYWRITE);</span><br><span class="line">    <span class="keyword">if</span> (!(flags &amp; MAP_ANONYMOUS)) &#123;<span class="comment">//MAP_ANONYMOUS设成1，表示没有文件，实际上只是用来"圈地"</span></span><br><span class="line">        file = fget(fd);<span class="comment">//获取file结构</span></span><br><span class="line">        <span class="keyword">if</span> (!file)</span><br><span class="line">            <span class="keyword">goto</span> out;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//所以上面的步骤，如果我们设置了MAP_ANONYMOUS，那么不会用fd获取实际的文件，以后file指针仍然为NULL</span></span><br><span class="line"></span><br><span class="line">    down(t-&gt;mm-&gt;mmap_sem);</span><br><span class="line">    error = do_mmap_pgoff(file, addr, len, prot, flags, pgoff);  <span class="comment">//传入file=NULL</span></span><br><span class="line">    up(¤t-&gt;mm-&gt;mmap_sem);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (file)</span><br><span class="line">        fput(file);</span><br><span class="line">out:</span><br><span class="line">    <span class="keyword">return</span> error;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>注意在do_mmap2中设置了是否匿名映射，和获取文件相关的信息</code></p>
+<ul>
+<li>在do_mmap2中调用do_mmap_pgoff()这个函数<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="title">do_mmap_pgoff</span><span class="params">(struct file *file, <span class="keyword">unsigned</span> <span class="keyword">long</span> addr,</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="keyword">unsigned</span> <span class="keyword">long</span> len, <span class="keyword">unsigned</span> <span class="keyword">long</span> prot,</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="keyword">unsigned</span> <span class="keyword">long</span> flags, <span class="keyword">unsigned</span> <span class="keyword">long</span> pgoff,</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="keyword">unsigned</span> <span class="keyword">long</span> *populate)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">mm_struct</span> * <span class="title">mm</span> = <span class="title">current</span>-&gt;<span class="title">mm</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">inode</span> *<span class="title">inode</span>;</span></span><br><span class="line">    <span class="comment">/*......*/</span></span><br><span class="line">    <span class="comment">/* Obtain the address to map to. we verify (or select) it and ensure</span></span><br><span class="line"><span class="comment">     * that it represents a valid section of the address space.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    addr = get_unmapped_area(file, addr, len, pgoff, flags);</span><br><span class="line">    <span class="keyword">if</span> (addr &amp; ~PAGE_MASK)</span><br><span class="line">        <span class="keyword">return</span> addr;</span><br><span class="line">    <span class="comment">/*......*/</span></span><br><span class="line">    addr = mmap_region(file, addr, len, vm_flags, pgoff);</span><br><span class="line">    <span class="comment">/*......*/</span></span><br><span class="line">    <span class="keyword">return</span> addr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>注意这个函数才是mmap的核心操作函数,在这个函数中会找到一块连续的地址使用get_unmapped_area()函数,完成一些必要的检查，比如权限等，然后调用mmap_region()函数完成映射关系</code></p>
+<ul>
+<li><p>我们来看看找连续空间的函数get_unmapped(),这个函数主要就是找块虚拟内存区域，注意这里的功能仅仅是找这块区域还没有和vm_area_struct结构体扯上个关系呢</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span></span><br><span class="line">get_unmapped_area(struct file *file, <span class="keyword">unsigned</span> <span class="keyword">long</span> addr, <span class="keyword">unsigned</span> <span class="keyword">long</span> len,</span><br><span class="line">        <span class="keyword">unsigned</span> <span class="keyword">long</span> pgoff, <span class="keyword">unsigned</span> <span class="keyword">long</span> flags)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">unsigned</span> <span class="title">long</span> <span class="params">(*get_area)</span><span class="params">(struct file *, <span class="keyword">unsigned</span> <span class="keyword">long</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                  <span class="keyword">unsigned</span> <span class="keyword">long</span>, <span class="keyword">unsigned</span> <span class="keyword">long</span>, <span class="keyword">unsigned</span> <span class="keyword">long</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    get_area = current-&gt;mm-&gt;get_unmapped_area;  <span class="comment">//默认使用当前进程虚存管理对应的get_unmapped_ared函数，这里只是从进程地址空间获得VMA</span></span><br><span class="line">    <span class="keyword">if</span> (file &amp;&amp; file-&gt;f_op &amp;&amp; file-&gt;f_op-&gt;get_unmapped_area)   <span class="comment">//匿名映射文件指针依旧为空</span></span><br><span class="line">        get_area = file-&gt;f_op-&gt;get_unmapped_area;  <span class="comment">//如果文件指针不为NULL，使用文件对应的get_unmapped_area函数，这里就是从文件获得VMA</span></span><br><span class="line">    addr = get_area(file, addr, len, pgoff, flags);</span><br><span class="line">    <span class="keyword">if</span> (IS_ERR_VALUE(addr))</span><br><span class="line">        <span class="keyword">return</span> addr;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (addr &gt; TASK_SIZE - len)</span><br><span class="line">        <span class="keyword">return</span> -ENOMEM;</span><br><span class="line">    <span class="keyword">if</span> (addr &amp; ~PAGE_MASK)  <span class="comment">//PAGE_MASK低12位都是0，这里是用来检测是否是整页面，如果不是则出错</span></span><br><span class="line">        <span class="keyword">return</span> -EINVAL;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> arch_rebalance_pgtables(addr, len);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>再来看看mmap_region()函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="title">mmap_region</span><span class="params">(struct file *file, <span class="keyword">unsigned</span> <span class="keyword">long</span> addr,</span></span></span><br><span class="line"><span class="function"><span class="params"><span class="keyword">unsigned</span> <span class="keyword">long</span> len, <span class="keyword">vm_flags_t</span> vm_flags, <span class="keyword">unsigned</span> <span class="keyword">long</span> pgoff)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">mm_struct</span> *<span class="title">mm</span> = <span class="title">current</span>-&gt;<span class="title">mm</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">vm_area_struct</span> *<span class="title">vma</span>, *<span class="title">prev</span>;</span></span><br><span class="line">    <span class="keyword">int</span> correct_wcount = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> error;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">rb_node</span> **<span class="title">rb_link</span>, *<span class="title">rb_parent</span>;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> charged = <span class="number">0</span>;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">inode</span> *<span class="title">inode</span> = <span class="title">file</span> ? <span class="title">file_inode</span>(<span class="title">file</span>) :</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="comment">/*......*/</span></span><br><span class="line">    <span class="keyword">if</span> (file) &#123; <span class="comment">/*如果不是匿名映射*/</span></span><br><span class="line">        <span class="keyword">if</span> (vm_flags &amp; (VM_GROWSDOWN|VM_GROWSUP))</span><br><span class="line">            <span class="keyword">goto</span> free_vma;</span><br><span class="line">        <span class="keyword">if</span> (vm_flags &amp; VM_DENYWRITE) &#123;</span><br><span class="line">            error = deny_write_access(file);</span><br><span class="line">            <span class="keyword">if</span> (error)</span><br><span class="line">                <span class="keyword">goto</span> free_vma;</span><br><span class="line">            correct_wcount = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        vma-&gt;vm_file = get_file(file);</span><br><span class="line">        error = file-&gt;f_op-&gt;mmap(file, vma); <span class="comment">/*调用对应文件系统的mmap函数*/</span></span><br><span class="line">        <span class="keyword">if</span> (error)</span><br><span class="line">            <span class="keyword">goto</span> unmap_and_free_vma;</span><br><span class="line">        addr = vma-&gt;vm_start;</span><br><span class="line">        pgoff = vma-&gt;vm_pgoff;</span><br><span class="line">        vm_flags = vma-&gt;vm_flags;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (vm_flags &amp; VM_SHARED) &#123; <span class="comment">/*shared 匿名映射*/</span></span><br><span class="line">        <span class="keyword">if</span> (unlikely(vm_flags &amp; (VM_GROWSDOWN|VM_GROWSUP)))</span><br><span class="line">            <span class="keyword">goto</span> free_vma;</span><br><span class="line">        error = shmem_zero_setup(vma);</span><br><span class="line">        <span class="keyword">if</span> (error)</span><br><span class="line">            <span class="keyword">goto</span> free_vma;</span><br><span class="line">    &#125; <span class="comment">/*private 匿名映射*/</span></span><br><span class="line">    file = vma-&gt;vm_file;</span><br><span class="line">    <span class="comment">/*......*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>这个函数主要就是设置这个区域，即分配一个vm_area_struct结构，并初始化，添加页表项（注意不是）- 将vma添加到虚拟地址区域链表，并且通过文件结构体找到file_operations模块，调用文件对应的内核mmap函数，这个内核mmap函数原型如下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mmap(struct file *filp, struct vm_area_struct *vma)，不同于用户空间库函数。内核mmap函数通过虚拟文件系统inode模块定位到文件磁盘物理地址,在mmap函数中调用remap_pfn_range()函数建立页表建立页表完成页表,即实现了文件地址和虚拟地址区域的映射关系。此时，这片虚拟地址并没有任何数据关联到主存中</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>致此位置mmap建立映射的整个流程就大致的函数调用说完了。但是这里仅在于创建虚拟区间并完成地址映射，但是并没有将任何文件数据的拷贝至主存。真正的文件读取是当进程发起读或写操作时。下面来说说文件内容到主存的拷贝</p>
+<hr>
+<h1 id="文件内容到物理内存（主存）的拷贝"><a href="#文件内容到物理内存（主存）的拷贝" class="headerlink" title="文件内容到物理内存（主存）的拷贝"></a>文件内容到物理内存（主存）的拷贝</h1><blockquote>
+<p>进程发起对这片映射空间的访问，引发缺页异常，实现文件内容到物理内存（主存）的拷贝</p>
+</blockquote>
+<ol>
+<li><p>进程的读或写操作访问虚拟地址空间这一段映射地址，通过查询页表，发现这一段地址并不在物理页面上。因为目前只建立了地址映射，真正的硬盘数据还没有拷贝到内存中，因此引发缺页异常。</p>
+</li>
+<li><p>缺页异常进行一系列判断，确定无非法操作后，内核发起请求调页过程。</p>
+</li>
+<li><p>调页过程先在交换缓存空间（swap cache）中寻找需要访问的内存页，如果没有则调用nopage函数把所缺的页从磁盘装入到主存中。</p>
+</li>
+<li><p>之后进程即可对这片主存进行读或者写的操作，如果写操作改变了其内容，一定时间后系统会自动回写脏页面到对应磁盘地址，也即完成了写入到文件的过程。</p>
+</li>
+</ol>
+<p><img src="https://i.imgur.com/UvjQ45t.jpg" alt=""><br><code>注意：修改过的脏页面并不会立即更新回文件中，而是有一段时间的延迟，可以调用msync()来强制同步, 这样所写的内容就能立即保存到文件里了。</code></p>
+<ul>
+<li>知识拓展：脏页<blockquote>
+<p>脏页－linux内核中的概念，因为硬盘的读写速度远赶不上内存的速度，系统就把读写比较频繁的数据事先放到内存中，以提高读写速度，这就叫高速缓存，linux是以页作为高速缓存的单位，当进程修改了高速缓存里的数据时，该页就被内核标记为脏页，内核将会在合适的时间把脏页的数据写到磁盘中去，以保持高速缓存中的数据和磁盘中的数据是一致的。</p>
+</blockquote>
+</li>
+</ul>
+<p>参考：</p>
+<p><a href="http://doc.okbase.net/28541347/archive/261667.html" target="_blank" rel="noopener">http://doc.okbase.net/28541347/archive/261667.html</a>mmap实现分析<br><a href="https://www.cnblogs.com/huxiao-tee/p/4660352.html" target="_blank" rel="noopener">https://www.cnblogs.com/huxiao-tee/p/4660352.html</a>认真分析mmap：是什么 为什么 怎么用<br><a href="https://www.cnblogs.com/wanpengcoder/articles/5306688.html" target="_blank" rel="noopener">https://www.cnblogs.com/wanpengcoder/articles/5306688.html</a>linux内存映射mmap原理分析</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的鼓励！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="李帅 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="李帅 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/26/NAT/" rel="next" title="NAT">
+                <i class="fa fa-chevron-left"></i> NAT
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDMxMC8xMDg0Nw=="></div>
+    </div>
+
+  
+
+
+
+<div id="lv-container" data-uid="MTAyMC8zNDMxMC8xMDg0Nw=="></div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/timg.jpg"
+                alt="李帅" />
+            
+              <p class="site-author-name" itemprop="name">李帅</p>
+              <p class="site-description motion-element" itemprop="description">承载着太多希望，怎敢轻易辜负</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lishuaiwq" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://blog.csdn.net/it_iverson" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#mmap的初识"><span class="nav-number">1.</span> <span class="nav-text">mmap的初识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#linux虚拟内存区域"><span class="nav-number">2.</span> <span class="nav-text">linux虚拟内存区域</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#mmap的原理（映射建立过程）"><span class="nav-number">3.</span> <span class="nav-text">mmap的原理（映射建立过程）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件内容到物理内存（主存）的拷贝"><span class="nav-number">4.</span> <span class="nav-text">文件内容到物理内存（主存）的拷贝</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">
+
+&copy; 
+<span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李帅</span>
+</div>
+  <div class="powered-by">
+   莫忘初心 | 
+  </div>
+
+  <div class="theme-info">
+  方得始终 
+  </dev>
+ 
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=65847089" charset="UTF-8"></script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0BX9IKUhxkUaAts8RxeUw4Va-gzGzoHsz", "sx7pxW7Chj1NJJGH8X1kbsSM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
