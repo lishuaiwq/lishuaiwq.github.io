@@ -87,7 +87,7 @@
 <meta property="og:description" content="此篇博客主要讲的vector的一些用法。  vecrtor的简介 vector是动态的空间的序列式容器，随着元素的的加入，它的内部机制会自动扩充空间以容纳新元素，就像数组一样，vector也采用的连续存储空间来存储元素。也就是意味着可以采用下标对vector的元素进行访问，和数组一样高效。但是又不像数组，它的大小是可以动态改变的，而且它的大小会被容器自动处理。 与其它动态序列容器相比（deque">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.imgur.com/l0wlGfF.jpg">
-<meta property="og:updated_time" content="2018-05-30T14:48:17.478Z">
+<meta property="og:updated_time" content="2018-06-02T12:33:06.477Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vector用法详解">
 <meta name="twitter:description" content="此篇博客主要讲的vector的一些用法。  vecrtor的简介 vector是动态的空间的序列式容器，随着元素的的加入，它的内部机制会自动扩充空间以容纳新元素，就像数组一样，vector也采用的连续存储空间来存储元素。也就是意味着可以采用下标对vector的元素进行访问，和数组一样高效。但是又不像数组，它的大小是可以动态改变的，而且它的大小会被容器自动处理。 与其它动态序列容器相比（deque">
@@ -349,7 +349,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,088
+                  1,231
                 </span>
               
 
@@ -365,7 +365,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  5
                 </span>
               
             </div>
@@ -420,7 +420,7 @@
 <p><code>还应该注意的是使用erase以后迭代器会失效。</code></p>
 <h2 id="Resize"><a href="#Resize" class="headerlink" title="Resize"></a>Resize</h2><ul>
 <li>调整容器的大小,使其包含n个元素(注意这里是个数)，所以说应该是改变其size<blockquote>
-<p>如果n小于当前的容器大小，则内容被缩减为其前n个元素，将其删除（并销毁它们）。如果n大于当前容器大小，则通过在末尾插入尽可能多的元素来扩展内容以达到n的大小。 如果指定val，则将新元素初始化为val的副本，否则将进行值初始化。如果n也大于当前容器容量，则会自动重新分配分配的存储空间。请注意，此函数通过插入或删除容器中的元素来更改容器的实际内容。</p>
+<p>如果n小于当前的容器大小，则内容被缩减为其前n个元素，将其删除（并销毁它们）。如果n大于当前元素大小，则通过在末尾插入尽可能多的元素来扩展内容以达到n的大小。 如果指定val，则将新元素初始化为val的副本，否则将进行值初始化。如果n也大于当前容器容量，则会自动重新分配分配的存储空间。请注意，此函数通过插入或删除容器中的元素来更改容器的实际内容。</p>
 </blockquote>
 </li>
 </ul>
@@ -437,8 +437,26 @@
 </blockquote>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reserve</span> <span class="params">(size_type n)</span></span>;</span><br></pre></td></tr></table></figure>
 <ul>
-<li>给出源代码<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reserve</span><span class="params">(size_type n)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (capacity() &lt; n) &#123;</span><br><span class="line">     <span class="keyword">const</span> size_type old_size = size();</span><br><span class="line">     iterator tmp = allocate_and_copy(n, start, finish);</span><br><span class="line">     destroy(start, finish);</span><br><span class="line">     deallocate();</span><br><span class="line">     start = tmp;</span><br><span class="line">     finish = tmp + old_size;</span><br><span class="line">     end_of_storage = start + n;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></li>
+<li>给出源代码<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reserve</span><span class="params">(size_type n)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (capacity() &lt; n) &#123;</span><br><span class="line">     <span class="keyword">const</span> size_type old_size = size();</span><br><span class="line">     iterator tmp = allocate_and_copy(n, start, finish);</span><br><span class="line">     destroy(start, finish);</span><br><span class="line">     deallocate();</span><br><span class="line">     start = tmp;</span><br><span class="line">     finish = tmp + old_size;</span><br><span class="line">     end_of_storage = start + n;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
+<h2 id="insert"><a href="#insert" class="headerlink" title="insert"></a>insert</h2><ul>
+<li>在指定的位置插入元素一般来说有如下几种用法</li>
+</ul>
+<ol>
+<li><p>指定位置前面插入一个指定的元素</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">iterator <span class="title">insert</span> <span class="params">(iterator position, <span class="keyword">const</span> value_type&amp; val)</span></span>;<span class="comment">//返回插入元素的位置</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>指定的位置之前插入N个值为value的元素</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span> <span class="params">(iterator position, size_type n, <span class="keyword">const</span> value_type&amp; val)</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在指定位置loc前插入区间[start, end)的所有元素</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">InputIterator</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">void</span> <span class="title">insert</span> (<span class="title">iterator</span> <span class="title">position</span>, <span class="title">InputIterator</span> <span class="title">first</span>, <span class="title">InputIterator</span> <span class="title">last</span>);</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>好像vector理解到这其实就差不多了剩下的自己去查阅reference<br><a href="http://www.cplusplus.com/reference/vector/vector/" target="_blank" rel="noopener">http://www.cplusplus.com/reference/vector/vector/</a></p>
+</blockquote>
 
       
     </div>
@@ -631,7 +649,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -702,7 +720,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vecrtor的简介"><span class="nav-number">1.</span> <span class="nav-text">vecrtor的简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vector重点用法"><span class="nav-number">2.</span> <span class="nav-text">vector重点用法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#construct构造函数"><span class="nav-number">2.1.</span> <span class="nav-text">construct构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Erase删除元素"><span class="nav-number">2.2.</span> <span class="nav-text">Erase删除元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Resize"><span class="nav-number">2.3.</span> <span class="nav-text">Resize</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reserve"><span class="nav-number">2.4.</span> <span class="nav-text">Reserve</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vecrtor的简介"><span class="nav-number">1.</span> <span class="nav-text">vecrtor的简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vector重点用法"><span class="nav-number">2.</span> <span class="nav-text">vector重点用法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#construct构造函数"><span class="nav-number">2.1.</span> <span class="nav-text">construct构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Erase删除元素"><span class="nav-number">2.2.</span> <span class="nav-text">Erase删除元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Resize"><span class="nav-number">2.3.</span> <span class="nav-text">Resize</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reserve"><span class="nav-number">2.4.</span> <span class="nav-text">Reserve</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#insert"><span class="nav-number">2.5.</span> <span class="nav-text">insert</span></a></li></ol></li></ol></div>
             
 
           </div>

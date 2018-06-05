@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Lishuai&#39;s博客">
 <meta property="og:description" content="此篇博客主要的内容就是讲解一个源代码到可执行文件中间经历的过程：预处理–编译–汇编–链接，其中重点在编译上面，至于连接在后面会有单独的博客出来讲解，此篇博客不作为重点内容。  初识 在这里对上述的过程做一个简单的介绍让大家对于每个过程具体做了什么有一个感性的认识。   在我们使用gcc编译器编译.c程序的时候只需要简单的gcc hello.c就可以生成a.out的可执行文件，但是看似一步到位的过">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-02T07:33:42.031Z">
+<meta property="og:updated_time" content="2018-06-02T09:18:25.801Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从源代码到可执行文件">
 <meta name="twitter:description" content="此篇博客主要的内容就是讲解一个源代码到可执行文件中间经历的过程：预处理–编译–汇编–链接，其中重点在编译上面，至于连接在后面会有单独的博客出来讲解，此篇博客不作为重点内容。  初识 在这里对上述的过程做一个简单的介绍让大家对于每个过程具体做了什么有一个感性的认识。   在我们使用gcc编译器编译.c程序的时候只需要简单的gcc hello.c就可以生成a.out的可执行文件，但是看似一步到位的过">
@@ -347,7 +347,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,271
+                  2,272
                 </span>
               
 
@@ -447,7 +447,7 @@
 <p>代码优化是指对程序进行多种等价变换，使得从变换后的程序出发，能生成更有效的目标代码。所谓等价，是指不改变程序的运行结果。所谓有效，主要指目标代码运行时间较短，以及占用的存储空间较小。这种变换称为优化。有两类优化：一类是对语法分析后的中间代码进行优化，它不依赖于具体的计算机；另一类是在生成目标代码时进行的，它在很大程度上依赖于具体的计算机。对于前一类优化，根据它所涉及的程序范围可分为局部优化、循环优化和全局优化三个不同的级别。</p>
 </blockquote>
 <ul>
-<li>经历了词法分析、语法分析、语义分析、代码优化和目标代码生成以后（这个目标代码是汇编代码，当然还有另外两种也成为目标代码即可执行和.o），有个问题就是变量的地址还没有确定，当我们用汇编器将汇编代码转换为机器执行的指令，那么变量的地址从哪得到呢？如果变量和源代码在一个源文件那么编译器可以为其确定地址,如果是其他模块，则只能在连接的时候确定</li>
+<li>经历了词法分析、语法分析、语义分析、代码优化和目标代码生成以后（这个目标代码是汇编代码，当然还有另外两种也成为目标代码即可执行和.o），有个问题就是变量的地址还没有确定，当我们用汇编器将汇编代码转换为机器执行的指令，那么变量的地址从哪得到呢？如果变量和源代码在一个源文件那么编译器可以为其确定地址,如果是其他模块，则只能在连接的时候确定0</li>
 </ul>
 
       
@@ -511,6 +511,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/04/目标文件里面有什么-ELF文件格式/" rel="prev" title="目标文件里面有什么-ELF">
+                目标文件里面有什么-ELF <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -637,7 +641,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
