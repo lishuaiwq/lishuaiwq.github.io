@@ -79,17 +79,19 @@
 
 
 
-<meta name="description" content="此篇博客主要的内容就是讲解一个源代码到可执行文件中间经历的过程：预处理–编译–汇编–链接，其中重点在编译上面，至于连接在后面会有单独的博客出来讲解，此篇博客不作为重点内容。  初识 在这里对上述的过程做一个简单的介绍让大家对于每个过程具体做了什么有一个感性的认识。   在我们使用gcc编译器编译.c程序的时候只需要简单的gcc hello.c就可以生成a.out的可执行文件，但是看似一步到位的过">
+<meta name="description" content="什么是静态链接 静态链接是由链接器在链接时将库的内容加入到可执行程序中的做法。链接器是一个独立程序，将一个或多个库或目标文件（先前由编译器或汇编器生成）链接到一块生成可执行程序。静态链接的最大缺点是生成的可执行文件太大，需要更多的系统资源，在装入内存时也会消耗更多的时间。像Unix ld程序这样的静态链接器（static linker）以一组可重定位的目标文件作为输入，生成一个完全连接的可以加载和">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从源代码到可执行文件">
-<meta property="og:url" content="http://yoursite.com/2018/06/02/从源代码到可执行文件/index.html">
+<meta property="og:title" content="静态链接">
+<meta property="og:url" content="http://yoursite.com/2018/06/06/静态链接/index.html">
 <meta property="og:site_name" content="Lishuai&#39;s博客">
-<meta property="og:description" content="此篇博客主要的内容就是讲解一个源代码到可执行文件中间经历的过程：预处理–编译–汇编–链接，其中重点在编译上面，至于连接在后面会有单独的博客出来讲解，此篇博客不作为重点内容。  初识 在这里对上述的过程做一个简单的介绍让大家对于每个过程具体做了什么有一个感性的认识。   在我们使用gcc编译器编译.c程序的时候只需要简单的gcc hello.c就可以生成a.out的可执行文件，但是看似一步到位的过">
+<meta property="og:description" content="什么是静态链接 静态链接是由链接器在链接时将库的内容加入到可执行程序中的做法。链接器是一个独立程序，将一个或多个库或目标文件（先前由编译器或汇编器生成）链接到一块生成可执行程序。静态链接的最大缺点是生成的可执行文件太大，需要更多的系统资源，在装入内存时也会消耗更多的时间。像Unix ld程序这样的静态链接器（static linker）以一组可重定位的目标文件作为输入，生成一个完全连接的可以加载和">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-02T09:18:25.801Z">
+<meta property="og:image" content="https://i.imgur.com/JKK9Y2r.jpg">
+<meta property="og:updated_time" content="2018-06-06T02:33:21.006Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="从源代码到可执行文件">
-<meta name="twitter:description" content="此篇博客主要的内容就是讲解一个源代码到可执行文件中间经历的过程：预处理–编译–汇编–链接，其中重点在编译上面，至于连接在后面会有单独的博客出来讲解，此篇博客不作为重点内容。  初识 在这里对上述的过程做一个简单的介绍让大家对于每个过程具体做了什么有一个感性的认识。   在我们使用gcc编译器编译.c程序的时候只需要简单的gcc hello.c就可以生成a.out的可执行文件，但是看似一步到位的过">
+<meta name="twitter:title" content="静态链接">
+<meta name="twitter:description" content="什么是静态链接 静态链接是由链接器在链接时将库的内容加入到可执行程序中的做法。链接器是一个独立程序，将一个或多个库或目标文件（先前由编译器或汇编器生成）链接到一块生成可执行程序。静态链接的最大缺点是生成的可执行文件太大，需要更多的系统资源，在装入内存时也会消耗更多的时间。像Unix ld程序这样的静态链接器（static linker）以一组可重定位的目标文件作为输入，生成一个完全连接的可以加载和">
+<meta name="twitter:image" content="https://i.imgur.com/JKK9Y2r.jpg">
 
 
 
@@ -119,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/06/02/从源代码到可执行文件/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/06/静态链接/"/>
 
 
 
 
 
-  <title>从源代码到可执行文件 | Lishuai's博客</title>
+  <title>静态链接 | Lishuai's博客</title>
   
 
 
@@ -252,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/02/从源代码到可执行文件/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/06/静态链接/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李帅">
@@ -269,7 +271,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">从源代码到可执行文件</h1>
+          <h1 class="post-title" itemprop="name headline">静态链接</h1>
         
 
         <div class="post-meta">
@@ -281,8 +283,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-02T12:31:54+08:00">
-                2018-06-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-06T08:58:58+08:00">
+                2018-06-06
               </time>
             
 
@@ -321,7 +323,7 @@
 
           
           
-             <span id="/2018/06/02/从源代码到可执行文件/" class="leancloud_visitors" data-flag-title="从源代码到可执行文件">
+             <span id="/2018/06/06/静态链接/" class="leancloud_visitors" data-flag-title="静态链接">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -347,7 +349,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,272
+                  1,044
                 </span>
               
 
@@ -363,7 +365,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  8
+                  4
                 </span>
               
             </div>
@@ -384,71 +386,46 @@
       
 
       
-        <blockquote>
-<p>此篇博客主要的内容就是讲解一个源代码到可执行文件中间经历的过程：预处理–编译–汇编–链接，其中重点在编译上面，至于连接在后面会有单独的博客出来讲解，此篇博客不作为重点内容。</p>
+        <h1 id="什么是静态链接"><a href="#什么是静态链接" class="headerlink" title="什么是静态链接"></a>什么是静态链接</h1><blockquote>
+<p>静态链接是由链接器在链接时将库的内容加入到可执行程序中的做法。链接器是一个独立程序，将一个或多个库或目标文件（先前由编译器或汇编器生成）链接到一块生成可执行程序。静态链接的最大缺点是生成的可执行文件太大，需要更多的系统资源，在装入内存时也会消耗更多的时间。像Unix ld程序这样的静态链接器（static linker）以一组可重定位的目标文件作为输入，生成一个完全连接的可以加载和运行的可执行目标文件作为输出。输入的可重定位目标文件由各种不同的代码和数据节（section）组成。指令在一个节中，初始化的全局变量在一个节中；而未初始化的变量在另外一个节中。</p>
 </blockquote>
-<h1 id="初识"><a href="#初识" class="headerlink" title="初识"></a>初识</h1><blockquote>
-<p>在这里对上述的过程做一个简单的介绍让大家对于每个过程具体做了什么有一个感性的认识。</p>
+<h1 id="静态链接过程中链接器做了什么？"><a href="#静态链接过程中链接器做了什么？" class="headerlink" title="静态链接过程中链接器做了什么？"></a>静态链接过程中链接器做了什么？</h1><blockquote>
+<p>其实现在的链接器一般都采用两步链接的方法，也就是说整个链接的过程分为两步</p>
 </blockquote>
+<ol>
+<li><p>空间与地址的分配</p>
+<blockquote>
+<p>扫描所有的目标文件，获得他们各个段的长度、属性和位置，并且将所有目标文件中的符号表中的所有符号定义和符号引用收集起来，统一放在一个全局符号表中，然后合并相关的段，并且计算出文件中各个段合并后的位置，建立映射关系</p>
+</blockquote>
+</li>
+<li><p>符号解析和重定位</p>
+<blockquote>
+<p>使用上面搜集到的信息，读取输入文件中段的数据、重定位信息，并且进行符号解析和重定位、调整代码的地址。<code>第二步是整个链接的核心，尤其是重定位</code></p>
+</blockquote>
+</li>
+</ol>
 <ul>
-<li>在我们使用gcc编译器编译.c程序的时候只需要简单的gcc hello.c就可以生成a.out的可执行文件，但是看似一步到位的过程其实中间编译器为我们做了很多的事情，分别是预处理、编译、汇编、链接，只是编译器将这些过程隐藏了，所以让用户可以一步到位。下面我们就来认识一下这些过程</li>
+<li>注意：在链接前后程序中使用的已经是程序在进程中的虚拟地址了，即是我们所关心的ELF文件格式中的VMA和size,而不在关系文件偏移(file off).因为我们可以看到在链接之前目标文件的所有段的VMA都是0，因为虚拟地址空间还没分配，所以他们默认都是0.等到链接以后各个段就被分配到了相应的虚拟地址。<code>VMA是虚拟地址，LMA是加载地址，这两个值一般情况下是相等的。</code></li>
 </ul>
-<h2 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h2><blockquote>
-<p>预处理的主要功能处理源代码中以#开头的预编译指令，使用gcc -E hello.c可生成.i文件，下面给出详细的一些处理规则</p>
-</blockquote>
+<p><img src="https://i.imgur.com/JKK9Y2r.jpg" alt=""></p>
+<p>在这里有个问题，为什么可执行文件中.text段不是从0地址开始分配呢，而是被分配到了0x08048094呢。。这就涉及到了操作系统的进程虚拟地址空间的分配原则，在linux下，ELF可执行文件默认从地址0X08048000开始分配。关于地址空间分配后面再详细谈。</p>
 <ul>
-<li>将所有的#define删除，并且展开所有的宏定义，即进行宏替换</li>
-<li>处理所有的条件预编译指令，如#if 、#ifdef、#ifndef、#elif、#else、#endif</li>
-<li>处理#include预编译指令，将包含的文件插入到该预编译指令的位置，在这个过程中是递归进行的</li>
-<li>删除注释</li>
-<li>添加行号和文件名标识。方便在编译时编译器产生调试用的行号信息及编译时产生的警告或者错误时能够给出文件和错误行号。</li>
-<li>保留所有#pragma编译器指令，因为编译器需要使用它们。</li>
+<li><p>符号地址的确认</p>
+<blockquote>
+<p>这里主要是确认函数和变量的虚拟地址。因为段的虚拟地址已经确认了，那么各个符号在段内的相对位置是固定的，但是链接器需要给他们加一个偏移量，使他们能够对应到正确的虚拟地址。举个例子，比如main函数相对于a.o的。.text段偏移是X，但是经过链接以后a.o的 .text段位于虚拟地址0x08048094了，那么main的偏移也相应的是0x08048094+X.</p>
+</blockquote>
+</li>
 </ul>
-<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><blockquote>
-<p>编译的过程就是将处理完成以后的.i文件进行一系列的词法分析、语法分析、语义分析及优化以后生成相应的汇编代码.s文件，这个过程是整个程序构建的核心也是四个过程最重要的一步，我们使用gcc -S hello.i可以得到编译后的汇编文件hello.s。<code>gcc实际上只是后台程序的包装，他会根据不同的参数去调用预处理器或者编译器或者汇编器、或者连接器</code></p>
-</blockquote>
-<h2 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h2><blockquote>
-<p>汇编是将汇编文件hello.s文件转变成机器可以执行的指令就是我们所说的目标文件hello.o文件，每个汇编语句几乎都对应一条执行的机器指令。所以汇编器的工作 相对来说就比较简单，只是单纯的根据汇编语句和机器指令的对照表一一翻译记忆可以了，没有复杂的语法、也没有 语义和优化等操作。用gcc -c hello.s就可以生成hello.o文件</p>
-</blockquote>
-<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><blockquote>
-<p>链接还是一个很值得去研究的东西，后面我会有单独的博客去说链接的问题，链接的作用就是将多个.o目标文件链接起来形成一个可执行文件a.out。在这里就不多啰嗦了，先有一个感性的认知吧</p>
-</blockquote>
 <hr>
-<p>到这里大家对于上述的那些过程有了一些认识了吧，下面我来详细挑里面的重点来说</p>
-<hr>
-<h1 id="编译详解"><a href="#编译详解" class="headerlink" title="编译详解"></a>编译详解</h1><blockquote>
-<p>编译这个核心步骤一般来说可以分为这么几步：扫描、词法分析、语法分析、语义分析、中间语言生成、目标代码生成及优化，下面我来分别详细叙述每一步</p>
-</blockquote>
-<h2 id="词法分析"><a href="#词法分析" class="headerlink" title="词法分析"></a>词法分析</h2><blockquote>
-<p>首先源代码即预处理过后的代码被输入到扫描器，扫描器的任务只是简单的进行词法分析，运用一种类似于有限状态机的算法可以很轻松的将源代码的字符序列分割成一系列的记号，即将每个单词进行标记，记录他是什么类型的，举个例子<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sum=<span class="number">2</span>+<span class="number">3</span>;经过词法分析以后</span><br><span class="line"></span><br><span class="line">sum:标识符</span><br><span class="line">=：赋值</span><br><span class="line"><span class="number">2</span>：数字</span><br><span class="line">+：加号</span><br><span class="line"><span class="number">3</span>：数字</span><br><span class="line">；结束语句</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<blockquote>
-<p>词法分析产生的记号的类型一般可以分为如下几类：标识符、关键字、字面量（数字、字符串等）和特殊符号（加号、等号等）。在标识记号的同时，扫描器还完成了其他的 工作比如讲标识符存放到符号表中，将数字、字符串常量放在文字表中、以备后面步骤使用。<br><code>补充有一个叫做lex的程序可以实现词法扫描，他会根据用户之前规定的词法规则将传入的字符串分割成一个一个记号，因为这个程序的存在编译器的开发就会简单的多，而不需要在取开发一个单独的词法扫描器</code></p>
-</blockquote>
-<h2 id="语法分析"><a href="#语法分析" class="headerlink" title="语法分析"></a>语法分析</h2><blockquote>
-<p>语法分析就是对由扫描器进行词法分析以后产生的记号进行语法分析，从而产生语法树。整个分析的过程采用了上下文无关语法的分析手段。语法分析的任务是在词法分析的基础上将单词序列组合成各类语法短语，如“程序”，“语句”，“表达式”等等.语法分析程序判断源程序在结构上是否正确.<code>如果表达式不合法比如各种括号不匹配、表达式中缺少操作符，编译器就会报告语法分析阶段的错误</code></p>
-</blockquote>
-<blockquote>
-<p>语法分析也有专门的工具叫做yacc，根据用户给定的规则进行语法分析，从而构建出一颗语法树。</p>
-</blockquote>
-<h2 id="语义分析"><a href="#语义分析" class="headerlink" title="语义分析"></a>语义分析</h2><blockquote>
-<p>语法分析仅仅是对表达式语法层面的分析，即代码结构方面的分析，而没有去关注你的这个表达式是否在合法的，所以语义分析就来完成这些事情，比如语法里面 两个指做乘法是没有意义的，这个是在语句上合法的。编译器能分析的语义是静态语义：即在编译期间就可以确定的语义还有与之对应的动态语义即在运行期间才能确定。</p>
-</blockquote>
-<blockquote>
-<p>静态语义通常就是声明和类型的匹配，类型转换，如果不合法就要在这个时候编译器报错。动态语义一般是运行期间才能确定的，不运行你就没法判断对错，即将0作为除数是运行期间的语义错误。</p>
-</blockquote>
-<blockquote>
-<p>经过语法分析以后，整个语法树的表达式都被标记了类型，如果有些类型需要做隐式类型转换，则会在语法树中插入相应的转换结点。语义分析也会对符号表里面的符号做了更新</p>
-</blockquote>
-<h2 id="中间语言生成"><a href="#中间语言生成" class="headerlink" title="中间语言生成"></a>中间语言生成</h2><blockquote>
-<p>中间代码生成是产生中间代码的过程。所谓“中间代码”是一种结构简单、含义明确的记号系统，这种记号系统复杂性介于源程序语言和机器语言之间，容易将它翻译成目标代码。另外，还可以在中间代码一级进行与机器无关的优化。在进行了语法分析和语义分析阶段的工作之后，有的编译程序将源程序变成一种内部表示形式，这种内部表示形式叫做中间语言或中间表示或中间代码。</p>
-</blockquote>
-<h2 id="目标代码的生成与优化"><a href="#目标代码的生成与优化" class="headerlink" title="目标代码的生成与优化"></a>目标代码的生成与优化</h2><blockquote>
-<p>代码优化是指对程序进行多种等价变换，使得从变换后的程序出发，能生成更有效的目标代码。所谓等价，是指不改变程序的运行结果。所谓有效，主要指目标代码运行时间较短，以及占用的存储空间较小。这种变换称为优化。有两类优化：一类是对语法分析后的中间代码进行优化，它不依赖于具体的计算机；另一类是在生成目标代码时进行的，它在很大程度上依赖于具体的计算机。对于前一类优化，根据它所涉及的程序范围可分为局部优化、循环优化和全局优化三个不同的级别。</p>
-</blockquote>
-<ul>
-<li>经历了词法分析、语法分析、语义分析、代码优化和目标代码生成以后（这个目标代码是汇编代码，当然还有另外两种也成为目标代码即可执行和.o），有个问题就是变量的地址还没有确定，当我们用汇编器将汇编代码转换为机器执行的指令，那么变量的地址从哪得到呢？如果变量和源代码在一个源文件那么编译器可以为其确定地址,如果是其他模块，则只能在连接的时候确定0</li>
+<h1 id="符号解析和重定位"><a href="#符号解析和重定位" class="headerlink" title="符号解析和重定位"></a>符号解析和重定位</h1><ul>
+<li>在上一个标题中顺便就把空间和地址的分配说了一下，所以现在我们就把重点放在符号解析和重定位上面来讲，因为这个才是静态链接的最重要的部分。</li>
 </ul>
+<h2 id="重定位"><a href="#重定位" class="headerlink" title="重定位"></a>重定位</h2><blockquote>
+<p>因为每个可重定位的ELF文件中都有一个重定位表，用来描述如何修改相应段的内容。</p>
+</blockquote>
+<h2 id="符号解析"><a href="#符号解析" class="headerlink" title="符号解析"></a>符号解析</h2><blockquote>
+<p>重定位的过程中，每个重定位的目标都是对一个符号的引用，那么当链接器必须要对某个符号的引用进行重新定位的时候，就回去扫描前面收集的全局符号表，找到相应的符号进行重定位。</p>
+</blockquote>
 
       
     </div>
@@ -502,8 +479,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/29/vector用法详解/" rel="next" title="vector用法详解">
-                <i class="fa fa-chevron-left"></i> vector用法详解
+              <a href="/2018/06/04/目标文件里面有什么-ELF文件格式/" rel="next" title="目标文件里面有什么-ELF">
+                <i class="fa fa-chevron-left"></i> 目标文件里面有什么-ELF
               </a>
             
           </div>
@@ -511,10 +488,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/06/04/目标文件里面有什么-ELF文件格式/" rel="prev" title="目标文件里面有什么-ELF">
-                目标文件里面有什么-ELF <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -712,7 +685,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#初识"><span class="nav-number">1.</span> <span class="nav-text">初识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#预处理"><span class="nav-number">1.1.</span> <span class="nav-text">预处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译"><span class="nav-number">1.2.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汇编"><span class="nav-number">1.3.</span> <span class="nav-text">汇编</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链接"><span class="nav-number">1.4.</span> <span class="nav-text">链接</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编译详解"><span class="nav-number">2.</span> <span class="nav-text">编译详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#词法分析"><span class="nav-number">2.1.</span> <span class="nav-text">词法分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法分析"><span class="nav-number">2.2.</span> <span class="nav-text">语法分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语义分析"><span class="nav-number">2.3.</span> <span class="nav-text">语义分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间语言生成"><span class="nav-number">2.4.</span> <span class="nav-text">中间语言生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标代码的生成与优化"><span class="nav-number">2.5.</span> <span class="nav-text">目标代码的生成与优化</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是静态链接"><span class="nav-number">1.</span> <span class="nav-text">什么是静态链接</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#静态链接过程中链接器做了什么？"><span class="nav-number">2.</span> <span class="nav-text">静态链接过程中链接器做了什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#符号解析和重定位"><span class="nav-number">3.</span> <span class="nav-text">符号解析和重定位</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#重定位"><span class="nav-number">3.1.</span> <span class="nav-text">重定位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号解析"><span class="nav-number">3.2.</span> <span class="nav-text">符号解析</span></a></li></ol></li></ol></div>
             
 
           </div>
