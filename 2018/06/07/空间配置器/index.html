@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="此篇文章主要对于空间适配器的底层的实现原理进行剖析.  什么是空间配置器？ 空间配置器简而言之就是给在容器的背后默默给容器提供空间、管理空间、释放空间的，当容器需要空间的时候就找空间配置器去要就好了，至于空间的那些管理，容器不需要关心。空间适配器也是我们封装的类，用这个类来管理空间，我们只需要在我们的容器中给出我们需要的接口的就可以了。   空间配置器分为一级空间适配器和二级空间空间配置器。当所">
+<meta property="og:type" content="article">
+<meta property="og:title" content="空间配置器">
+<meta property="og:url" content="http://yoursite.com/2018/06/07/空间配置器/index.html">
+<meta property="og:site_name" content="Lishuai&#39;s博客">
+<meta property="og:description" content="此篇文章主要对于空间适配器的底层的实现原理进行剖析.  什么是空间配置器？ 空间配置器简而言之就是给在容器的背后默默给容器提供空间、管理空间、释放空间的，当容器需要空间的时候就找空间配置器去要就好了，至于空间的那些管理，容器不需要关心。空间适配器也是我们封装的类，用这个类来管理空间，我们只需要在我们的容器中给出我们需要的接口的就可以了。   空间配置器分为一级空间适配器和二级空间空间配置器。当所">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/7nMq2O1.jpg">
+<meta property="og:image" content="https://i.imgur.com/B7a4NRC.jpg">
+<meta property="og:image" content="https://i.imgur.com/YvRJaBH.jpg">
+<meta property="og:image" content="https://i.imgur.com/9ciFIVN.jpg">
+<meta property="og:image" content="https://i.imgur.com/rdxDFao.jpg">
+<meta property="og:updated_time" content="2018-06-07T09:26:51.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="空间配置器">
+<meta name="twitter:description" content="此篇文章主要对于空间适配器的底层的实现原理进行剖析.  什么是空间配置器？ 空间配置器简而言之就是给在容器的背后默默给容器提供空间、管理空间、释放空间的，当容器需要空间的时候就找空间配置器去要就好了，至于空间的那些管理，容器不需要关心。空间适配器也是我们封装的类，用这个类来管理空间，我们只需要在我们的容器中给出我们需要的接口的就可以了。   空间配置器分为一级空间适配器和二级空间空间配置器。当所">
+<meta name="twitter:image" content="https://i.imgur.com/7nMq2O1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/07/空间配置器/"/>
+
+
+
+
+
+  <title>空间配置器 | Lishuai's博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lishuai's博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/07/空间配置器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李帅">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/timg.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lishuai's博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">空间配置器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-07T10:32:32+08:00">
+                2018-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构随笔/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构随笔</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/06/07/空间配置器/" class="leancloud_visitors" data-flag-title="空间配置器">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+		 <span>℃</span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,745
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>此篇文章主要对于空间适配器的底层的实现原理进行剖析.</p>
+</blockquote>
+<h1 id="什么是空间配置器？"><a href="#什么是空间配置器？" class="headerlink" title="什么是空间配置器？"></a>什么是空间配置器？</h1><blockquote>
+<p>空间配置器简而言之就是给在容器的背后默默给容器提供空间、管理空间、释放空间的，当容器需要空间的时候就找空间配置器去要就好了，至于空间的那些管理，容器不需要关心。空间适配器也是我们封装的类，用这个类来管理空间，我们只需要在我们的容器中给出我们需要的接口的就可以了。</p>
+</blockquote>
+<blockquote>
+<p>空间配置器分为一级空间适配器和二级空间空间配置器。当所申请的内存大于128byte的时候，我们认为申请的足够大，所以使用一级空间配置器，当我们申请的内存小于128byte的时候，我们使用二级空间配置器，其中一级空间配置器的类是（<strong>malloc_alloc_template） 二级空间适配器的类是（</strong>default_alloc_template）。在SGI中将这个两个类封装在（simple_alloc）这个类中去使用我们的空间配置器。</p>
+</blockquote>
+<h1 id="为什么需要空间配置器"><a href="#为什么需要空间配置器" class="headerlink" title="为什么需要空间配置器"></a>为什么需要空间配置器</h1><p><img src="https://i.imgur.com/7nMq2O1.jpg" alt=""></p>
+<h1 id="SGI的空间配置器的接口"><a href="#SGI的空间配置器的接口" class="headerlink" title="SGI的空间配置器的接口"></a>SGI的空间配置器的接口</h1><ul>
+<li>一级空间配置器和二级空间配置器的调用关系</li>
+</ul>
+<p><img src="https://i.imgur.com/B7a4NRC.jpg" alt=""></p>
+<blockquote>
+<p>SGI在这里提供了一个宏__USE_MALLOC，定义了这个宏，调用第一级配置器，没有定义的，调用第二级配置器。另外就是，接下来，STL 为了让整个符合规范化，在这里，STL封装了一个类叫做simple_alloc，通过这个接口，我们来调用空间配置器进行内存管理。</p>
+</blockquote>
+<p><img src="https://i.imgur.com/YvRJaBH.jpg" alt=""></p>
+<h1 id="一级空间配置器"><a href="#一级空间配置器" class="headerlink" title="一级空间配置器"></a>一级空间配置器</h1><blockquote>
+<p>首先用语言描述一下一级空间配置器的整个过程：一级空间配置器是一个叫做__malloc_alloc_template的类，申请内存大于128个字节以上的时候（一般调用的是二级空间配置器，在二级空间配置器中会判断是否大于128），调用一级空间配置器，在这个类中调用alloc。下面用一个示意图给出</p>
+</blockquote>
+<p><img src="https://i.imgur.com/9ciFIVN.jpg" alt=""></p>
+<p>下面给出具体的函数<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">int</span> inst&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> __<span class="title">malloc_alloc_template</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> *<span class="title">oom_malloc</span><span class="params">(<span class="keyword">size_t</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> *<span class="title">oom_realloc</span><span class="params">(<span class="keyword">void</span> *, <span class="keyword">size_t</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __STL_STATIC_TEMPLATE_MEMBER_BUG</span></span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="title">void</span> <span class="params">(* __malloc_alloc_oom_handler)</span><span class="params">()</span></span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> * <span class="title">allocate</span><span class="params">(<span class="keyword">size_t</span> n)</span><span class="comment">//一级空间适配器入口函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *result = <span class="built_in">malloc</span>(n);<span class="comment">//调用malloc申请内存</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="number">0</span> == result) result = oom_malloc(n);<span class="comment">//申请失败则调用这个函数</span></span><br><span class="line">    <span class="keyword">return</span> result;<span class="comment">//申请成功返回结果</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deallocate</span><span class="params">(<span class="keyword">void</span> *p, <span class="keyword">size_t</span> <span class="comment">/* n */</span>)</span><span class="comment">//释放空间的函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">&#125;</span><br><span class="line">static void (* set_malloc_handler(void (*f)()))()//设置处理函数的函数</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">void</span> (* old)() = __malloc_alloc_oom_handler;<span class="comment">//保存原来的处理方式</span></span><br><span class="line">    __malloc_alloc_oom_handler = f;<span class="comment">//赋值新的处理方式</span></span><br><span class="line">    <span class="keyword">return</span>(old);<span class="comment">//返回旧的处理方式</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __STL_STATIC_TEMPLATE_MEMBER_BUG</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">int</span> inst&gt;</span><br><span class="line"><span class="keyword">void</span> (* __malloc_alloc_template&lt;inst&gt;::__malloc_alloc_oom_handler)() = <span class="number">0</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">int</span> inst&gt;</span><br><span class="line"><span class="keyword">void</span> * __malloc_alloc_template&lt;inst&gt;::oom_malloc(<span class="keyword">size_t</span> n)<span class="comment">//申请失败就调用这个函数</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">void</span> (* my_malloc_handler)();</span><br><span class="line">    <span class="keyword">void</span> *result;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        my_malloc_handler = __malloc_alloc_oom_handler;<span class="comment">//接收处理函数</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="number">0</span> == my_malloc_handler) &#123; __THROW_BAD_ALLOC; &#125;<span class="comment">//如果处理函数为0抛出异常</span></span><br><span class="line">        (*my_malloc_handler)();<span class="comment">//调用处理函数</span></span><br><span class="line">        result = <span class="built_in">malloc</span>(n);<span class="comment">//继续申请</span></span><br><span class="line">        <span class="keyword">if</span> (result) <span class="keyword">return</span>(result);<span class="comment">//申请成功返回结果</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="二级空间配置器"><a href="#二级空间配置器" class="headerlink" title="二级空间配置器"></a>二级空间配置器</h1><blockquote>
+<p>当我们申请的内存小于128Byte时包括，调用二级空间适配器。二级空间适配器的原理是：维护一块大的内存池（使用malloc向内存申请的大的内存块供我们使用），还维护了与其对应的一个自由链表<code>内存池和自由链表上的空间一般来说是第一次申请的时候建立的</code>，当下一次申请的时候，就看自由链表是否有满足要求的空间，有的话直接给进程去使用。</p>
+</blockquote>
+<p><img src="https://i.imgur.com/rdxDFao.jpg" alt=""></p>
+<blockquote>
+<p>这里在阐述一次第二次申请的情况，假如第二次申请n个字节</p>
+</blockquote>
+<ul>
+<li>发现自由链表对应的n的位置下面没有空间了</li>
+<li>然后就会去内存池中要空间，一般要的都是20*n大小的空间，</li>
+<li>如果内存池中的剩余空间大于20*n则给自由链表</li>
+<li>如果内存池中的剩余空间小于20*n但是大于等于n,则能分配几个n就给几个n回去，并且修改分配的个数。</li>
+<li>如果内存池中剩余的空间连一个n都不够的话，那么为了不浪费这一点点剩余的内存，将其挂到对应的自由链表的位置下面，因为都是8的 倍数申请的，所以剩余的肯定也是8的倍数。<ul>
+<li>将剩余那一丢丢挂到自由链表下面以后，则内存池中的空间为0，</li>
+<li>则内存池向内存申请空间这个申请的就是2<em>20</em>n个空间的大小</li>
+<li>如果内存池用malloc没有向内存中要到内存的话,那么就去自由链表中找大于n的内存使用</li>
+<li>如果自由链表中也没有的话，那么就调用一级空间适配器去申请。如果申请到了就返回了，没申请到就在一级空间配置器里面抛出异常了</li>
+<li>申请到了以后自己留下20+n，剩下返回给自由链表</li>
+</ul>
+</li>
+<li><p>自由链表拿到千辛万苦申请到的空间以后，一个n自己用，剩下的配置自由链表</p>
+</li>
+<li><p>二级空间配置器的释放只是将自由链表中的内存放回内存池当中而不是free</p>
+</li>
+<li>如果释放的字节大于128则调用一级空间配置器的释放函数，否则将其还回内存池，</li>
+</ul>
+<p><code>一般来说内存池中的内存只有在进程运行结束的时候才会归还系统</code></p>
+<blockquote>
+<p>下面我们对相关函数一个一个分析,在这里就不体现__default_alloc_template这个类了</p>
+</blockquote>
+<blockquote>
+<p>在描述主要函数之前先说几个辅助的函数和代码</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">enum</span> &#123;__ALIGN = <span class="number">8</span>&#125;;</span><br><span class="line">    <span class="keyword">enum</span> &#123;__MAX_BYTES = <span class="number">128</span>&#125;;</span><br><span class="line">    <span class="keyword">enum</span> &#123;__NFREELISTS = __MAX_BYTES/__ALIGN&#125;;<span class="comment">//空间区域划分</span></span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">static</span> size_t <span class="title">ROUND_UP</span><span class="params">(<span class="keyword">size_t</span> bytes)</span> </span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (((bytes) + __ALIGN<span class="number">-1</span>) &amp; ~(__ALIGN - <span class="number">1</span>));<span class="comment">//作用就是让其和8倍数对齐</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"> uniodn obj &#123;</span><br><span class="line">        <span class="keyword">union</span> obj * free_list_link;</span><br><span class="line">        <span class="keyword">char</span> client_data[<span class="number">1</span>];   <span class="comment">//自由链表</span></span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">char</span> *start_free;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">char</span> *end_free;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">size_t</span> heap_size;<span class="comment">//维护内存池的数据结构</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span>  size_t <span class="title">FREELIST_INDEX</span><span class="params">(<span class="keyword">size_t</span> bytes)</span> </span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (((bytes) + __ALIGN<span class="number">-1</span>)/__ALIGN - <span class="number">1</span>);<span class="comment">//寻找对应字节对应在自由链表的下标</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>好了下面正式开始分析核心代码，都是源代码，只不过取其核心代码，其余删除了</p>
+</blockquote>
+<ul>
+<li>allocate(size_t n)//二级空间适配器函数入口</li>
+</ul>
+<blockquote>
+<p>主要作用：先从自由链表找内存，如果没有的话，则调用refill让它去向内存池要内存<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* n must be &gt; 0      */</span></span><br><span class="line">  <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> * <span class="title">allocate</span><span class="params">(<span class="keyword">size_t</span> n)</span><span class="comment">//入口函数</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    obj * __VOLATILE * my_free_list;</span><br><span class="line">    obj * __RESTRICT result;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (n &gt; (<span class="keyword">size_t</span>) __MAX_BYTES) &#123;</span><br><span class="line">        <span class="keyword">return</span>(malloc_alloc::allocate(n));<span class="comment">//大于128则调用一级空间配置器</span></span><br><span class="line">    &#125;</span><br><span class="line">    my_free_list = free_list + FREELIST_INDEX(n);<span class="comment">//从自由链表中取内存</span></span><br><span class="line">    result = *my_free_list;<span class="comment">//将第一块值给result</span></span><br><span class="line">    <span class="keyword">if</span> (result == <span class="number">0</span>) &#123;<span class="comment">//自由链表中没有内存的话，调用refill去内存池要</span></span><br><span class="line">        <span class="keyword">void</span> *r = refill(ROUND_UP(n));<span class="comment">//调用ROUND_UP将n对齐到8的整数倍</span></span><br><span class="line">        <span class="keyword">return</span> r;</span><br><span class="line">    &#125;</span><br><span class="line">    *my_free_list = result -&gt; free_list_link;<span class="comment">//指向第二块地址</span></span><br><span class="line">    <span class="keyword">return</span> (result);</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li>refill(size_t n)</li>
+</ul>
+<p>主要作用：调用chunk_alloc向内存池申请20*n个内存，并且处理从内存池申请回来的内存<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">bool</span> threads, <span class="keyword">int</span> inst&gt;</span><br><span class="line"><span class="keyword">void</span>* __default_alloc_template&lt;threads, inst&gt;::refill(<span class="keyword">size_t</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> nobjs = <span class="number">20</span>;<span class="comment">//向内存池要20个n</span></span><br><span class="line">    <span class="keyword">char</span> * chunk = chunk_alloc(n, nobjs);<span class="comment">//调用这个函数去向内存池要</span></span><br><span class="line">    obj * __VOLATILE * my_free_list;</span><br><span class="line">    obj * result;</span><br><span class="line">    obj * current_obj, * next_obj;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="number">1</span> == nobjs) <span class="keyword">return</span>(chunk);<span class="comment">//如果申请到了一个n,无需处理直接给进程使用</span></span><br><span class="line">    my_free_list = free_list + FREELIST_INDEX(n);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//走到这里最气申请了1个以上的n,那么就要将一个给进程使用剩余的配置自由了链表了</span></span><br><span class="line">      result = (obj *)chunk;</span><br><span class="line">      *my_free_list = next_obj = (obj *)(chunk + n);</span><br><span class="line">      <span class="keyword">for</span> (i = <span class="number">1</span>; ; i++) &#123;</span><br><span class="line">        current_obj = next_obj;</span><br><span class="line">        next_obj = (obj *)((<span class="keyword">char</span> *)next_obj + n);</span><br><span class="line">        <span class="keyword">if</span> (nobjs - <span class="number">1</span> == i) &#123;</span><br><span class="line">            current_obj -&gt; free_list_link = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            current_obj -&gt; free_list_link = next_obj;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">return</span>(result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>chunk_alloc(size_t size, int&amp; nobjs)</li>
+</ul>
+<blockquote>
+<p>主要作用：在内存池中找内存或者向内存申请内存给refill，总的来说负责核心的申请内存的操作<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">bool</span> threads, <span class="keyword">int</span> inst&gt;</span><br><span class="line"><span class="keyword">char</span>*</span><br><span class="line">__default_alloc_template&lt;threads, inst&gt;::chunk_alloc(<span class="keyword">size_t</span> size, <span class="keyword">int</span>&amp; nobjs)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">char</span> * result;</span><br><span class="line">    <span class="keyword">size_t</span> total_bytes = size * nobjs;<span class="comment">//计算refill问自己要多少内存</span></span><br><span class="line">    <span class="keyword">size_t</span> bytes_left = end_free - start_free;<span class="comment">//计算自己还有多少内存</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (bytes_left &gt;= total_bytes) &#123;<span class="comment">//如果当前剩余的大于refill要的则返回去</span></span><br><span class="line">        result = start_free;</span><br><span class="line">        start_free += total_bytes;</span><br><span class="line">        <span class="keyword">return</span>(result);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (bytes_left &gt;= size) &#123;<span class="comment">//如果剩余的小于20个n但是大于1个n,则有多少n返回多少n并且修改nobjs</span></span><br><span class="line">        nobjs = bytes_left/size;</span><br><span class="line">        total_bytes = size * nobjs;</span><br><span class="line">        result = start_free;</span><br><span class="line">        start_free += total_bytes;</span><br><span class="line">        <span class="keyword">return</span>(result);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;<span class="comment">//如果1个n的大小都不足的话，则将剩余的放入自由链表中，然后向内存申请</span></span><br><span class="line">        <span class="keyword">size_t</span> bytes_to_get = <span class="number">2</span> * total_bytes + ROUND_UP(heap_size &gt;&gt; <span class="number">4</span>);<span class="comment">//内存池向内存中要空间就要2*20*n个字节了</span></span><br><span class="line">        <span class="keyword">if</span> (bytes_left &gt; <span class="number">0</span>) &#123;<span class="comment">//如果有剩余则将其放到自由链表</span></span><br><span class="line">            obj * __VOLATILE * my_free_list =</span><br><span class="line">                        free_list + FREELIST_INDEX(bytes_left);</span><br><span class="line"></span><br><span class="line">            ((obj *)start_free) -&gt; free_list_link = *my_free_list;</span><br><span class="line">            *my_free_list = (obj *)start_free;</span><br><span class="line">        &#125;</span><br><span class="line">        start_free = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(bytes_to_get);<span class="comment">//开始向内存申请</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="number">0</span> == start_free) &#123;<span class="comment">//在内存中没有申请到的话，则去自由链表中找大于n的</span></span><br><span class="line">            <span class="keyword">int</span> i;</span><br><span class="line">            obj * __VOLATILE * my_free_list, *p;</span><br><span class="line">            <span class="keyword">for</span> (i = size; i &lt;= __MAX_BYTES; i += __ALIGN) &#123;</span><br><span class="line">                my_free_list = free_list + FREELIST_INDEX(i);</span><br><span class="line">                p = *my_free_list;</span><br><span class="line">                <span class="keyword">if</span> (<span class="number">0</span> != p) &#123;</span><br><span class="line">                    *my_free_list = p -&gt; free_list_link;</span><br><span class="line">                    start_free = (<span class="keyword">char</span> *)p;</span><br><span class="line">                    end_free = start_free + i;</span><br><span class="line">                    <span class="keyword">return</span>(chunk_alloc(size, nobjs));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">	    end_free = <span class="number">0</span>;<span class="comment">//走到这里证明没有 向内存申请到自由链表也没有，那么就调用一级空间适配器</span></span><br><span class="line">            start_free = (<span class="keyword">char</span> *)malloc_alloc::allocate(bytes_to_get);</span><br><span class="line">           如果还是没申请到则抛出异常</span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//申请到了以后则配置内存池，并且在次调用chunk_alloc</span></span><br><span class="line">        heap_size += bytes_to_get;</span><br><span class="line">        end_free = start_free + bytes_to_get;</span><br><span class="line">        <span class="keyword">return</span>(chunk_alloc(size, nobjs));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="空间配置器的优缺点"><a href="#空间配置器的优缺点" class="headerlink" title="空间配置器的优缺点"></a>空间配置器的优缺点</h1><blockquote>
+<p>引入两层配置器帮我们解决以上的问题，但是也带来一些问题：</p>
+</blockquote>
+<p>内碎片的问题，自由链表所挂区块都是8的整数倍，因此当我们需要非8倍数的区块，往往会导致浪费，比如我只要1字节的大小，但是自由链表最低分配8块，也就是浪费了7字节，我以为这也就是通常的以空间换时间的做法，这一点在计算机科学中很常见。<br>我们发现似乎没有释放自由链表所挂区块的函数？确实是的，由于配置器的所有方法，成员都是静态的，那么他们就是存放在静态区。释放时机就是程序结束，这样子会导致自由链表一直占用内存，自己进程可以用，其他进程却用不了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>感谢您的鼓励！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="李帅 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="李帅 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/06/set详细用法/" rel="next" title="set详细用法">
+                <i class="fa fa-chevron-left"></i> set详细用法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNDMxMC8xMDg0Nw=="></div>
+    </div>
+
+  
+
+
+
+<div id="lv-container" data-uid="MTAyMC8zNDMxMC8xMDg0Nw=="></div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/timg.jpg"
+                alt="李帅" />
+            
+              <p class="site-author-name" itemprop="name">李帅</p>
+              <p class="site-description motion-element" itemprop="description">承载着太多希望，怎敢轻易辜负</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lishuaiwq" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://blog.csdn.net/it_iverson" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-globe"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是空间配置器？"><span class="nav-number">1.</span> <span class="nav-text">什么是空间配置器？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么需要空间配置器"><span class="nav-number">2.</span> <span class="nav-text">为什么需要空间配置器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SGI的空间配置器的接口"><span class="nav-number">3.</span> <span class="nav-text">SGI的空间配置器的接口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一级空间配置器"><span class="nav-number">4.</span> <span class="nav-text">一级空间配置器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二级空间配置器"><span class="nav-number">5.</span> <span class="nav-text">二级空间配置器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#空间配置器的优缺点"><span class="nav-number">6.</span> <span class="nav-text">空间配置器的优缺点</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">
+
+&copy; 
+<span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李帅</span>
+</div>
+  <div class="powered-by">
+   莫忘初心 | 
+  </div>
+
+  <div class="theme-info">
+  方得始终 
+  </dev>
+ 
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=65847089" charset="UTF-8"></script>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0BX9IKUhxkUaAts8RxeUw4Va-gzGzoHsz", "sx7pxW7Chj1NJJGH8X1kbsSM");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
