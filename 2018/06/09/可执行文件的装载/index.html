@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="传输层," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,23 +79,20 @@
 
 
 
-<meta name="description" content="首先来看一下TCP传输协议的报文格式中关于建立连接需要用到的一些比较重要的标志位。">
-<meta name="keywords" content="传输层">
+<meta name="description" content="此篇博客主要内容是可执行文件如何加载到内存中被执行，以及可执行文件和虚拟地址空间之间的关系，以及虚拟地址空间和内存之间的映射关系。  装载的方式 程序在执行时所需要的指令和数据必须在内存中才能正常运行，所以这里就有一个问题，怎么把程序装入内存呢？一般有两种很典型的装入方式，覆盖装入和页映射两种动态的装入方式，他们所采用的思想都是程序局部性原理，即用到哪些模块就将哪些模块装入内存中去。如果暂时不用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP三次握手四次挥手">
-<meta property="og:url" content="http://yoursite.com/2018/03/27/TCP三次握手四次挥手/index.html">
+<meta property="og:title" content="可执行文件的装载">
+<meta property="og:url" content="http://yoursite.com/2018/06/09/可执行文件的装载/index.html">
 <meta property="og:site_name" content="Lishuai&#39;s博客">
-<meta property="og:description" content="首先来看一下TCP传输协议的报文格式中关于建立连接需要用到的一些比较重要的标志位。">
+<meta property="og:description" content="此篇博客主要内容是可执行文件如何加载到内存中被执行，以及可执行文件和虚拟地址空间之间的关系，以及虚拟地址空间和内存之间的映射关系。  装载的方式 程序在执行时所需要的指令和数据必须在内存中才能正常运行，所以这里就有一个问题，怎么把程序装入内存呢？一般有两种很典型的装入方式，覆盖装入和页映射两种动态的装入方式，他们所采用的思想都是程序局部性原理，即用到哪些模块就将哪些模块装入内存中去。如果暂时不用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.imgur.com/ckjFsj8.jpg">
-<meta property="og:image" content="https://i.imgur.com/YSBXs1Y.jpg">
-<meta property="og:image" content="https://i.imgur.com/QZqf9nu.jpg">
-<meta property="og:image" content="https://i.imgur.com/cZqQddI.jpg">
-<meta property="og:updated_time" content="2018-03-27T12:36:29.152Z">
+<meta property="og:image" content="https://i.imgur.com/33bhdEB.jpg">
+<meta property="og:image" content="https://i.imgur.com/JGj78HT.jpg">
+<meta property="og:updated_time" content="2018-06-09T10:18:37.206Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TCP三次握手四次挥手">
-<meta name="twitter:description" content="首先来看一下TCP传输协议的报文格式中关于建立连接需要用到的一些比较重要的标志位。">
-<meta name="twitter:image" content="https://i.imgur.com/ckjFsj8.jpg">
+<meta name="twitter:title" content="可执行文件的装载">
+<meta name="twitter:description" content="此篇博客主要内容是可执行文件如何加载到内存中被执行，以及可执行文件和虚拟地址空间之间的关系，以及虚拟地址空间和内存之间的映射关系。  装载的方式 程序在执行时所需要的指令和数据必须在内存中才能正常运行，所以这里就有一个问题，怎么把程序装入内存呢？一般有两种很典型的装入方式，覆盖装入和页映射两种动态的装入方式，他们所采用的思想都是程序局部性原理，即用到哪些模块就将哪些模块装入内存中去。如果暂时不用">
+<meta name="twitter:image" content="https://i.imgur.com/33bhdEB.jpg">
 
 
 
@@ -125,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/27/TCP三次握手四次挥手/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/09/可执行文件的装载/"/>
 
 
 
 
 
-  <title>TCP三次握手四次挥手 | Lishuai's博客</title>
+  <title>可执行文件的装载 | Lishuai's博客</title>
   
 
 
@@ -258,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/27/TCP三次握手四次挥手/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/09/可执行文件的装载/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李帅">
@@ -275,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">TCP三次握手四次挥手</h1>
+          <h1 class="post-title" itemprop="name headline">可执行文件的装载</h1>
         
 
         <div class="post-meta">
@@ -287,8 +284,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-27T16:11:52+08:00">
-                2018-03-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-09T14:17:13+08:00">
+                2018-06-09
               </time>
             
 
@@ -310,19 +307,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/网络学习/" itemprop="url" rel="index">
-                    <span itemprop="name">网络学习</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/网络学习/传输层/" itemprop="url" rel="index">
-                    <span itemprop="name">传输层</span>
+                  <a href="/categories/系统学习/" itemprop="url" rel="index">
+                    <span itemprop="name">系统学习</span>
                   </a>
                 </span>
 
@@ -338,7 +324,7 @@
 
           
           
-             <span id="/2018/03/27/TCP三次握手四次挥手/" class="leancloud_visitors" data-flag-title="TCP三次握手四次挥手">
+             <span id="/2018/06/09/可执行文件的装载/" class="leancloud_visitors" data-flag-title="可执行文件的装载">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -364,7 +350,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,100
+                  2,657
                 </span>
               
 
@@ -380,7 +366,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  11
+                  9
                 </span>
               
             </div>
@@ -401,58 +387,74 @@
       
 
       
-        <p>首先来看一下TCP传输协议的报文格式中关于建立连接需要用到的一些比较重要的标志位。</p>
-<p><img src="https://i.imgur.com/ckjFsj8.jpg" alt=""></p>
-<a id="more"></a>
-<p>1.seq:32位序列号，占四个字节，范围在[0-2^32-1],因为TCP是面向字节流的，所以它需要为发送流中的每个字节编号，这个序列号是使用随机数产生器产生的。（只产生一次，后面顺序向上递增）</p>
-<p>2.ACK：32位确认序号,仅当保留位旁边的ACK=1的时候确认序号才生效，其表示一个进程已经正确接收序列号为N的字节，要求下一次接收的应该是N+1序列号的字节，所以如果接收到了序列号为N，则ACK回复为N+1(注意和确认ACK位区分)</p>
-<p>3.SYN:（同步位）同步序列号，用来发起一个连接，当SYN=1，ACK=0的时候，表示这是一个发起连接的报文请求段。如果对方同意建立连接则会回应SYN=1，ACK=1。（系统规定SYN=1的报文段不能携带数据，但是要消耗掉一个序列号）</p>
-<p>4.FIN：（终止位）,终止位用来终止连接，当FIN=1,表示发送端的报文发送完毕，请求关闭连接。</p>
-<p>好了下面来谈谈三次握手的建立连接的过程.</p>
-<p>1.首先客户端和服务器端都处于CLOSE状态（关闭状态），并且服务器端已经创建了传输控制块TCB，即时刻准备接收客户端的请求，即服务器端就进入了LISTEN（监听状态）状态</p>
-<p>2.客户端运行起来以后，也创建了传输控制块PCB，然后向B发送了连接请求的报文。这个报文首部的SYN标志位被设置成1，即SYN=1，同时随机选择一个初始的序号，这里假设为x,即seq=x(系统规定SYN=1的报文段不能携带数据，但是要消耗一个序列号)，当这个报文发送出去以后，客户端就有CLOSE变成了SYN_SENT状态（同步已经发送的状态）</p>
-<p>3.服务器端接收到客户端发来的请求建立连接的报文请求得话则，则向A发送确认报文（也不带数据）。这个回复的报文中SYN=1,seq=y,ACK=x+1（确认序列号），告诉客户端你发的建立请求得要求我收到了，我同意和你建立请求，然后发送完后服务器端进入了SYN_RCVD的状态（准备接收，也可以说同步收到）</p>
-<p>4.当客户端收到了服务器的同意建立连接请求后，还要给服务器端回应我收到了你的同意建立连接的报文,回复给服务器的报文是ACK=y+1,seq=x+1, TCP的标准规定，ACK的报文段可以携带数据。但如果不携带数据则不消耗序号，在这种情况下，下一个数据报文段的序号仍是seq = x+1。这时TCP连接已经建立，客户端进入ESTABLISHED（已建立连接）状态。当服务器收到收到客户端的确认后报文后，也进入ESTABLISHED状态。 </p>
-<p>致此整个连接建立的过程就完了，下面我来画个图说明一下</p>
-<p><img src="https://i.imgur.com/YSBXs1Y.jpg" alt=""></p>
-<p>看图就是这么简单。。。。</p>
-<p>下面来说一下四次挥手断开连接</p>
-<p>在他们通信完成以后，双方还都是ESTABLISHED状态，并且断开连接的请求服务器和客户端都可以发起，我们这里说一下客户端先发起断开连接的请求。</p>
-<p>1.当客户端准备结束这次的数据传输的时候，主动提出释放TCP连接时，它向服务器发送一个连接释放请求的报文，FIN=1，seq=u,(这里的u等于之前传送的数据最后一个字节的序列号+1)，然后客户端进入FIN_WAIT_1(释放等待1的状态,等待服务器端的确认),TCP规定：FIN报文段即使不携带数据，也要消耗掉一个序号。 </p>
-<p>2.当服务器端收到客户端的请求断开连接的报文后，需要向客户端发出已收到断开连接的报文请求得确认报文，ACK=u+1，seq=v（v表示服务器端之前发送的最后的数据的最后一个字节的序列号+1）,然后服务器进入CLOSE_WAIT状态。</p>
-<p>注： TCP服务器进程此时应该通知高层应用进程，因为从A到B这个方向的连接已经关闭，这时的TCP进程属于半关闭（half_close）状态，即客户端已经不会给服务器发送数据了，但服务器要向客户端发送数据，客户端还得接收。 </p>
-<p>3.当客户端收到服务器发来的ACK（确认断开连接报文后），进入FIN_WAIT_2的状态（释放等待2的状态，等待服务器端发送断开连接的请求），如果服务器端没有数据要发送了，应用程序通知服务器发送断开连接的请求，即向客户端发送断开连接的请求报文FIN=1,seq=w(假设客服端发送断开连接请求以后，服务器还给客户端发送消息了)，并且还要重复确认之前的ACK=u+1,然后服务器就进入了LAST_ACK状态（等待客户端回应自己的断开连接请求）</p>
-<p>4.当客户端收到了服务器发来的要断开连接的请求后，回复给服务器ACK=w+1,seq=u+1,然后进入TIME_WAIT等待时间的状态，但是，现在TCP连接还没有释放，必须经过时间等待计时器（TIME_WAIT timer）设置的时间2MSL后，A才能进入到CLOSED状态。</p>
-<p>下面画出示意图：<br><img src="https://i.imgur.com/QZqf9nu.jpg" alt=""></p>
-<p>这里说一下这个TIME_WAIT：</p>
-<p>为了保证TCP连接释放过程的正常进行，TCP设置了时间等待器即TIME_WAIT timer.这个时间一般是2MSL（两个最长报文寿命时间），这个时间过后客户端才能真正进入CLOSE状态。</p>
-<p>TCP状态转换图<br><img src="https://i.imgur.com/cZqQddI.jpg" alt=""></p>
-<p>CLOSED：表示初始状态。</p>
-<p>LISTEN：该状态表示服务器端的某个SOCKET处于监听状态，可以接受连接。</p>
-<p>SYN_SENT：这个状态与SYN_RCVD遥相呼应，当客户端SOCKET执行CONNECT连接时，它首先发送SYN报文，随即进入到了SYN_SENT状态，并等待服务端的发送三次握手中的第2个报文。SYN_SENT状态表示客户端已发送SYN报文。</p>
-<p>SYN_RCVD: 该状态表示接收到SYN报文，在正常情况下，这个状态是服务器端的SOCKET在建立TCP连接时的三次握手会话过程中的一个中间状态，很短暂。此种状态时，当收到客户端的ACK报文后，会进入到ESTABLISHED状态。</p>
-<p>ESTABLISHED：表示连接已经建立。</p>
-<p>FIN_WAIT_1:  FIN_WAIT_1和FIN_WAIT_2状态的真正含义都是表示等待对方的FIN报文。区别是：<br>FIN_WAIT_1状态是当socket在ESTABLISHED状态时，想主动关闭连接，向对方发送了FIN报文，此时该socket进入到FIN_WAIT_1状态。</p>
-<p>FIN_WAIT_2状态是当对方回应ACK后，该socket进入到FIN_WAIT_2状态，正常情况下，对方应马上回应ACK报文，所以FIN_WAIT_1状态一般较难见到，而FIN_WAIT_2状态可用netstat看到。</p>
-<p>FIN_WAIT_2：主动关闭链接的一方，发出FIN收到ACK以后进入该状态。称之为半连接或半关闭状态。该状态下的socket只能接收数据，不能发。</p>
-<p>TIME_WAIT: 表示收到了对方的FIN报文，并发送出了ACK报文，等2MSL后即可回到CLOSED可用状态。如果FIN_WAIT_1状态下，收到对方同时带 FIN标志和ACK标志的报文时，可以直接进入到TIME_WAIT状态，而无须经过FIN_WAIT_2状态。</p>
-<p>CLOSING: 这种状态较特殊，属于一种较罕见的状态。正常情况下，当你发送FIN报文后，按理来说是应该先收到（或同时收到）对方的 ACK报文，再收到对方的FIN报文。但是CLOSING状态表示你发送FIN报文后，并没有收到对方的ACK报文，反而却也收到了对方的FIN报文。什么情况下会出现此种情况呢？如果双方几乎在同时close一个SOCKET的话，那么就出现了双方同时发送FIN报文的情况，也即会出现CLOSING状态，表示双方都正在关闭SOCKET连接。</p>
-<p>CLOSE_WAIT: 此种状态表示在等待关闭。当对方关闭一个SOCKET后发送FIN报文给自己，系统会回应一个ACK报文给对方，此时则进入到CLOSE_WAIT状态。接下来呢，察看是否还有数据发送给对方，如果没有可以 close这个SOCKET，发送FIN报文给对方，即关闭连接。所以在CLOSE_WAIT状态下，需要关闭连接。</p>
-<p>LAST_ACK: 该状态是被动关闭一方在发送FIN报文后，最后等待对方的ACK报文。当收到ACK报文后，即可以进入到CLOSED可用状态。</p>
+        <blockquote>
+<p>此篇博客主要内容是可执行文件如何加载到内存中被执行，以及可执行文件和虚拟地址空间之间的关系，以及虚拟地址空间和内存之间的映射关系。</p>
+</blockquote>
+<h1 id="装载的方式"><a href="#装载的方式" class="headerlink" title="装载的方式"></a>装载的方式</h1><blockquote>
+<p>程序在执行时所需要的指令和数据必须在内存中才能正常运行，所以这里就有一个问题，怎么把程序装入内存呢？一般有两种很典型的装入方式，覆盖装入和页映射两种动态的装入方式，他们所采用的思想都是程序局部性原理，即用到哪些模块就将哪些模块装入内存中去。如果暂时不用，就放在磁盘中(这个磁盘就是可执行文件中)</p>
+</blockquote>
+<h2 id="覆盖装入"><a href="#覆盖装入" class="headerlink" title="覆盖装入"></a>覆盖装入</h2><blockquote>
+<p>覆盖装入他是在没有发明虚拟存储之前使用比较广泛，现在几乎已经被淘汰了。</p>
+</blockquote>
+<p>在前面的博客中我有写到覆盖装入这里就不多说了。</p>
+<p><a href="http://www.lishuaii.top/2018/05/06/%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8/" target="_blank" rel="noopener">http://www.lishuaii.top/2018/05/06/%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8/</a></p>
+<h2 id="页映射"><a href="#页映射" class="headerlink" title="页映射"></a>页映射</h2><blockquote>
+<p>页映射是虚拟存储机制的一部分，它随着虚拟存储的技术发明而诞生。下面来说说页映射是如何在动态装载中使用的。</p>
+</blockquote>
+<blockquote>
+<p>首先将内存和磁盘中的数据和指令按照页为单位划分为若干的页，后面的的装载和操作就是以页为单位，一般来说页大小为4KB.在这里假设内存大小为16KB，程序的所有指令和数据总和为32KB。那么程序就被划分为个8个页。在这里假设8个页的编程分别为P0-P7。很明显16KB的内存没办法将32KB的内存程序装入。所以我们首先装入部分页面。假设程序可执行的入口在P0，这个时候装载管理器发现程序P0不在内存中，所以将F0分配给P0，将PO页的内容装入F0，运行一段时间后发现要用到P5，于是将F1分配给P5，就按照这样当需要用到P3和P6的时候，将F2,F3分配给P3,P6他们的映射关系如下图。</p>
+</blockquote>
+<p><img src="https://i.imgur.com/33bhdEB.jpg" alt=""></p>
+<blockquote>
+<p>很明显如果程序只需要P0、P3、P5、P6这四个页的话，那么程序就能一直运行。如果程序要用到P4的话，那么系统就必须做出选择将目前内存中四个页面其中的一个用来装载P4。至于选择哪个页面,就牵扯到页面置换算法了，我们可以根据置换算法选择合适的页面置换。这就是页映射的过程</p>
+</blockquote>
+<blockquote>
+<p><code>上面的阐述的页映射是现在虚拟存储的技术核心部分，还有很多细节的问题没有描述，比如页表，虚拟地址空间都没有说，所以上面是大概的框架，后面我们在详细阐述加载的完成过程</code></p>
+</blockquote>
+<h1 id="可执行文件的装载过程"><a href="#可执行文件的装载过程" class="headerlink" title="可执行文件的装载过程"></a>可执行文件的装载过程</h1><blockquote>
+<p>从操作系统的角度来看，一个进程最关键的特征是它拥有独立的虚拟地址空间，这使得它有别于其他进程。很多时候一个程序的执行都伴随着一个新的进程地址空间的创建，所以创建一个进程，然后装载相应的可执行文件并且执行，在有虚拟存储的情况下，上述过程做开始只需要做三件事情</p>
+</blockquote>
+<ul>
+<li>创建一个独立的虚拟地址空间(其实就是建立相应的数据结构)</li>
+<li>读取可执行文件头，并且建立虚拟空间与可执行文件的映射关系（即使用创建的数据结构去保存可执行文件中的对应信息）</li>
+<li>将CPU的指令寄存器设置成可执行文件的入口地址，启动运行。</li>
+</ul>
+<blockquote>
+<p><strong>首先是创建虚拟地址空间</strong>。一个虚拟空间由一组页映射函数将虚拟空间的各个页映射到相应的物理空间，所以创建虚拟空间实际上是创建映射函数所需要的相应的数据结构，维护虚拟空间的数据结构是vm_area_struct，一般来说创建虚拟地址空间只是建立相应的数据结构，并分配一个页目录，并不建立虚拟地址空间到物理内存的映射关系，这个映射关系的建立是在后面程序发生页错误的时候在进行设置。</p>
+</blockquote>
+<blockquote>
+<p><strong>读取可执行文件头部，并且建立虚拟地址空间和可执行文件的映射的关系</strong>。上面所提到的是关于虚拟地址空间和物理内存映射的一些准备工作，这一步是建立虚拟地址空间和可执行文件的映射关系。我们知道当程序发生页错误的时候，操作系统会从物理内存中分配一个物理页，然后将该”缺页”从磁盘中读取到内存中，在设置缺页虚拟内存和物理内存的映射关系，这样程序才能正常运行。但是很明显，操作系统捕捉到页错误的时候，它应该知道程序当前所需要的页在可执行文件中的哪个位置。这就是可执行文件和虚拟空间之间的映射关系，从某种角度来看这也是装载过程中最重要的一步，也是传统意义上装载的过程。<br><code>由于可执行文件在 装载实际上是被映射的虚拟空间，所以可执行文件很多时候又被叫做映像文件</code></p>
+</blockquote>
+<blockquote>
+<p><strong>可执行文件假设有一个/.test段，其虚拟地址是0x08048000</strong>，在文件中的大小为0x00e1，因为虚拟存储都是采取页映射的，所以.test不足一个页，那么也得补齐一个页，即.test对齐为0x1000.操作系统会在进程相应的数据结构中设置一个VMA用来维护.test映射来的这块区域，在这个数据结构中，会保存这个段在虚拟内存中的地址范围，和对应在ELF文件中的偏移，读写属性等一些性质。操作系统在发生页错误以后会通过这个结构体来找错误页在可执行文件中的位置。</p>
+</blockquote>
+<blockquote>
+<p><strong>将CPU指令寄存器设置成可执行文件的入口</strong>，启动运行，ELF头文件中保存有入口地址.</p>
+</blockquote>
+<h1 id="页错误"><a href="#页错误" class="headerlink" title="页错误"></a>页错误</h1><blockquote>
+<p>上面的装载过程说完以后，只是建立了可执行文件和虚拟地址空间的映射，可执行文件的真正指令和数据还没有被装入内存。操作系统只是通过可执行文件的头部建立了可执行文件和虚拟空间的映射关系而已。假如在上面的例子中，可执行文件的入口地址为0X08048000，即刚好是.test的起始地址。当CPU打算执行这个地址指令的时候，发现页面0x08048000-0x8049000是个空页面，于是他认为这是一个页错误，CPU将控制权交给操作系统，操作系统有专门的页处理程序来处理，系统查询我们之前建立的数据结构，然后找到这个空页面在可执行文件中的位置，然后在物理内存中找一个物理页面，将进程中该虚拟页与分配的物理页之间建立映射关系，然后把控制权还回给进程，进程从刚才页错误的位置重新开始执行。当然这中间会有页面置换算法，页面写回等一些操作，这就是虚拟内存的范畴了，后面虚拟内存内容详细介绍。</p>
+</blockquote>
 <hr>
-<p>2MSL存在理由？</p>
-<p>在客户端发送出最后的ACK回复，但该ACK可能丢失。服务器如果没有收到ACK，服务器将不断重复给客户端发送FIN片段。所以客户端不能立即关闭，它必须确认服务器接收到了该ACK。客户端会在发送出ACK之后进入到TIME_WAIT状态。客户端会设置一个计时器，等待2MSL的时间。如果在该时间内再次收到FIN，那么客户端会重发ACK并再次等待2MSL。所谓的2MSL是两倍的MSL(Maximum Segment Lifetime)。MSL指一个片段在网络中最大的存活时间，2MSL就是一个发送和一个回复所需的最大时间。如果直到2MSL，客户端都没有再次收到FIN，那么客户端推断ACK已经被成功接收，则结束TCP连接。</p>
-<p>第二，防止类似与“三次握手”中提到了的“已经失效的连接请求报文段”出现在本连接中。客户端发送完最后一个确认报文后，在这个2MSL时间中，就可以使本连接持续的时间内所产生的所有报文段都从网络中消失。这样新的连接中不会出现旧连接的请求报文。</p>
-<p>RFC 793中规定MSL为2分钟，实际应用中常用的是30秒，1分钟和2分钟等</p>
-<hr>
-<p>为什么建立是三次握手，断开时四次握手呢？</p>
-<p>这是因为服务端的LISTEN状态下的SOCKET当收到SYN报文的建立连接请求后，它可以把ACK和SYN（ACK起应答作用，而SYN起同步作用）放在一 个报文里来发送。但关闭连接时，当收到对方的FIN报文通知时，它仅仅表示对方没有数据发送给你了；但你所有的数据未必都全部发送给对方了，所以你未必会马上会关闭SOCKET,即你可能还需要发送一些数据给对方之后，再发送FIN报文给对方来表示你同意现在可以关闭连接了，所以它这里的ACK报文和FIN报文多数情况下都是分开发送的。</p>
-<hr>
-<p>如果已经建立了连接，但是客户端突然出现故障了怎么办？</p>
-<p>TCP还设有一个保活计时器，显然，客户端如果出现故障，服务器不能一直等下去，白白浪费资源。服务器每收到一次客户端的请求后都会重新复位这个计时器，时间通常是设置为2小时，若两小时还没有收到客户端的任何数据，服务器就会发送一个探测报文段，以后每隔75分钟发送一次。若一连发送10个探测报文仍然没反应，服务器就认为客户端出了故障，接着就关闭连接。</p>
-<hr>
-<p>为什么不能用两次握手进行连接？</p>
-<p>不用三次的话，server不能确定client是否收到自己的消息<br>如果没有收到，可能client根本没收到，或者client响应了，但server没收到</p>
+<h1 id="ELF可执行文件视图"><a href="#ELF可执行文件视图" class="headerlink" title="ELF可执行文件视图"></a>ELF可执行文件视图</h1><blockquote>
+<p>在可执行文件中一般来说会有几十个段，而且如果一个段不足一页那么也会占用一页，所以对于内存的浪费是可想而知的。由于操作系统对于可执行文间的装载时，它并不关心可执行文件各个段所包含的实际内容（因为内容直接被加载到内存了），操作系统只关心一些跟装载有关的问题，最主要的是段的可读可写可执行权限。往往在ELF可执行文件中段的权限大致有如下三种代表</p>
+</blockquote>
+<ul>
+<li>以代码段为代表的权限：可读、可执行</li>
+<li>以数据段和BSS段为代表的权限：可读、可写</li>
+<li>以只读数据段为代表的权限：只读</li>
+</ul>
+<blockquote>
+<p>所以对于相同权限的段，把他们合并在一起进行映射，和并在一起以后就叫做Segment。所以在进行虚拟地址空间映射的时候是以Sagment为单位进行映射的，即一个Segment对应一个VMA区域。“Segment”的概念是从装载的角度重新划分了ELF的各个段，在将目标文件链接成可执行文件的时候，链接器会尽量把相同权限属性的段分配在一个空间。在ELF中把这些属性相同的，又连在一起的段叫做“Segment”,而系统正是根据Segment而不是段来映射文件的,在映射的时候只映射需要映射的而不是全部都映射。</p>
+</blockquote>
+<blockquote>
+<p>在ELF可执行文件中有一个数据结构叫做程序头表，用来保存Segment的信息。因为ELF目标文件不需要被装载，所以它没有程序头表，而ELF可执行文件和共享库都有。它和段表结构一样也是一个结构体数组<br><img src="https://i.imgur.com/JGj78HT.jpg" alt=""></p>
+</blockquote>
+<blockquote>
+<p>在上表中p_memsz的值要大于p_files，因为这样就能表示该”Segment”在内存中分配的空间大小超过文件实际大小，这部分多余的部分则全部填充为0，这样做的好处是，我们在构造ELF可执行文件的时候不需要额外设置BSS的“Segment”了，可以把数据“Segment”的p_memsz扩大，那些额外的部分就是BSS。因为数据段和BSS的唯一区别就是：数据段从文件中初始化内容，而BSS段的内容全部初始化为0。</p>
+</blockquote>
+<ul>
+<li>好了致此关于进程的加载过程想必你大致有可一定的了解了吧！</li>
+</ul>
 
       
     </div>
@@ -497,12 +499,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/传输层/" rel="tag"><i class="fa fa-tag"></i> 传输层</a>
-          
-        </div>
-      
 
       
       
@@ -512,8 +508,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/26/Linux-信号/" rel="next" title="Linux-信号">
-                <i class="fa fa-chevron-left"></i> Linux-信号
+              <a href="/2018/06/07/空间配置器/" rel="next" title="空间配置器">
+                <i class="fa fa-chevron-left"></i> 空间配置器
               </a>
             
           </div>
@@ -521,10 +517,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/29/UDP概述/" rel="prev" title="UDP概述">
-                UDP概述 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -622,8 +614,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -703,6 +704,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#装载的方式"><span class="nav-number">1.</span> <span class="nav-text">装载的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#覆盖装入"><span class="nav-number">1.1.</span> <span class="nav-text">覆盖装入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页映射"><span class="nav-number">1.2.</span> <span class="nav-text">页映射</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可执行文件的装载过程"><span class="nav-number">2.</span> <span class="nav-text">可执行文件的装载过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#页错误"><span class="nav-number">3.</span> <span class="nav-text">页错误</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ELF可执行文件视图"><span class="nav-number">4.</span> <span class="nav-text">ELF可执行文件视图</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
