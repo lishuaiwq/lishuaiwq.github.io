@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Lishuai&#39;s博客">
 <meta property="og:description" content="此篇博客主要介绍的是set里面的一些重点常用的用法剖析，不涉及set自身底层的实现。当然只是挑重点说，所以说不够全面，详细希望大家查阅http://www.cplusplus.com/reference/set/set/insert/   首先给出set的类的模板接口1234template &amp;lt; class T,                        // set::key_typ">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-06T23:51:33.063Z">
+<meta property="og:updated_time" content="2018-06-11T11:49:21.809Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="set详细用法">
 <meta name="twitter:description" content="此篇博客主要介绍的是set里面的一些重点常用的用法剖析，不涉及set自身底层的实现。当然只是挑重点说，所以说不够全面，详细希望大家查阅http://www.cplusplus.com/reference/set/set/insert/   首先给出set的类的模板接口1234template &amp;lt; class T,                        // set::key_typ">
@@ -347,7 +347,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  515
+                  637
                 </span>
               
 
@@ -406,6 +406,14 @@
 <h1 id="Count"><a href="#Count" class="headerlink" title="Count"></a>Count</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">size_type <span class="title">count</span> <span class="params">(<span class="keyword">const</span> value_type&amp; val)</span> <span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>计算具有特定值的元素<br>在容器中搜索与val等效的元素并返回匹配数。因为集合容器中的所有元素都是唯一的，所以函数只能返回1（如果找到元素）或零（否则没找到）。</p>
+</blockquote>
+<h1 id="lower-bound"><a href="#lower-bound" class="headerlink" title="lower_bound"></a>lower_bound</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">iterator <span class="title">lower_bound</span> <span class="params">(<span class="keyword">const</span> value_type&amp; val)</span> <span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>返回等价于val或者val后面出现的元素的迭代器，如果不存在，则出错崩溃。注意如果val存在则是val，不存在则是它后面的第一个元素。</p>
+</blockquote>
+<h1 id="upper-bound"><a href="#upper-bound" class="headerlink" title="upper_bound"></a>upper_bound</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">iterator <span class="title">upper_bound</span> <span class="params">(<span class="keyword">const</span> value_type&amp; val)</span> <span class="keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>它和lower_bound的作用几乎是一样的，不过他返回值不包含当前val,它只返回当前val后面的值，所以当set中不存在val是，它和lower_bound的作用是一样的！</p>
 </blockquote>
 
       
@@ -599,7 +607,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -670,7 +678,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Insert"><span class="nav-number">1.</span> <span class="nav-text">Insert</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Find"><span class="nav-number">2.</span> <span class="nav-text">Find</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Erase"><span class="nav-number">3.</span> <span class="nav-text">Erase</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Count"><span class="nav-number">4.</span> <span class="nav-text">Count</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Insert"><span class="nav-number">1.</span> <span class="nav-text">Insert</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Find"><span class="nav-number">2.</span> <span class="nav-text">Find</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Erase"><span class="nav-number">3.</span> <span class="nav-text">Erase</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Count"><span class="nav-number">4.</span> <span class="nav-text">Count</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lower-bound"><span class="nav-number">5.</span> <span class="nav-text">lower_bound</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#upper-bound"><span class="nav-number">6.</span> <span class="nav-text">upper_bound</span></a></li></ol></div>
             
 
           </div>

@@ -79,24 +79,20 @@
 
 
 
-<meta name="description" content="ICMP的初始认知   因为IP协议本身并没有提供直接的方法来发现发往目的地址失败的IP数据包，也没有提供直接的方法来获取一些诊断信息，为了解决这些不足之处，所以将一个特殊的网际报文协议，即ICMP与IP结合使用，以便用来提供IP协议层配置和IP数据包处置相关的诊断和控制信息，ICMP通常被认为是IP层的一部分，但是因为其在IP中实现并且使用IP协议进行传输，所以确切的说，它既不属于网络层协议也不">
+<meta name="description" content="此篇博客主要的内容是关于MySql数据库的数据类型进行介绍。顺带将一下表的约束。    大致MySql数据类型内容就分为上面的的这些这里我们挑其中的重点来说。  数据类型数值类型 整数 tinyint   在这里说一下使用注意事项，它能表示的范围在-128~128之间，如果超过这个范围插入会报错的，但是5.1.7版本中虽然不会报错，但是会截取为最接近的合法值。注意：1.在mysql中，整形可以指">
 <meta property="og:type" content="article">
-<meta property="og:title" content="网际控制报文协议ICMP">
-<meta property="og:url" content="http://yoursite.com/2018/05/24/网际控制报文协议ICMP/index.html">
+<meta property="og:title" content="MySql数据类型和表的约束">
+<meta property="og:url" content="http://yoursite.com/2018/06/12/MySql数据类型/index.html">
 <meta property="og:site_name" content="Lishuai&#39;s博客">
-<meta property="og:description" content="ICMP的初始认知   因为IP协议本身并没有提供直接的方法来发现发往目的地址失败的IP数据包，也没有提供直接的方法来获取一些诊断信息，为了解决这些不足之处，所以将一个特殊的网际报文协议，即ICMP与IP结合使用，以便用来提供IP协议层配置和IP数据包处置相关的诊断和控制信息，ICMP通常被认为是IP层的一部分，但是因为其在IP中实现并且使用IP协议进行传输，所以确切的说，它既不属于网络层协议也不">
+<meta property="og:description" content="此篇博客主要的内容是关于MySql数据库的数据类型进行介绍。顺带将一下表的约束。    大致MySql数据类型内容就分为上面的的这些这里我们挑其中的重点来说。  数据类型数值类型 整数 tinyint   在这里说一下使用注意事项，它能表示的范围在-128~128之间，如果超过这个范围插入会报错的，但是5.1.7版本中虽然不会报错，但是会截取为最接近的合法值。注意：1.在mysql中，整形可以指">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://i.imgur.com/X1yA25j.jpg">
-<meta property="og:image" content="https://i.imgur.com/1UMrFKN.jpg">
-<meta property="og:image" content="https://i.imgur.com/kJxrWTG.jpg">
-<meta property="og:image" content="https://i.imgur.com/o7EuNd6.jpg">
-<meta property="og:image" content="https://i.imgur.com/7H3CRto.jpg">
-<meta property="og:image" content="https://i.imgur.com/08GNtxY.jpg">
-<meta property="og:updated_time" content="2018-05-26T03:04:42.318Z">
+<meta property="og:image" content="https://i.imgur.com/uY0OIop.jpg">
+<meta property="og:image" content="https://i.imgur.com/J6XznAs.jpg">
+<meta property="og:updated_time" content="2018-06-12T10:05:24.470Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="网际控制报文协议ICMP">
-<meta name="twitter:description" content="ICMP的初始认知   因为IP协议本身并没有提供直接的方法来发现发往目的地址失败的IP数据包，也没有提供直接的方法来获取一些诊断信息，为了解决这些不足之处，所以将一个特殊的网际报文协议，即ICMP与IP结合使用，以便用来提供IP协议层配置和IP数据包处置相关的诊断和控制信息，ICMP通常被认为是IP层的一部分，但是因为其在IP中实现并且使用IP协议进行传输，所以确切的说，它既不属于网络层协议也不">
-<meta name="twitter:image" content="https://i.imgur.com/X1yA25j.jpg">
+<meta name="twitter:title" content="MySql数据类型和表的约束">
+<meta name="twitter:description" content="此篇博客主要的内容是关于MySql数据库的数据类型进行介绍。顺带将一下表的约束。    大致MySql数据类型内容就分为上面的的这些这里我们挑其中的重点来说。  数据类型数值类型 整数 tinyint   在这里说一下使用注意事项，它能表示的范围在-128~128之间，如果超过这个范围插入会报错的，但是5.1.7版本中虽然不会报错，但是会截取为最接近的合法值。注意：1.在mysql中，整形可以指">
+<meta name="twitter:image" content="https://i.imgur.com/uY0OIop.jpg">
 
 
 
@@ -126,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/24/网际控制报文协议ICMP/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/12/MySql数据类型/"/>
 
 
 
 
 
-  <title>网际控制报文协议ICMP | Lishuai's博客</title>
+  <title>MySql数据类型和表的约束 | Lishuai's博客</title>
   
 
 
@@ -259,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/24/网际控制报文协议ICMP/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/12/MySql数据类型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="李帅">
@@ -276,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">网际控制报文协议ICMP</h1>
+          <h1 class="post-title" itemprop="name headline">MySql数据类型和表的约束</h1>
         
 
         <div class="post-meta">
@@ -288,8 +284,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T14:52:56+08:00">
-                2018-05-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T14:07:36+08:00">
+                2018-06-12
               </time>
             
 
@@ -311,8 +307,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/网络学习/" itemprop="url" rel="index">
-                    <span itemprop="name">网络学习</span>
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
                   </a>
                 </span>
 
@@ -322,8 +318,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/网络学习/网络层/" itemprop="url" rel="index">
-                    <span itemprop="name">网络层</span>
+                  <a href="/categories/数据库/MySql/" itemprop="url" rel="index">
+                    <span itemprop="name">MySql</span>
                   </a>
                 </span>
 
@@ -339,7 +335,7 @@
 
           
           
-             <span id="/2018/05/24/网际控制报文协议ICMP/" class="leancloud_visitors" data-flag-title="网际控制报文协议ICMP">
+             <span id="/2018/06/12/MySql数据类型/" class="leancloud_visitors" data-flag-title="MySql数据类型和表的约束">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -365,7 +361,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,612
+                  2,111
                 </span>
               
 
@@ -381,7 +377,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  9
+                  8
                 </span>
               
             </div>
@@ -402,86 +398,104 @@
       
 
       
-        <h1 id="ICMP的初始认知"><a href="#ICMP的初始认知" class="headerlink" title="ICMP的初始认知"></a>ICMP的初始认知</h1><blockquote>
-<p>  因为IP协议本身并没有提供直接的方法来发现发往目的地址失败的IP数据包，也没有提供直接的方法来获取一些诊断信息，为了解决这些不足之处，所以将一个特殊的网际报文协议，即ICMP与IP结合使用，以便用来提供IP协议层配置和IP数据包处置相关的诊断和控制信息，ICMP通常被认为是IP层的一部分，但是因为其在IP中实现并且使用IP协议进行传输，所以确切的说，它既不属于网络层协议也不属于传输层协议而是位于两者之间。<br>  ICMP报文通常由IP层本身、上层传输协议（TCP或者UDP）、甚至某些情况下是用户应用触发的。ICMP并不为IP层提供可靠性，相反、它只是表明了某些<code>类别</code>的故障和配置信息的，最常见的丢包路由器缓冲区溢出并不会触发任何的ICMP信息。这种情况一般来说由TCP处理。<code>ICMP允许主机或者路由器报告差错情况和提供有关异常的报告</code></p>
+        <blockquote>
+<p>此篇博客主要的内容是关于MySql数据库的数据类型进行介绍。顺带将一下表的约束。</p>
 </blockquote>
-<h1 id="ICMP的报文格式"><a href="#ICMP的报文格式" class="headerlink" title="ICMP的报文格式"></a>ICMP的报文格式</h1><ul>
-<li>ICMP报文是在IP数据报内被封装的，如下图</li>
-</ul>
-<p><img src="https://i.imgur.com/X1yA25j.jpg" alt=""><br><img src="https://i.imgur.com/1UMrFKN.jpg" alt=""></p>
+<p><img src="https://i.imgur.com/uY0OIop.jpg" alt=""></p>
 <blockquote>
-<p>在IP数据报中，协议字段为表示该IP数据报的报文内容是ICMP报文。<br><img src="https://i.imgur.com/kJxrWTG.jpg" alt=""></p>
+<p>大致MySql数据类型内容就分为上面的的这些这里我们挑其中的重点来说。</p>
 </blockquote>
-<ul>
-<li><p>类型：在ICMPv4中保留了42个不同的值，用于确定特定的报文。但是大概只有8个是经常使用的。</p>
-</li>
-<li><p>代码：不同类型的报文的进一步的确认含义</p>
-</li>
-<li><p>校验和：校验和用来检验整个ICMP报文，此校验和的算法和第五章中用于计算IP头部校验和的算法一样，但是IP数据报的校验和不检验报文内容，所以不能保证自己传送的ICMP报文不产生差错，不过这是一个端到端的校验和，即从发送发直接送达接收方中间不会改变，而IP的头部校验和在路由器的每一条中都会改变。如果一个ICMP实现收到了ICMP校验和错误的报文，则直接丢弃该报文不做反应。</p>
-</li>
-</ul>
-<ul>
-<li>数据部分字段</li>
-</ul>
-<p><img src="https://i.imgur.com/o7EuNd6.jpg" alt=""></p>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h2><p><img src="https://i.imgur.com/J6XznAs.jpg" alt=""></p>
+<h3 id="整数"><a href="#整数" class="headerlink" title="整数"></a>整数</h3><ol>
+<li>tinyint</li>
+</ol>
 <blockquote>
-<p>所有的ICMP差错报告报文的数据字段都具有同样的格式。把收到的需要进程差错报告的IP数据报的首部和数据字段的前8个字节提取出来，作为ICMP报文的数据字段，在加上相应的ICMP差错报文的前8个字节。就构成了ICMP差错报文。<br><code>注意：提取收到的IP数据报的数据字段前8个字节是为了得到运输层的端口号以及发送序号。这些信息对于通知高层来说是有用的，整个ICMP报文作为IP数据报发给源点</code></p>
+<p>在这里说一下使用注意事项，它能表示的范围在-128~128之间，如果超过这个范围插入会报错的，但是5.1.7版本中虽然不会报错，但是会截取为最接近的合法值。<br><code>注意：1.在mysql中，整形可以指定有无符号，默认是有符号的；</code><br><code>2.可以通过UNSIGNED来说明某个字段是无符号的</code></p>
 </blockquote>
-<h1 id="ICMP的处理"><a href="#ICMP的处理" class="headerlink" title="ICMP的处理"></a>ICMP的处理</h1><blockquote>
-<p>在ICMP中，对于传入的处理随着系统的不同而不同，一般来说，传入的信息类请求将被操作系统自动处理，而差错类报文传递给用户的进程或者传输层协议，如TCP。进程可以选择对他们采取行动或者忽略他们。这个一般的规则例外的情况包括重定向报文和目的不可达—需要分片报文。前者将导致主机路由表的自动更新，而后者用于路径MTU的发现机制。</p>
-</blockquote>
-<p>  <code>MTU路径发现的原理是：首先在发送IP数据报的时候，将IP数据报的IP分片禁止标志位设置为1。根据这个标志位，途中的路由器遇到需要分片才能处理的大包也不分片，而是直接丢弃。随后，通过一个ICMP的不可达消息将数据链路上的MTU的值发给主机，这样就知道了MTU的值了，对于UDP来说就根据MTU对数据报进行分片处理。如此反复知道数据报被发送到目的主机为止没有收到任何ICMP，就认为最后一次的MTU是最合适的值，如果MTU比较多的时候，最少可以缓存10分钟，那么在这十分钟则使用刚刚得到MTU的值，但是如果过了这10分钟，则需要重新做MTU路径发现</code></p>
-<h1 id="ICMP的具体应用"><a href="#ICMP的具体应用" class="headerlink" title="ICMP的具体应用"></a>ICMP的具体应用</h1><blockquote>
-<p>注意：区分ICMP的差错报文和信息类报文区别非常的重要，因为在生成ICMPv4差错报文和ICMPv6差错报文时候做了某些限制，但是这不适用于查询。特别是。ICMP差错报文不会对以下报文进行响应：</p>
-</blockquote>
+<p>关于数值类型的使用大致是一样的下面自己去以此类推。在使用的时候合理的选择数据类型</p>
 <ul>
-<li>对于ICMP报文的差错报文（比如ICMP校验和错误）</li>
-<li>目的地址是广播地址或者组播地址</li>
-<li>作为链路层广播的数据报</li>
-<li>对于除一个分片以外后面的分片，都不发送ICMP差错报告报文</li>
-<li>源地址不是单个主机的数据报。这就是说源地址不能为0地址，环回地址、广播地址，组播地址<br><code>限制生成ICMP差错报文的主要原因是限制生成所谓的广播风波。（例如：无限的未响应差错报文而生成差错报文）</code></li>
+<li>在这里强调一点那就是unsignesd使用的注意事项：</li>
 </ul>
-<h2 id="ICMP差错报文"><a href="#ICMP差错报文" class="headerlink" title="ICMP差错报文"></a>ICMP差错报文</h2><h3 id="目的不可达报文（类型3）"><a href="#目的不可达报文（类型3）" class="headerlink" title="目的不可达报文（类型3）"></a>目的不可达报文（类型3）</h3><blockquote>
-<p>IP路由器无法将IP数据包发送给目的地址时，会给发送端主机返回一个目标不可达的ICMP消息，并且在这个消息中显示不可达的具体原因，常用的不可达的原因代码编号有4个。</p>
-<ul>
-<li>主机不可达（代码1）：他是由路由表中没有该主机的信息，或者该主机没有连接到网络的意思。</li>
-<li>端口不可达（代码3）</li>
-<li>需要分片/指定不用分片（代码4）：MTU探测</li>
-<li>管理禁止通信（代码13）</li>
-</ul>
-</blockquote>
-<h3 id="重定向消息（类型5）"><a href="#重定向消息（类型5）" class="headerlink" title="重定向消息（类型5）"></a>重定向消息（类型5）</h3><blockquote>
-<p>如果路由器发现发送端主机使用了次优的路径发送数据，那么他会返回一个ICMP重定向的消息给这个主机。在这个消息中包含了一个合适的路由信息和源数据。这主要发生早路由器持有更好的路由信息的情况下。路由器会通过这样的ICMP消息给发送端主机一个更合适的发送路由。</p>
-</blockquote>
-<p><img src="https://i.imgur.com/7H3CRto.jpg" alt=""></p>
-<p>但是多数这种情况下由于这种重定向消息成为引发问题的原因，所以往往不进行这种设置。</p>
-<h3 id="ICMP超时消息（类型11）"><a href="#ICMP超时消息（类型11）" class="headerlink" title="ICMP超时消息（类型11）"></a>ICMP超时消息（类型11）</h3><blockquote>
-<p>IP中包含一个字段叫做TTL，它的值随着每经过一个路由器就会减1<code>注意：当IP数据包在路由器上停留1秒以上时减去所停留的秒数，但是现在大多数设备并不这么做，如果代码为1,则表示被拆分包做重构处理的时候超时.</code>，直到减到0时该IP包会被丢弃。此时，IP路由器将会发送一个ICMP超时消息（代码0）给发送端主机，并通知该包已经被丢弃。设置IP包生存周期的主要目的，是为了在路由控制遇到问题发生循环状况时，避免IP包无休止的在网络被转发。此外有时可以利用TTL控制包的到达范围。</p>
-</blockquote>
-<h2 id="ICMP查询报文"><a href="#ICMP查询报文" class="headerlink" title="ICMP查询报文"></a>ICMP查询报文</h2><h3 id="ICMP回送消息（类型0、8）"><a href="#ICMP回送消息（类型0、8）" class="headerlink" title="ICMP回送消息（类型0、8）"></a>ICMP回送消息（类型0、8）</h3><blockquote>
-<p>用于进行通信的主机或者路由器之间判断所发送的数据包是否已经成功到达对端的一种消息。可以向对端主机发送回送请求得消息（类型8），也可以接收对端主机发送回来的回送应答消息（类型0）。网络上最常用的ping命令就是 利用这个消息实现的。</p>
-</blockquote>
-<h2 id="traceroute"><a href="#traceroute" class="headerlink" title="traceroute"></a>traceroute</h2><blockquote>
-<p>此命令是用来跟踪一个分组从原点到终点的路径。在Windows中是tracert。</p>
-</blockquote>
-<ul>
-<li><p>工作原理如下</p>
 <blockquote>
-<p>Traceroute从源主机向目标主机发送连串的IP数据报，数据报中封装的是无法交付的UDP用户数据报（这里的无法交付即使用了非法端口）。第一个数据报的TTL设置为1，后面的数据报将TTL值依次+1，即为2，3,4,….，当数据报没有到达目的主机的时候TTL被减为0，那么当前负责的路由器就会给源主机回复ICMP超时差错报文，所以当数据到达目的主机的时候TTL为1，那么他会回复ICMP终点不可达差错报文。这样源主机就根据这些路由器和最后目的主机发来的ICMP报文得到了自己想要的信息，比如到达目的主机所经过路由器的IP和以及到达每个路由器的往返时间。</p>
+<p>如果你create table tt1(a int unsigned ,b int unsigned)，然后分别insert into tt1 values(1,2);然后让select a-b from tt1;这个时候你会发现结果并非你所想的-1，而是一串很大的数字！但是他们在底层的存储都是一样的，只是看待的方式不一样而已。所以可以通过下面的方法来改变。</p>
 </blockquote>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; <span class="builtin-name">set</span> <span class="attribute">sql_mode</span>=<span class="string">'NO_UNSIGNED_SUBTRACTION'</span>;//临时使用的</span><br></pre></td></tr></table></figure>
+<p><code>所以一般在项目中不建议使用unsigned</code></p>
+<ol>
+<li>bit的使用<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">基本语法<span class="selector-pseudo">:bit</span><span class="selector-attr">[(M)]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>位字段类型，M表示每个值的位数,范围从1~64，如果M被忽略则默认为1。一般这种类型按数值的ascii值来显示.</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tt3(<span class="keyword">id</span> <span class="built_in">bit</span>(<span class="number">8</span>));</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tt3 <span class="keyword">values</span>(<span class="number">65</span>);</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">form</span> tt3;</span><br><span class="line">//以上操作这里显示的就是id=A，因为65ASCII对应的就是A。当然bit也不能超出范围，比如你设置bit(1),你就只能取0和1的值。</span><br></pre></td></tr></table></figure>
+<h3 id="小数"><a href="#小数" class="headerlink" title="小数"></a>小数</h3><ol>
+<li>float</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用方法:<span class="keyword">float</span>[(m,n)] <span class="keyword">unsigned</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>m指定显示长度，n指定小数位数，占用四个字节，unsigned表示小数是否有无符号。</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">用法举例：</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tt5(<span class="keyword">id</span> <span class="built_in">float</span>(<span class="number">4</span>,<span class="number">2</span>));</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tt5 <span class="keyword">values</span>(<span class="number">-99.994</span>);//可以插进去，因为进行四舍五入了</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tt5 <span class="keyword">values</span>(<span class="number">-99.995</span>);//不能插进去，超出范围</span><br></pre></td></tr></table></figure>
+<p><code>注意:如果定义的是float(4,2) unsigned 这时，因为把它指定为无符号的数，范围是 0 ~ 99.99</code></p>
+<ol>
+<li>decimal</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用方法：<span class="keyword">float</span>[(m,n)] <span class="keyword">unsigned</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>定点数m指定长度，d表示小数的位数</p>
+<ul>
+<li>decimal(5,2)表示的范围是-999.99~999.99</li>
+<li>decimal(5,2) unsigned表示的范围是0-999.99</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>decimal和float很像，但是它比float精度高</p>
+</blockquote>
+<ul>
+<li>decimal整数最大位数m为65。支持小数最大位数n是30。如果n被省略，默认为0.如果m被省略，默认是10。总的来说就是float精度不够。</li>
+</ul>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><ol>
+<li>char和varchar </li>
+</ol>
+<ul>
+<li>char(L): 固定长度字符串，L是可以存储的长度，单位为字符，最大长度值可以为255这里要注意是字符不是字节，即中文英文都可以，但是char的L是多大他就占用多大的空间，即时你没有用那么多空间。</li>
+<li>varchar(L): 可变长度字符串，L表示字符长度，最大长度65535个字节。他是你用多少它占多少空间</li>
+</ul>
+<blockquote>
+<p>关于varchar(len),len到底是多大，这个len值，和表的编码密切相关：<br>varchar长度可以指定为0到65535之间的值，但是有1 - 3 个字节用于记录数据大小，所以说有效字节数是65532。当我们的表的编码是utf8时，varchar(n)n最大值是65532/3=21844[因为utf中，一个汉字占用3个字节]，如果编码是gbk，varchar(n)n最大是65532/2=32766（因为gbk中，一个汉字占用2字节）。<code>但注意一行长度不能超过65535</code></p>
+</blockquote>
+<h2 id="日期和时间类型"><a href="#日期和时间类型" class="headerlink" title="日期和时间类型"></a>日期和时间类型</h2><blockquote>
+<p>这里只说明常用的类型，常用的时间类型如下</p>
+</blockquote>
+<ul>
+<li>datetime 时间日期格式 ‘yyyy-mm-d HH:ii:ss’ 表示范围从1000到9999，占用八字节</li>
+<li>date:日期 ‘yyyy-mm-dd’，占用三字节</li>
+<li>timestamp：时间戳，从1970年开始的 yyyy-mm-dd HH:ii:ss 格式和datetime完全一致，占用四字节<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">用法举例：</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">tables</span> tt8(d1 <span class="built_in">date</span>,d2 datetime,d3 <span class="keyword">timestamp</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> tt8(d1,d2) <span class="keyword">values</span>(<span class="string">'2018-6-12'</span>,<span class="string">'2018-6-12 16:45:10'</span>);</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> tt8;</span><br><span class="line">//注意这里显示的是上述插入的信息。但是时间戳显示的是当前最新的时间。另外还要注意只要我们表进行修改的话，那么时间戳就会自动变为当前的最新的时间！即时间戳不能默认为NULL，如果你不设置他默认就是当前的时间。如果你更新了表，那么他就是当前表更改的最新的时间。</span><br><span class="line"></span><br><span class="line">`注意这里插入的时候需单引号引起来，否则不行`。如果插入是整数的话可以将数字引起来'123'，但不能插入其他类型的数据'abc'，不然会报错.</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><img src="https://i.imgur.com/08GNtxY.jpg" alt=""></p>
-<h2 id="ping"><a href="#ping" class="headerlink" title="ping"></a>ping</h2><blockquote>
-<p>此命令用来探测两台主机之间的连通性.PING命令使用ICMP回送请求和回送应答报文。PING是应用层直接使用网络层ICMP的一个例子，它没有通过运输层的TCP与UDP。假如ping mail.sina.com.cn的连通性。那么源主机会连续发送四个ICMP回送请求报文。如果邮件服务器正常工作的话而且相应这个报文的话（有的主机为了防止恶意的攻击就不理睬ICMP的请求报文），那么他就发回回送应答报文。由于往返的ICMP报文上面都有时间戳，因为很容易的出往返的时间。所以一般会显示出来发送到哪个主机上面（IP地址），发送的，收到的，丢失的分组数量（但是不给出丢失的原因），以及往返时间的最小值，平均值，最大值。linux下需要我们手动终止，windows下只发送四次。</p>
+<h2 id="枚举和Set类型"><a href="#枚举和Set类型" class="headerlink" title="枚举和Set类型"></a>枚举和Set类型</h2><ol>
+<li>set集合:对于一个字段可以有多个值的字段类型可以设置为set<blockquote>
+<p>该设定只是提供了若干个选项的值，最终一个单元格中，实际只存储了其中一个值；而且，处于效率考虑，这些值<br>实际存储的是“数字”，因为这些选项，每个选项值，一次对应如下数字：1,2,3,….最多65535个；当我们添加枚举值时，也可以添加对应的数字编号</p>
 </blockquote>
-<h1 id="ICMP相关的攻击"><a href="#ICMP相关的攻击" class="headerlink" title="ICMP相关的攻击"></a>ICMP相关的攻击</h1><blockquote>
-<p>基于ICMP的攻击可以分为三类，并且都可以归类为拒绝服务攻击（DoS, Denial of Service）：针对带宽的DoS攻击，利用无用的数据来耗尽网络带宽；针对主机的DoS攻击，攻击操作系统的漏洞；针对连接的DoS攻击，可以终止现有的网络连接</p>
+</li>
+<li>enum枚举：对于一个字段多个中只能选一个。<blockquote>
+<p>该设定只是提供了若干个选项的值，最终一个单元格中，设计可存储了任何其中的多个值；而且，处于效率考虑，这些实际存储的是“数字”，因为这些选项，每个选项值，一次对应如下数字：1,2,4,8,16,32，….最多64个；[偶数]</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">用法举例：</span><br><span class="line">mysql&gt; create table votes(</span><br><span class="line">    -&gt; username varchar(<span class="number">30</span>),</span><br><span class="line">    -&gt; hobby set(<span class="string">'登山'</span>,<span class="string">'游泳'</span>,<span class="string">'武术'</span>,<span class="string">'篮球'</span>),</span><br><span class="line">    -&gt; gender enum(<span class="string">'男'</span>,<span class="string">'女'</span>)</span><br><span class="line">    -&gt; );</span><br><span class="line">mysql&gt; insert into votes values(<span class="string">'李纳斯'</span>,<span class="string">'游泳,篮球'</span>,<span class="string">'男'</span>);</span><br><span class="line"></span><br><span class="line">`即插入的时候只能插入枚举或者set中给定的值，并且set可以插入多个而枚举只能饿插入一个`</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">`注意当我们同时插入两个人，一个人爱好游泳，登山，一个爱好游泳，那么当我们使用条件查找select * <span class="keyword">from</span> votes <span class="keyword">where</span> hobby=<span class="string">'登山'</span>，这个时候只能查找出来只有一个爱好登山的那个人，而爱好登山和游泳的就查不出来了。所以这个时候就需要使用find_in_set；来查找了`</span><br></pre></td></tr></table></figure>
 </blockquote>
-<ul>
-<li>这里给出一篇博客自己可以去了解一下</li>
-</ul>
-<p><a href="https://blog.csdn.net/wohao2000/article/details/80652" target="_blank" rel="noopener">https://blog.csdn.net/wohao2000/article/details/80652</a></p>
+</li>
+</ol>
+<p>select * from votes where find_in_set(‘登山’,hobby)；//这样就可以将只要包含登山的人全部查找出来了。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 表的约束</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 表的约束其实就是对表的进行一些条件约束，让其按照你的要求来进行一些操作。就是将表更加的细化了。</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 空属性</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 即在创建表的时候，如果没有给字段设定不能为空的的约束，那么再你插入的时候，有些字段没有插入数据的时候则默认为NULL，但是在实际的工作的时候，大部分字段不允许为NULL，所以我们就需要去设置字段不能为空，方法如下</span></span><br></pre></td></tr></table></figure></p>
+<p>mysql&gt; create table myclass(<br>-&gt; class_name varchar(20) not null,<br>-&gt; class_room varchar(10) not null);<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> 这样的话在你在插入的时候，必须给两个字段都插入值，否则的话就会出错！</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 默认值</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 即在创建表的时候设置相关的字段的默认值，那么如果你插入的话那么就使用默认值</span></span><br><span class="line">` set和enum不能设置默认值`</span><br></pre></td></tr></table></figure></p>
+<p>mysql&gt; create table tt10 (<br>-&gt; name varchar(20) not null,<br>-&gt; age tinyint unsigned default 0,//默认值为0<br>-&gt; sex char(2) default ‘男’<br>-&gt; );<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 列描述</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 就是用来描述你这个字段的注释，其实没有太多实际的含义。</span></span><br></pre></td></tr></table></figure></p>
+<p>mysql&gt; create table tt12 (<br>-&gt; name varchar(20) not null comment ‘姓名’,<br>-&gt; age tinyint unsigned default 0 comment ‘年龄’,<br>-&gt; sex char(2) default ‘男’ comment ‘性别’<br>-&gt; );<br><code>`</code></p>
+<blockquote>
+<p>注意使用desc查看不出来表的comment，要使用show create table votes;</p>
+</blockquote>
+<h2 id="zerofill"><a href="#zerofill" class="headerlink" title="zerofill"></a>zerofill</h2><blockquote>
+<p>设置输出的宽度，只能使用在无符号数的身上。</p>
+</blockquote>
+<h2 id="主键"><a href="#主键" class="headerlink" title="主键"></a>主键</h2><p>…..未完待续！</p>
 
       
     </div>
@@ -535,8 +549,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/22/操作系统02/" rel="next" title="操作系统02">
-                <i class="fa fa-chevron-left"></i> 操作系统02
+              <a href="/2018/06/11/库和表的基本操作/" rel="next" title="库和表的基本操作">
+                <i class="fa fa-chevron-left"></i> 库和表的基本操作
               </a>
             
           </div>
@@ -544,10 +558,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/26/NAT/" rel="prev" title="NAT">
-                NAT <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -745,7 +755,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ICMP的初始认知"><span class="nav-number">1.</span> <span class="nav-text">ICMP的初始认知</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ICMP的报文格式"><span class="nav-number">2.</span> <span class="nav-text">ICMP的报文格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ICMP的处理"><span class="nav-number">3.</span> <span class="nav-text">ICMP的处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ICMP的具体应用"><span class="nav-number">4.</span> <span class="nav-text">ICMP的具体应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ICMP差错报文"><span class="nav-number">4.1.</span> <span class="nav-text">ICMP差错报文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目的不可达报文（类型3）"><span class="nav-number">4.1.1.</span> <span class="nav-text">目的不可达报文（类型3）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重定向消息（类型5）"><span class="nav-number">4.1.2.</span> <span class="nav-text">重定向消息（类型5）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ICMP超时消息（类型11）"><span class="nav-number">4.1.3.</span> <span class="nav-text">ICMP超时消息（类型11）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ICMP查询报文"><span class="nav-number">4.2.</span> <span class="nav-text">ICMP查询报文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ICMP回送消息（类型0、8）"><span class="nav-number">4.2.1.</span> <span class="nav-text">ICMP回送消息（类型0、8）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#traceroute"><span class="nav-number">4.3.</span> <span class="nav-text">traceroute</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ping"><span class="nav-number">4.4.</span> <span class="nav-text">ping</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ICMP相关的攻击"><span class="nav-number">5.</span> <span class="nav-text">ICMP相关的攻击</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据类型"><span class="nav-number">1.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数值类型"><span class="nav-number">1.1.</span> <span class="nav-text">数值类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#整数"><span class="nav-number">1.1.1.</span> <span class="nav-text">整数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小数"><span class="nav-number">1.1.2.</span> <span class="nav-text">小数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串"><span class="nav-number">1.2.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日期和时间类型"><span class="nav-number">1.3.</span> <span class="nav-text">日期和时间类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#枚举和Set类型"><span class="nav-number">1.4.</span> <span class="nav-text">枚举和Set类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zerofill"><span class="nav-number">1.5.</span> <span class="nav-text">zerofill</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主键"><span class="nav-number">1.6.</span> <span class="nav-text">主键</span></a></li></ol></li></ol></div>
             
 
           </div>
