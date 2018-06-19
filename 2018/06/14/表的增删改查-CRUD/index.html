@@ -87,7 +87,7 @@
 <meta property="og:description" content="这算是数据库中最常用的操作了，增删查改！！  添加 插入的语法12345678910111. 每一个字段都插入insert into 表名 values(&apos;字段1值&apos;，&apos;字段2值&apos;....)；2. 指定位置插入字段insert into 表名(字段1，字段2) values(&apos;字段1值&apos;，&apos;字段2值&apos;)；3.同时插入多条记录insetr into 表名 values(字段值1，字段值2..)，(">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.imgur.com/3Jf67r5.jpg">
-<meta property="og:updated_time" content="2018-06-14T09:06:06.137Z">
+<meta property="og:updated_time" content="2018-06-15T00:18:48.276Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="表的增删改查_CRUD">
 <meta name="twitter:description" content="这算是数据库中最常用的操作了，增删查改！！  添加 插入的语法12345678910111. 每一个字段都插入insert into 表名 values(&apos;字段1值&apos;，&apos;字段2值&apos;....)；2. 指定位置插入字段insert into 表名(字段1，字段2) values(&apos;字段1值&apos;，&apos;字段2值&apos;)；3.同时插入多条记录insetr into 表名 values(字段值1，字段值2..)，(">
@@ -360,7 +360,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,425
+                  1,598
                 </span>
               
 
@@ -481,8 +481,14 @@
 <p>mysql&gt; select avg(math+english+chinese) from student;<br>format(math,2);//小数位保留两位;</p>
 </blockquote>
 </li>
+<li><p>group by:按照某个字段分类，即将某个字段值相同的分为一组</p>
+</li>
 </ul>
-<p>未完待续…</p>
+<p>select avg(sal) , deptno from EMP group by deptno;//按部门分类，并且求每个分类部门的平均工资</p>
+<p>select format(avg(sal+ifnull(commm,0),2),deptno;</p>
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h2 id="常用的日期函数"><a href="#常用的日期函数" class="headerlink" title="常用的日期函数"></a>常用的日期函数</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1. <span class="keyword">select</span> <span class="keyword">current_date</span>();</span><br><span class="line"></span><br><span class="line">2. <span class="keyword">select</span> <span class="keyword">current_time</span>();</span><br><span class="line"></span><br><span class="line">3. current_timestamp();</span><br><span class="line"></span><br><span class="line">4. date(datetime)返回datetime的日期部分</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">date</span>(<span class="keyword">now</span>());</span><br><span class="line"></span><br><span class="line">5. date_add(date2,interal d_value_d_type);//在指定日期加上指定日期,也可以加上一个负数，表示减</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">date_add</span>(<span class="keyword">now</span>(),<span class="built_in">interval</span> <span class="number">3</span> <span class="keyword">day</span>); </span><br><span class="line"></span><br><span class="line">6. date_sub(date2,interal d_value_d_type);//</span><br><span class="line"></span><br><span class="line">7.datediff(date1,date2)</span><br></pre></td></tr></table></figure>
+<h2 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h2><h2 id="其他的常用函数"><a href="#其他的常用函数" class="headerlink" title="其他的常用函数"></a>其他的常用函数</h2><p>….这里自己去了解。。</p>
 
       
     </div>
@@ -545,6 +551,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/15/多表查询/" rel="prev" title="多表查询(复杂查询)">
+                多表查询(复杂查询) <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -671,7 +681,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">55</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -742,7 +752,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#添加"><span class="nav-number">1.</span> <span class="nav-text">添加</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改"><span class="nav-number">2.</span> <span class="nav-text">修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#删除"><span class="nav-number">3.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查找"><span class="nav-number">4.</span> <span class="nav-text">查找</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#添加"><span class="nav-number">1.</span> <span class="nav-text">添加</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改"><span class="nav-number">2.</span> <span class="nav-text">修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#删除"><span class="nav-number">3.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查找"><span class="nav-number">4.</span> <span class="nav-text">查找</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数"><span class="nav-number">5.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用的日期函数"><span class="nav-number">5.1.</span> <span class="nav-text">常用的日期函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串函数"><span class="nav-number">5.2.</span> <span class="nav-text">字符串函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数学函数"><span class="nav-number">5.3.</span> <span class="nav-text">数学函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他的常用函数"><span class="nav-number">5.4.</span> <span class="nav-text">其他的常用函数</span></a></li></ol></li></ol></div>
             
 
           </div>
