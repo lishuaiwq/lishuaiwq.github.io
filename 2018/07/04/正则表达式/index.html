@@ -94,7 +94,7 @@
 <meta property="og:image" content="https://i.imgur.com/9NayAC9.jpg">
 <meta property="og:image" content="https://i.imgur.com/p7uBbcT.jpg">
 <meta property="og:image" content="https://i.imgur.com/MjqAFpr.jpg">
-<meta property="og:updated_time" content="2018-07-07T03:04:48.246Z">
+<meta property="og:updated_time" content="2018-07-07T03:38:17.316Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="正则表达式">
 <meta name="twitter:description" content="初始正则表达式 什么是正则表达式？  简言之，正在表达式就是描述一组字符串的模式，用来匹配特定的字符串，通过特殊字符加普通字符，从而达到匹配的效果。而这些特殊字符又分为字符类字符、数量限定类字符和位置关系类字符还有一些特殊字符的字符。   正则表达式的三要素?   字符类 数量限定符 位置限定符 特殊符号      总的来说，正则表达式就是一种对字符串进行模糊匹配的规则，和语言无关，任何支持正则表">
@@ -367,7 +367,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  792
+                  920
                 </span>
               
 
@@ -470,8 +470,9 @@
 <h1 id="位置限定符"><a href="#位置限定符" class="headerlink" title="位置限定符"></a>位置限定符</h1><p><img src="https://i.imgur.com/p7uBbcT.jpg" alt=""></p>
 <h1 id="其他特殊字符"><a href="#其他特殊字符" class="headerlink" title="其他特殊字符"></a>其他特殊字符</h1><p><img src="https://i.imgur.com/MjqAFpr.jpg" alt=""></p>
 <h1 id="扩展正则和基础正则的区别"><a href="#扩展正则和基础正则的区别" class="headerlink" title="扩展正则和基础正则的区别"></a>扩展正则和基础正则的区别</h1><blockquote>
-<p>正则表达式的Extended规范和Basic规范基本相同。只是在Basic规范下，有些字符 <code>?+{}|()</code> 应解释为普通<br>字符,要表示上述特殊含义则需要加 \ 转义。<br>反之，在Extended规范下， <code>?+{}|()</code> 应该被理解成特殊含义，要取其字面值，也要对其进行 \ 转义.</p>
+<p>正则表达式的Extended规范和Basic规范基本相同。只是在Basic规范下，有些字符 <figure class="highlight plain"><figcaption><span>应解释为普通</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">字符,要表示上述特殊含义则需要加 \ 转义。</span><br><span class="line">反之，在Extended规范下， ```?+&#123;&#125;|()``` 应该被理解成特殊含义，要取其字面值，也要对其进行 \ 转义.</span><br><span class="line"></span><br><span class="line"># 其他常用通用字符集及其替换</span><br><span class="line">&gt; 符号 替换正则 匹配</span><br></pre></td></tr></table></figure></p>
 </blockquote>
+<p>\d [0-9] 数字字符<br>\D [^0-9] 非数字字符<br>\w [a-zA-Z0-9_] 数字字母下划线<br>\W [^\w] 非数字字母下划线<br>\s [_\r\t\n\f] 表格，换行等空白区域<br>\S [^\s] 非空白区域<br><code>`</code><br>注意使用上述代换的时候有，需要grep 指令后跟 “-P” 参数，则表示要使用 “PREs”，因为只有这个模式才支持去替换。</p>
 
       
     </div>
