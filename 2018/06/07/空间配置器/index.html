@@ -91,7 +91,7 @@
 <meta property="og:image" content="https://i.imgur.com/YvRJaBH.jpg">
 <meta property="og:image" content="https://i.imgur.com/9ciFIVN.jpg">
 <meta property="og:image" content="https://i.imgur.com/rdxDFao.jpg">
-<meta property="og:updated_time" content="2018-06-07T09:26:51.235Z">
+<meta property="og:updated_time" content="2018-07-16T03:13:41.471Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="空间配置器">
 <meta name="twitter:description" content="此篇文章主要对于空间适配器的底层的实现原理进行剖析.  什么是空间配置器？ 空间配置器简而言之就是给在容器的背后默默给容器提供空间、管理空间、释放空间的，当容器需要空间的时候就找空间配置器去要就好了，至于空间的那些管理，容器不需要关心。空间适配器也是我们封装的类，用这个类来管理空间，我们只需要在我们的容器中给出我们需要的接口的就可以了。   空间配置器分为一级空间适配器和二级空间空间配置器。当所">
@@ -353,7 +353,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,745
+                  2,783
                 </span>
               
 
@@ -427,15 +427,15 @@
 <li>如果内存池中的剩余空间小于20*n但是大于等于n,则能分配几个n就给几个n回去，并且修改分配的个数。</li>
 <li>如果内存池中剩余的空间连一个n都不够的话，那么为了不浪费这一点点剩余的内存，将其挂到对应的自由链表的位置下面，因为都是8的 倍数申请的，所以剩余的肯定也是8的倍数。<ul>
 <li>将剩余那一丢丢挂到自由链表下面以后，则内存池中的空间为0，</li>
-<li>则内存池向内存申请空间这个申请的就是2<em>20</em>n个空间的大小</li>
+<li>则内存池向内存申请空间这个申请的就是2倍20*n个空间的大小</li>
 <li>如果内存池用malloc没有向内存中要到内存的话,那么就去自由链表中找大于n的内存使用</li>
 <li>如果自由链表中也没有的话，那么就调用一级空间适配器去申请。如果申请到了就返回了，没申请到就在一级空间配置器里面抛出异常了</li>
-<li>申请到了以后自己留下20+n，剩下返回给自由链表</li>
+<li>申请到了以后再次调用chunk_alloc（size,nojb）给自由链表返回去，剩下的自己留下，因为它申请的是自由链表向自己所要的2倍，所以它也能留下20*n个.</li>
 </ul>
 </li>
 <li><p>自由链表拿到千辛万苦申请到的空间以后，一个n自己用，剩下的配置自由链表</p>
 </li>
-<li><p>二级空间配置器的释放只是将自由链表中的内存放回内存池当中而不是free</p>
+<li><p>二级空间配置器的释放只是将其归还给对应的自由链表，并不是真正的free了！</p>
 </li>
 <li>如果释放的字节大于128则调用一级空间配置器的释放函数，否则将其还回内存池，</li>
 </ul>
