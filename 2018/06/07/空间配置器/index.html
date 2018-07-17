@@ -91,7 +91,7 @@
 <meta property="og:image" content="https://i.imgur.com/YvRJaBH.jpg">
 <meta property="og:image" content="https://i.imgur.com/9ciFIVN.jpg">
 <meta property="og:image" content="https://i.imgur.com/rdxDFao.jpg">
-<meta property="og:updated_time" content="2018-07-16T03:13:41.471Z">
+<meta property="og:updated_time" content="2018-07-16T04:56:26.771Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="空间配置器">
 <meta name="twitter:description" content="此篇文章主要对于空间适配器的底层的实现原理进行剖析.  什么是空间配置器？ 空间配置器简而言之就是给在容器的背后默默给容器提供空间、管理空间、释放空间的，当容器需要空间的时候就找空间配置器去要就好了，至于空间的那些管理，容器不需要关心。空间适配器也是我们封装的类，用这个类来管理空间，我们只需要在我们的容器中给出我们需要的接口的就可以了。   空间配置器分为一级空间适配器和二级空间空间配置器。当所">
@@ -353,7 +353,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,783
+                  2,877
                 </span>
               
 
@@ -408,6 +408,9 @@
 <p>SGI在这里提供了一个宏__USE_MALLOC，定义了这个宏，调用第一级配置器，没有定义的，调用第二级配置器。另外就是，接下来，STL 为了让整个符合规范化，在这里，STL封装了一个类叫做simple_alloc，通过这个接口，我们来调用空间配置器进行内存管理。</p>
 </blockquote>
 <p><img src="https://i.imgur.com/YvRJaBH.jpg" alt=""></p>
+<blockquote>
+<p>在这里解释一下上述的用法，因为不管是一级空间配置器还是二级空间配置器的类他们都被typedef成了alloc，但是一级和二级空间配置其中的成员函数的接口又不同，这就需要我们使用一个类来同封装他们给出一个对外统一的接口！</p>
+</blockquote>
 <h1 id="一级空间配置器"><a href="#一级空间配置器" class="headerlink" title="一级空间配置器"></a>一级空间配置器</h1><blockquote>
 <p>首先用语言描述一下一级空间配置器的整个过程：一级空间配置器是一个叫做__malloc_alloc_template的类，申请内存大于128个字节以上的时候（一般调用的是二级空间配置器，在二级空间配置器中会判断是否大于128），调用一级空间配置器，在这个类中调用alloc。下面用一个示意图给出</p>
 </blockquote>
@@ -662,7 +665,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-count">59</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
